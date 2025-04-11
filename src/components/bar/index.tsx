@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import '../../pages/globals.css';
 import { useRouter } from "next/router";
 
@@ -6,15 +5,9 @@ const Bar = (placeHolder: string, link: string) => {
 
   const router = useRouter();
 return (
-  <div className='flex justify-around items-center h-20 rounded-2xl shadow-xl w-full'>
-  <p>{placeHolder}</p>
+  <div className='flex justify-center text-center items-center h-12 rounded-2xl shadow-xl w-full'>
   <button onClick={() => router.push(link)}>
-    <Image
-    src={"/assets/arrow.png"}
-    alt='Foto de melissa e Evandro'
-    width={20}
-    height={20}
-    />
+  <p>{placeHolder}</p>
   </button>
 </div>
 );
