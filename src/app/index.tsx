@@ -1,5 +1,5 @@
 import Image from "next/image";
-import "./globals.css";
+import "@app/globals.css";
 import Bar from "@/components/bar";
 
 export default function Home() {

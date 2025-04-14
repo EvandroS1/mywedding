@@ -1,5 +1,5 @@
 import Container from "@/components/container";
-import "../globals.css";
+import "../../app/globals.css";
 
 const Local = () => {
   return (
