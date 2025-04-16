@@ -13,7 +13,7 @@ const Presenca = () => {
     register,
     handleSubmit,
 
-    formState: { errors },
+    formState: {  },
   } = useForm<IConvidado>({
     criteriaMode: 'all',
   });
