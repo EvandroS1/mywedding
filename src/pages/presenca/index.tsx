@@ -46,12 +46,13 @@ const Presenca = () => {
     const valor = e.target.value;
     setFiltro(valor);
 
+
     if (valor.length > 0) {
       const resultados = convidados
-        .filter((convidado: any) =>
+        .filter((convidado: IConvidado) =>
           convidado.nome.toLowerCase().startsWith(valor.toLowerCase())
         )
-        .map((convidado: any) => convidado.nome);
+        .map((convidado: IConvidado) => convidado.nome);
 
       setSugestoes(resultados);
     } else {
