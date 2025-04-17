@@ -39,20 +39,24 @@ const Presenca = () => {
     getConvidados();
   }, []);
 
-  const { register, control, handleSubmit, setValue } = useForm<IFormData>({
-    defaultValues: {
-      convidados: [{ nome: "", confirmado: false }],
-    },
-  });
+  const { register, control, handleSubmit, setValue, setError } =
+    useForm<IFormData>({
+      defaultValues: {
+        convidados: [{ nome: "", confirmado: false }],
+      },
+    });
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "convidados",
   });
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>, index:number) => {
+  const handleSearch = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const valor = e.target.value;
-    setActiveIndex(index);  
+    setActiveIndex(index);
 
     if (valor.length > 0) {
       const resultados = convidados
@@ -73,10 +77,35 @@ const Presenca = () => {
   };
 
   const onSubmit = async (data: IFormData) => {
-    try {
-      for (const convidado of data.convidados) {
-        convidado.confirmado = true;
-        await fetch(
+    for (const [index, convidado] of data.convidados.entries()) {
+      const foiConvidado = convidados.some(
+        (c) => c.nome?.toLowerCase() === convidado.nome?.toLowerCase()
+      );
+      // const estaConfirmado = convidados.find(
+      //   (c) => c.nome?.toLowerCase() === convidado.nome?.toLowerCase()
+      // );
+  
+      if (!foiConvidado) {
+        setError("convidados", {
+          types: {
+            required: "Esta pessoa não está na lista de convidados",
+          },
+        });
+        toast.error(`${convidado.nome} não está na lista de convidados!`, { theme: "dark" });
+        setValue(`convidados.${index}.nome`, "");
+        continue;
+      }
+  
+      // if (estaConfirmado?.confirmado) {
+      //   toast.error(`${estaConfirmado.nome} já está confirmado!`, { theme: "dark" });
+      //   setValue(`convidados.${index}.nome`, "");
+      //   continue;
+      // }
+  
+      convidado.confirmado = true;
+  
+      try {
+        const response = await fetch(
           "https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/nome",
           {
             method: "POST",
@@ -86,17 +115,25 @@ const Presenca = () => {
             body: JSON.stringify(convidado),
           }
         );
+  
+        if (response.ok) {
+          toast.success(`${convidado.nome} confirmado com sucesso!`, { theme: "colored" });
+          remove(index);
+        } else {
+          toast.error(`Erro ao confirmar ${convidado.nome}.`, { theme: "dark" });
+        }
+      } catch (error) {
+        console.error("Erro:", error);
+        toast.error(`Erro de rede ao confirmar ${convidado.nome}.`, { theme: "dark" });
       }
-      toast.success("Confirmação enviada com sucesso!", { theme: "colored" });
-      remove([...Array(fields.length - 1).keys()].map(i => i + 1));
+    }
+  
+    // Se quiser resetar o primeiro campo se sobrar só ele vazio
+    if (fields.length === 1) {
       setValue("convidados.0.nome", "");
-
-      // setValue(`convidado.nome`, nome);
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("Ops... aconteceu algum erro", { theme: "dark" });
     }
   };
+  
 
   return (
     <Container picture="/assets/alianca.jpg">
@@ -105,8 +142,10 @@ const Presenca = () => {
         <h1 className="text-2xl font-semibold mb-4">Confirme sua presença</h1>
 
         <div className="text-center py-10 px-4 flex flex-col justify-start items-center rounded-xl shadow-2xl max-w-md max-h-72 overflow-auto mx-auto">
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4">
-
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-full flex flex-col gap-4"
+          >
             {fields.map((field, index) => (
               <div key={field.id} className="flex flex-col gap-2 relative">
                 <input
@@ -114,7 +153,7 @@ const Presenca = () => {
                   className="border-solid px-4 py-2 border rounded-lg border-[#c89857] shadow-xl"
                   {...register(`convidados.${index}.nome`, { required: true })}
                   placeholder="Digite o nome"
-                  onFocus={() => setActiveIndex(index)} 
+                  onFocus={() => setActiveIndex(index)}
                   onChange={(e) => handleSearch(e, index)}
                 />
 
@@ -131,18 +170,28 @@ const Presenca = () => {
                     ))}
                   </ul>
                 )}
-                {index > 0 ? <MinusCircle size={20} color="red" className="absolute right-1 top-3" onClick={() => remove(index)}/> : null }
-                
+                {index > 0 ? (
+                  <MinusCircle
+                    size={20}
+                    color="red"
+                    className="absolute right-1 top-3"
+                    onClick={() => remove(index)}
+                  />
+                ) : null}
               </div>
             ))}
 
-              <PlusCircle size={20} className="cursor-pointer" onClick={() => append({ nome: "", confirmado: false })}/>
+            <PlusCircle
+              size={20}
+              className="cursor-pointer"
+              onClick={() => append({ nome: "", confirmado: false })}
+            />
 
             <button
               type="submit"
               className="h-10 shadow-xl rounded-lg text-white hover:bg-green-700 w-full bg-green-600"
             >
-              Confirmar Presenças
+              Confirmar
             </button>
           </form>
         </div>
