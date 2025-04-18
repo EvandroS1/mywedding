@@ -5,7 +5,7 @@ Este projeto é uma aplicação web desenvolvida em **Next.js** para gerenciar a
 ---
 
 ## 📸 Demonstração  
-![Logo MyWedding](public/assets/.png)
+![Logo MyWedding](public/assets/exemploApp.png.png)
 
 ---
 
