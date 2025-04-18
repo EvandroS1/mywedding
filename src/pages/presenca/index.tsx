@@ -100,10 +100,12 @@ console.log('errors', errors)
       // );
 
       if (!foiConvidado) {
-        setError("convidados", {
+        setError(`convidados.${index}`, {
           types: {
             required: "Esta pessoa não está na lista de convidados",
-          },
+          value: index.toString()
+        },
+          
         });
         toast.error(`${convidado.nome} não está na lista de convidados!`, {
           theme: "dark",
@@ -177,11 +179,10 @@ console.log('errors', errors)
                   className="border-solid px-4 py-2 border rounded-lg border-[#c89857] shadow-xl"
                   {...register(`convidados.${index}.nome`, { required: true })}
                   placeholder="Digite o nome"
-                  style={errors.convidados ? { border: "1px solid #bf1650" } : {}}
+                  style={errors.convidados && errors.convidados?.[index]?.types?.value === index.toString() ? { border: "1px solid #bf1650" } : {}}
                   onFocus={() => setActiveIndex(index)}
                   onChange={(e) => handleSearch(e, index)}
                 />
-
                 {activeIndex === index && sugestoes.length > 0 && (
                   <ul className="absolute top-12 w-full max-h-32 overflow-auto bg-white border border-gray-300 rounded-lg shadow-lg z-10">
                     {sugestoes.map((nome, idx) => (
