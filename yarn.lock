@@ -119,7 +119,7 @@
   dependencies:
     "@babel/types" "^7.27.0"
 
-"@babel/runtime@^7.17.8":
+"@babel/runtime@^7.16.7", "@babel/runtime@^7.17.8":
   version "7.27.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.27.0.tgz#fbee7cf97c709518ecc1f590984481d5460d4762"
   integrity sha512-VtPOkrdPHZsKc/clNqyi9WUA8TINkZ4cGk63UUE3u4pmB2k+ZMQRDuIOagv8UVd6j7k0T3+RRIb7beKTebNbcw==
@@ -228,6 +228,13 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@geist-ui/icons/-/icons-1.0.2.tgz#00eba846fb21ce4f26601be5ef181f2374c00887"
   integrity sha512-Npfa0NW6fQ31qw/+iMPWbs1hAcJ/3FqBjSLYgEfITDqy/3TJFpFKeVyK04AC/hTmYTsdNruVYczqPNcham5FOQ==
+
+"@geist-ui/react@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@geist-ui/react/-/react-2.2.5.tgz#769f76d70e988cd1d75ab8499e71972804535e75"
+  integrity sha512-yPBAweYVh5HXXJ6W5ont/z6UObbfsjesg0/KTfcJzc64/zjGgp+wv2zLIdReGOTAj2R4XWoNSirNGGbQnwFe6w==
+  dependencies:
+    "@babel/runtime" "^7.16.7"
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"
