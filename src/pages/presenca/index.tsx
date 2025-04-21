@@ -21,6 +21,7 @@ const Presenca = () => {
   const [convidados, setConvidados] = useState<IConvidado[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [pass, setPass] = useState<boolean>(false);
   const [sugestoes, setSugestoes] = useState<string[]>([]);
   const {
     register,
@@ -58,7 +59,7 @@ console.log('errors', errors)
     getConvidados();
   }, []);
 
-  const inputValue = watch("convidados.0.nome");
+  const inputValue = watch("convidados");
   useEffect(() => {
     console.log("inputValue", inputValue);
   }, [inputValue]);
@@ -91,40 +92,32 @@ console.log('errors', errors)
 
   const onSubmit = async (data: IFormData) => {
     console.log("foi");
-    for (const [index, convidado] of data.convidados.entries()) {
+  
+    const indicesParaRemover: number[] = [];
+  
+    setLoading(true);
+  
+    for (let i = 0; i < data.convidados.length; i++) {
+      const convidado = data.convidados[i];
       const foiConvidado = convidados.some(
         (c) => c.nome?.toLowerCase() === convidado.nome?.toLowerCase()
       );
-      // const estaConfirmado = convidados.find(
-      //   (c) => c.nome?.toLowerCase() === convidado.nome?.toLowerCase()
-      // );
-
+  
       if (!foiConvidado) {
-        setError(`convidados.${index}`, {
+        setError(`convidados.${i}`, {
           types: {
             required: "Esta pessoa não está na lista de convidados",
-          value: index.toString()
-        },
-          
+            value: i.toString(),
+          },
         });
         toast.error(`${convidado.nome} não está na lista de convidados!`, {
           theme: "dark",
         });
-        setValue(`convidados.${index}.nome`, "");
-        console.log("if do não esta confirmado");
+        setValue(`convidados.${i}.nome`, "");
         continue;
       }
-      console.log("passou o if do não esta confirmado");
-      // if (estaConfirmado?.confirmado) {
-      //   toast.error(`${estaConfirmado.nome} já está confirmado!`, { theme: "dark" });
-      //   setValue(`convidados.${index}.nome`, "");
-      //   continue;
-      // }
-
-      convidado.confirmado = true;
-
+  
       try {
-        setLoading(true);
         const response = await fetch(
           "https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/nome",
           {
@@ -132,16 +125,16 @@ console.log('errors', errors)
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(convidado),
+            body: JSON.stringify({ ...convidado, confirmado: true }),
           }
         );
-
+  
         if (response.ok) {
           toast.success(`${convidado.nome} confirmado com sucesso!`, {
             theme: "colored",
           });
-          remove(index);
-          setLoading(false);
+          indicesParaRemover.push(i);
+          setPass(!pass)
         } else {
           toast.error(`Erro ao confirmar ${convidado.nome}.`, {
             theme: "dark",
@@ -154,12 +147,33 @@ console.log('errors', errors)
         });
       }
     }
-
-    // Se quiser resetar o primeiro campo se sobrar só ele vazio
+  
+    // Remover de trás pra frente pra não bagunçar os índices
+    indicesParaRemover.sort((a, b) => b - a).forEach((index) => remove(index));
+   
+    
+    // Se sobrar só o primeiro campo vazio
     if (fields.length === 1) {
       setValue("convidados.0.nome", "");
     }
+  
+    setLoading(false);
   };
+  
+  useEffect(() => {
+    if (Array.isArray(errors.convidados) && errors.convidados.length >= 1) {
+      for (const [index, convidado] of errors.convidados.entries()) {
+        console.log('foierrors', index, convidado);
+        setError(`convidados.${index}`, {
+          types: {
+            required: "teste",
+            value: index.toString(),
+          },
+        });
+      }
+    }
+    
+  },[errors.convidados, setError])
 
   return (
     <Container picture="/assets/alianca.jpg">
