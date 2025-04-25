@@ -14,7 +14,7 @@ export default function Card({ image, nome, valor }: CardProps) {
   // const router = useRouter();
 
   return (
-    <div className=" w-full flex flex-col overflow-hidden gap-2 max-w-48 rounded-2xl text-white">
+    <div className=" place-self-center w-full flex flex-col overflow-hidden gap-2 max-w-48 rounded-2xl text-white">
       <div className="rounded-xl bg-white flex justify-center items-center w-full max-h-48 h-48  cursor-pointer">
         <img src={image} className="object-contain h-full max-h-48" alt="img" />
       </div>

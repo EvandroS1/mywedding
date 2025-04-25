@@ -34,7 +34,7 @@ const Local = () => {
           Variados
         </button>
       </div>
-      <div className="grid justify-center items-center grid-cols-2 gap-4 p-4">
+      <div className="grid justify-center items-center grid-cols-2 gap-4 p-4 mx-auto">
         <Card
           image="/assets/wishlist/maquinaLavar.png"
           nome="Maquina de lavar"
