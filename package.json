@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@geist-ui/core": "^2.3.8",
     "@geist-ui/icons": "^1.0.2",
     "@geist-ui/react": "^2.2.5",
     "@types/leaflet": "^1.9.17",
+    "bootstrap": "^5.3.5",
     "geist-ui": "^0.0.102",
     "leaflet": "^1.9.4",
     "next": "15.1.6",
