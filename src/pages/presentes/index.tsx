@@ -203,7 +203,7 @@ const Presentes = () => {
       id: 28,
       image: "/assets/wishlist/tupeware.webp",
       nome: "Jogo de Tupperware",
-      valor: "$ 290,90",
+      valor: "$ 140,90",
       categoria: "cozinha",
     },
     {
@@ -275,6 +275,13 @@ const Presentes = () => {
       nome: "PlayStation 5 para o Noivo",
       valor: "$ 3.149,10",
       categoria: "variado",
+    },
+    {
+      id: 39,
+      image: "/assets/wishlist/chaleira.webp",
+      nome: "Chaleira elétrica",
+      valor: "$ 41,90",
+      categoria: "cozinha",
     },
   ]
 
