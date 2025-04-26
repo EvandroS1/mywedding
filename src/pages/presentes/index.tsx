@@ -185,6 +185,97 @@ const Presentes = () => {
       valor: "$ 99,90",
       categoria: "cozinha",
     },
+    {
+      id: 25,
+      image: "/assets/wishlist/talher.png",
+      nome: "Faqueiro em inox",
+      valor: "$ 220,00",
+      categoria: "cozinha",
+    },
+    {
+      id: 27,
+      image: "/assets/wishlist/pano.webp",
+      nome: "Jogo de panos de prato",
+      valor: "$ 47,90",
+      categoria: "cozinha",
+    },
+    {
+      id: 28,
+      image: "/assets/wishlist/tupeware.webp",
+      nome: "Jogo de Tupperware",
+      valor: "$ 290,90",
+      categoria: "cozinha",
+    },
+    {
+      id: 29,
+      image: "/assets/wishlist/tompero.webp",
+      nome: "Jogo de Tempero",
+      valor: "$ 290,90",
+      categoria: "cozinha",
+    },
+    {
+      id: 30,
+      image: "/assets/wishlist/pote.webp",
+      nome: "Jogo de Potes Herméticos",
+      valor: "$ 257,90",
+      categoria: "cozinha",
+    },
+    {
+      id: 31,
+      image: "/assets/wishlist/jogo_cama.webp",
+      nome: "Jogo de cama",
+      valor: "$ 161,70",
+      categoria: "quarto",
+    },
+    {
+      id: 32,
+      image: "/assets/wishlist/toalha.webp",
+      nome: "Jogo de toalha",
+      valor: "$ 99,99",
+      categoria: "quarto",
+    },
+    {
+      id: 33,
+      image: "/assets/wishlist/edredon.webp",
+      nome: "Edredon Queen",
+      valor: "$ 189,90",
+      categoria: "quarto",
+    },
+    {
+      id: 34,
+      image: "/assets/wishlist/lua.jpeg",
+      nome: "Ajudar na lua de mel",
+      valor: "$ 480,00",
+      categoria: "variado",
+    },
+    {
+      id: 35,
+      image: "/assets/wishlist/cortina.webp",
+      nome: "Cortina Blackout",
+      valor: "$ 129,90",
+      categoria: "sala",
+    },
+    {
+      id: 36,
+      image: "/assets/wishlist/spa.jpeg",
+      nome: "Vale Spa para Noiva",
+      valor: "$ 329,90",
+      categoria: "variado",
+    },
+    {
+      id: 37,
+      image: "/assets/wishlist/night.webp",
+      nome: "Vale Night para os Noivos",
+      valor: "$ 357,90",
+      categoria: "variado",
+    },
+    {
+      id: 38,
+      image: "/assets/wishlist/play.webp",
+      nome: "PlayStation 5 para o Noivo",
+      valor: "$ 3.149,10",
+      categoria: "variado",
+    },
   ]
 
   useEffect(() => {
@@ -213,11 +304,8 @@ const Presentes = () => {
         <button onClick={() => setItem(itens.filter(value => value.categoria == 'eletro'))}  className="btn btn-danger text-nowrap">
           Eletrodomésticos
         </button >
-        <button onClick={() => setItem(itens.filter(value => value.categoria == 'cama'))} className="btn btn-danger text-nowrap">
-          Cama posta
-        </button>
-        <button onClick={() => setItem(itens.filter(value => value.categoria == 'lua'))} className="btn btn-danger text-nowrap">
-          Lua de mel
+        <button onClick={() => setItem(itens.filter(value => value.categoria == 'quarto'))} className="btn btn-danger text-nowrap">
+          quarto
         </button>
         <button onClick={() => setItem(itens.filter(value => value.categoria == 'cozinha'))} className="btn btn-danger text-nowrap">
           cozinha
