@@ -10,7 +10,7 @@ interface Item {
   image: string;
   nome: string;
   valor: string;
-  categoria: string;
+  categoria: [string, string?, string?];
 }
 
 
@@ -22,268 +22,283 @@ const Presentes = () => {
       image: "/assets/wishlist/maquinaLavar.png",
       nome: "Maquina de lavar",
       valor: "$ 4.000",
-      categoria: "eletro",
+      categoria: ["eletro"],
     },
     {
       id: 2,
       image: "/assets/wishlist/refrigerador.png",
       nome: "Geladeira",
       valor: "$ 4.000",
-      categoria: "eletro",
+      categoria: ["eletro", "cozinha"],
     },
     {
       id: 3,
       image: "/assets/wishlist/lava-loucas.png",
       nome: "Lava Louças",
       valor: "$ 2.089",
-      categoria: "eletro",
+      categoria: ["eletro", "cozinha"],
     },
     {
       id: 4,
       image: "/assets/wishlist/panelas.webp",
       nome: "Jogo de panela",
       valor: "$ 489,89",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
     {
       id: 5,
       image: "/assets/wishlist/arcondicionado.png",
       nome: "Ar-condicionado",
       valor: "$ 2.169",
-      categoria: "Eletrodomésticos",
+      categoria: ["eletro"],
     },
     {
       id: 6,
       image: "/assets/wishlist/armario.webp",
       nome: "Armario cozinha",
       valor: "$ 2.169",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
     {
       id: 7,
       image: "/assets/wishlist/tv.webp",
       nome: "Tv Smart",
       valor: "$ 2.899",
-      categoria: "eletro",
+      categoria: ["eletro", "sala"],
     },
     {
       id: 8,
       image: "/assets/wishlist/sofa.webp",
       nome: "Sofá 3 lugares",
       valor: "$ 3.200",
-      categoria: "sala",
+      categoria: ["sala"],
     },
     {
       id: 9,
       image: "/assets/wishlist/mesa.png",
       nome: "Mesa de jantar",
       valor: "$ 1.890",
-      categoria: "cozinha",
+      categoria: ["cozinha", "sala"],
     },
     {
       id: 10,
       image: "/assets/wishlist/microondas.png",
       nome: "Micro-ondas",
-      valor: "$ 851",
-      categoria: "eletro",
+      valor: "$ 851,00",
+      categoria: ["eletro", "cozinha"],
     },
     {
       id: 11,
       image: "/assets/wishlist/aspirados.png",
       nome: "Aspirador de pó",
-      valor: "$ 359",
-      categoria: "utilidades",
+      valor: "$ 359,00",
+      categoria: ["utilidades"],
     },
     {
       id: 12,
       image: "/assets/wishlist/frigobar.png",
       nome: "Frigobar",
-      valor: "$ 980",
-      categoria: "cozinha",
+      valor: "$ 980,00",
+      categoria: ["eletro", "cozinha"],
     },
     {
       id: 13,
       image: "/assets/wishlist/liquidificador.png",
       nome: "Liquidificador",
-      valor: "$ 219",
-      categoria: "eletro",
+      valor: "$ 219,00",
+      categoria: ["eletro", "cozinha"],
     },
     {
       id: 14,
       image: "/assets/wishlist/guarda-roupa.webp",
       nome: "Guarda-roupa",
       valor: "$ 2.590",
-      categoria: "quarto",
+      categoria: ["quarto"],
     },
     {
       id: 15,
       image: "/assets/wishlist/abajur.webp",
       nome: "Abajur",
-      valor: "$ 129",
-      categoria: "decoração",
+      valor: "$ 129,00",
+      categoria: ["decoração", "quarto", "sala"],
     },
     {
       id: 16,
       image: "/assets/wishlist/processador.webp",
-      nome: "processador",
-      valor: "$ 129",
-      categoria: "eletro",
+      nome: "Processador",
+      valor: "$ 134,00",
+      categoria: ["eletro", "cozinha"],
     },
     {
       id: 17,
       image: "/assets/wishlist/honda.webp",
-      nome: "Honda Civic coupe 95",
+      nome: "Honda Civic coupe",
       valor: "$ 35.900",
-      categoria: "variado",
+      categoria: ["variado"],
     },
     {
       id: 18,
       image: "/assets/wishlist/gol.jpg",
       nome: "Gol g2 97",
       valor: "$ 17.900",
-      categoria: "variado",
+      categoria: ["variado"],
     },
     {
       id: 19,
       image: "/assets/wishlist/batedeira.png",
       nome: "Batedeira",
       valor: "$ 118,66",
-      categoria: "eletro",
+      categoria: ["eletro", "cozinha"],
     },
     {
       id: 20,
       image: "/assets/wishlist/sanduicheira.png",
-      nome: "Batedeira",
+      nome: "Sanduicheira",
       valor: "$ 150,49",
-      categoria: "eletro",
+      categoria: ["eletro", "cozinha"],
     },
     {
       id: 21,
       image: "/assets/wishlist/forno.png",
-      nome: "Forno Eletrico",
+      nome: "Forno Elétrico",
       valor: "$ 460,58",
-      categoria: "eletro",
+      categoria: ["eletro", "cozinha"],
     },
     {
       id: 22,
       image: "/assets/wishlist/triturador.webp",
       nome: "Triturador",
       valor: "$ 15,90",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
     {
       id: 23,
       image: "/assets/wishlist/pratos.webp",
       nome: "Jogo de pratos",
       valor: "$ 410,00",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
     {
       id: 24,
       image: "/assets/wishlist/copo.webp",
       nome: "Jogo de Copos",
       valor: "$ 99,90",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
     {
       id: 25,
       image: "/assets/wishlist/talher.png",
       nome: "Faqueiro em inox",
       valor: "$ 220,00",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
     {
       id: 27,
       image: "/assets/wishlist/pano.webp",
       nome: "Jogo de panos de prato",
       valor: "$ 47,90",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
     {
       id: 28,
       image: "/assets/wishlist/tupeware.webp",
       nome: "Jogo de Tupperware",
       valor: "$ 140,90",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
     {
       id: 29,
       image: "/assets/wishlist/tompero.webp",
       nome: "Jogo de Tempero",
       valor: "$ 290,90",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
     {
       id: 30,
       image: "/assets/wishlist/pote.webp",
       nome: "Jogo de Potes Herméticos",
       valor: "$ 257,90",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
     {
       id: 31,
       image: "/assets/wishlist/jogo_cama.webp",
       nome: "Jogo de cama",
       valor: "$ 161,70",
-      categoria: "quarto",
+      categoria: ["quarto"],
     },
     {
       id: 32,
       image: "/assets/wishlist/toalha.webp",
       nome: "Jogo de toalha",
       valor: "$ 99,99",
-      categoria: "quarto",
+      categoria: ["quarto"],
     },
     {
       id: 33,
       image: "/assets/wishlist/edredon.webp",
       nome: "Edredon Queen",
       valor: "$ 189,90",
-      categoria: "quarto",
+      categoria: ["quarto"],
     },
     {
       id: 34,
       image: "/assets/wishlist/lua.jpeg",
       nome: "Ajudar na lua de mel",
       valor: "$ 480,00",
-      categoria: "variado",
+      categoria: ["variado"],
     },
     {
       id: 35,
       image: "/assets/wishlist/cortina.webp",
       nome: "Cortina Blackout",
       valor: "$ 129,90",
-      categoria: "sala",
+      categoria: ["sala", "quarto"],
     },
     {
       id: 36,
       image: "/assets/wishlist/spa.jpeg",
       nome: "Vale Spa para Noiva",
       valor: "$ 329,90",
-      categoria: "variado",
+      categoria: ["variado"],
     },
     {
       id: 37,
       image: "/assets/wishlist/night.webp",
       nome: "Vale Night para os Noivos",
       valor: "$ 357,90",
-      categoria: "variado",
+      categoria: ["variado"],
     },
     {
       id: 38,
       image: "/assets/wishlist/play.webp",
       nome: "PlayStation 5 para o Noivo",
       valor: "$ 3.149,10",
-      categoria: "variado",
+      categoria: ["variado", "sala"],
     },
     {
       id: 39,
       image: "/assets/wishlist/chaleira.webp",
       nome: "Chaleira elétrica",
       valor: "$ 41,90",
-      categoria: "cozinha",
+      categoria: ["cozinha"],
     },
-  ]
+    {
+      id: 40,
+      image: "/assets/wishlist/cobertor.webp",
+      nome: "Cobertor",
+      valor: "$ 146,70",
+      categoria: ["quarto"],
+    },
+    {
+      id: 41,
+      image: "/assets/wishlist/cobreLeito.png",
+      nome: "Cobre Leito",
+      valor: "$ 320,00",
+      categoria: ["quarto"],
+    },
+  ];
+  
 
   useEffect(() => {
     setItem(itens)
@@ -308,19 +323,19 @@ const Presentes = () => {
       </div>
       <div className="flex gap-2 px-2 pb-4 w-full no-scrollbar overflow-auto justify-start items-start">
       <button onClick={() => setItem(itens)} className="btn btn-success">All</button>
-        <button onClick={() => setItem(itens.filter(value => value.categoria == 'eletro'))}  className="btn btn-danger text-nowrap">
+        <button onClick={() => setItem(itens.filter(value => value.categoria.includes('eletro')))}  className="btn btn-danger text-nowrap">
           Eletrodomésticos
         </button >
-        <button onClick={() => setItem(itens.filter(value => value.categoria == 'quarto'))} className="btn btn-danger text-nowrap">
+        <button onClick={() => setItem(itens.filter(value => value.categoria.includes('quarto')))} className="btn btn-danger text-nowrap">
           quarto
         </button>
-        <button onClick={() => setItem(itens.filter(value => value.categoria == 'cozinha'))} className="btn btn-danger text-nowrap">
+        <button onClick={() => setItem(itens.filter(value => value.categoria.includes('cozinha')))} className="btn btn-danger text-nowrap">
           cozinha
         </button>
-        <button onClick={() => setItem(itens.filter(value => value.categoria == 'sala'))} className="btn btn-danger text-nowrap">
+        <button onClick={() => setItem(itens.filter(value => value.categoria.includes('sala')))} className="btn btn-danger text-nowrap">
           sala
         </button>
-        <button onClick={() => setItem(itens.filter(value => value.categoria == 'variado'))} className="btn btn-danger text-nowrap">
+        <button onClick={() => setItem(itens.filter(value => value.categoria.includes('variado')))} className="btn btn-danger text-nowrap">
           Variados
         </button>
       </div>
