@@ -140,9 +140,51 @@ const Presentes = () => {
       id: 18,
       image: "/assets/wishlist/gol.jpg",
       nome: "Gol g2 97",
-      valor: "$ 129",
+      valor: "$ 17.900",
       categoria: "variado",
-    }
+    },
+    {
+      id: 19,
+      image: "/assets/wishlist/batedeira.png",
+      nome: "Batedeira",
+      valor: "$ 118,66",
+      categoria: "eletro",
+    },
+    {
+      id: 20,
+      image: "/assets/wishlist/sanduicheira.png",
+      nome: "Batedeira",
+      valor: "$ 150,49",
+      categoria: "eletro",
+    },
+    {
+      id: 21,
+      image: "/assets/wishlist/forno.png",
+      nome: "Forno Eletrico",
+      valor: "$ 460,58",
+      categoria: "eletro",
+    },
+    {
+      id: 22,
+      image: "/assets/wishlist/triturador.webp",
+      nome: "Triturador",
+      valor: "$ 15,90",
+      categoria: "cozinha",
+    },
+    {
+      id: 23,
+      image: "/assets/wishlist/pratos.webp",
+      nome: "Jogo de pratos",
+      valor: "$ 410,00",
+      categoria: "cozinha",
+    },
+    {
+      id: 24,
+      image: "/assets/wishlist/copo.webp",
+      nome: "Jogo de Copos",
+      valor: "$ 99,90",
+      categoria: "cozinha",
+    },
   ]
 
   useEffect(() => {
