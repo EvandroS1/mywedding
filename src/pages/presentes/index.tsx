@@ -130,14 +130,14 @@ const Presentes = () => {
       categoria: "eletro",
     },
     {
-      id: 16,
+      id: 17,
       image: "/assets/wishlist/honda.webp",
       nome: "Honda Civic coupe 95",
       valor: "$ 35.900",
       categoria: "variado",
     },
     {
-      id: 16,
+      id: 18,
       image: "/assets/wishlist/gol.jpg",
       nome: "Gol g2 97",
       valor: "$ 129",
