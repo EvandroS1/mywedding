@@ -4,7 +4,6 @@ import "../../app/globals.css";
 import { Heart, Home, ShoppingCart } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-// import { set } from "react-hook-form";
 
 interface Item {
   id: number;
@@ -18,6 +17,7 @@ interface Item {
 const Presentes = () => {
   const router = useRouter();
   const [item, setItem] = useState<Item[]>([])
+  const [filtro, setFiltro] = useState<string>("")
   const {filter} = router.query;
   const itens: Item[] = [
     {
@@ -131,20 +131,6 @@ const Presentes = () => {
       nome: "Processador",
       valor: "$ 134,00",
       categoria: ["eletro", "cozinha"],
-    },
-    {
-      id: 17,
-      image: "/assets/wishlist/honda.webp",
-      nome: "Honda Civic coupe",
-      valor: "$ 35.900",
-      categoria: ["variado"],
-    },
-    {
-      id: 18,
-      image: "/assets/wishlist/gol.jpg",
-      nome: "Gol g2 97",
-      valor: "$ 17.900",
-      categoria: ["variado"],
     },
     {
       id: 19,
@@ -307,7 +293,13 @@ const Presentes = () => {
     setItem(itens)
     console.log('filter', filter)
     setItem(itens.filter(value => value.categoria.includes(filter as string)))
+    setFiltro(filter as string)
   },[])
+
+  const handleClick = (valor: string) => {
+    setItem(itens.filter(value => value.categoria.includes(valor)))
+    setFiltro(valor)
+  }
 
   return (
     <div className="font-sans">
@@ -323,20 +315,20 @@ const Presentes = () => {
         <h1>Lista de presene dos noivos</h1>
       </div>
       <div className="flex gap-2 px-2 pb-4 w-full no-scrollbar overflow-auto justify-start items-start">
-      <button onClick={() => setItem(itens)} className="btn btn-success">All</button>
-        <button onClick={() => setItem(itens.filter(value => value.categoria.includes('eletro')))}  className="btn btn-danger text-nowrap">
+      <button onClick={() => setItem(itens)} className={`btn btn-success`}>All</button>
+        <button onClick={() => handleClick('eletro')}   className={`btn btn-danger ${filtro == 'eletro' ? 'active' : ''} text-nowrap`}>
           Eletrodomésticos
         </button >
-        <button onClick={() => setItem(itens.filter(value => value.categoria.includes('quarto')))} className="btn btn-danger text-nowrap">
+        <button onClick={() => handleClick('quarto')} className={`btn btn-danger ${filtro == 'quarto' ? 'active' : ''} text-nowrap`}>
           quarto
         </button>
-        <button onClick={() => setItem(itens.filter(value => value.categoria.includes('cozinha')))} className="btn btn-danger text-nowrap">
+        <button onClick={() => handleClick('Cozinha')} className={`btn btn-danger ${filtro == 'cozinha' ? 'active' : ''} text-nowrap`}>
           cozinha
         </button>
-        <button onClick={() => setItem(itens.filter(value => value.categoria.includes('sala')))} className="btn btn-danger text-nowrap">
+        <button onClick={() => handleClick('sala')} className={`btn btn-danger ${filtro == 'sala' ? 'active' : ''} text-nowrap`}>
           sala
         </button>
-        <button onClick={() => setItem(itens.filter(value => value.categoria.includes('variado')))} className="btn btn-danger text-nowrap">
+        <button onClick={() => handleClick('variado')} className={`btn btn-danger ${filtro == 'variado' ? 'active' : ''} text-nowrap`}>
           Variados
         </button>
       </div>

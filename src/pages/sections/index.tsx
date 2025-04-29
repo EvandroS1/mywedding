@@ -39,7 +39,7 @@ const Sections = () => {
             <p className="relative z-10 font-extrabold">Sala</p>
           </div>
           <div className="flex flex-col gap-2">
-            <div onClick={() => router.push("/presentes?filter=diversos")} className="w-full relative bg-cover bg-center max-w-40 h-full max-h-40 min-h-40 place-self-center flex justify-center items-center rounded-2xl shadow-black p-4 shadow-md">
+            <div onClick={() => router.push("/presentes?filter=variado")} className="w-full relative bg-cover bg-center max-w-40 h-full max-h-40 min-h-40 place-self-center flex justify-center items-center rounded-2xl shadow-black p-4 shadow-md">
               <img src={"/assets/logo.png"} className="" />
             </div>
             <p className="relative z-10 font-extrabold">Variados</p>
