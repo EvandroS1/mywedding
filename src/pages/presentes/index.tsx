@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../app/globals.css";
 import { Heart, Home, ShoppingCart } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 // import { set } from "react-hook-form";
 
 interface Item {
@@ -15,7 +16,9 @@ interface Item {
 
 
 const Presentes = () => {
+  const router = useRouter();
   const [item, setItem] = useState<Item[]>([])
+  const {filter} = router.query;
   const itens: Item[] = [
     {
       id: 1,
@@ -302,11 +305,9 @@ const Presentes = () => {
 
   useEffect(() => {
     setItem(itens)
+    console.log('filter', filter)
+    setItem(itens.filter(value => value.categoria.includes(filter as string)))
   },[])
-  
-  useEffect(() => {
-    console.log(item)
-  },[item])
 
   return (
     <div className="font-sans">
