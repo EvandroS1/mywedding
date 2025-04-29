@@ -301,6 +301,11 @@ const Presentes = () => {
     setFiltro(valor)
   }
 
+  const reset = () => {
+    setItem(itens)
+    setFiltro("")
+  }
+
   return (
     <div className="font-sans">
       <div
@@ -315,20 +320,20 @@ const Presentes = () => {
         <h1>Lista de presene dos noivos</h1>
       </div>
       <div className="flex gap-2 px-2 pb-4 w-full no-scrollbar overflow-auto justify-start items-start">
-      <button onClick={() => setItem(itens)} className={`btn btn-success`}>All</button>
-        <button onClick={() => handleClick('eletro')}   className={`btn btn-danger ${filtro == 'eletro' ? 'active' : ''} text-nowrap`}>
+      <button onClick={() => reset()} className={`btn btn-success`}>All</button>
+        <button onClick={() => handleClick('eletro')}   className={`btn btn-danger ${filtro == 'eletro' ? 'active scale-125 mx-3' : ''} text-nowrap`}>
           Eletrodomésticos
         </button >
-        <button onClick={() => handleClick('quarto')} className={`btn btn-danger ${filtro == 'quarto' ? 'active' : ''} text-nowrap`}>
+        <button onClick={() => handleClick('quarto')} className={`btn btn-danger ${filtro == 'quarto' ? 'active scale-125 mx-3' : ''} text-nowrap`}>
           quarto
         </button>
-        <button onClick={() => handleClick('Cozinha')} className={`btn btn-danger ${filtro == 'cozinha' ? 'active' : ''} text-nowrap`}>
+        <button onClick={() => handleClick('cozinha')} className={`btn btn-danger ${filtro == 'cozinha' ? 'active scale-125 mx-3' : ''} text-nowrap`}>
           cozinha
         </button>
-        <button onClick={() => handleClick('sala')} className={`btn btn-danger ${filtro == 'sala' ? 'active' : ''} text-nowrap`}>
+        <button onClick={() => handleClick('sala')} className={`btn btn-danger ${filtro == 'sala' ? 'active scale-125 mx-3' : ''} text-nowrap`}>
           sala
         </button>
-        <button onClick={() => handleClick('variado')} className={`btn btn-danger ${filtro == 'variado' ? 'active' : ''} text-nowrap`}>
+        <button onClick={() => handleClick('variado')} className={`btn btn-danger ${filtro == 'variado' ? 'active scale-125 mx-3' : ''} text-nowrap`}>
           Variados
         </button>
       </div>
