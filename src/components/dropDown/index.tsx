@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { set } from "react-hook-form";
 
 const categorias = [
@@ -18,7 +18,6 @@ interface Categoria {
 
 interface DropdownFiltroProps {
   filtro: string;
-  setFiltro: (filtro: string) => void;
   reset: () => void;
   handleClick: (valor: string, label: string) => void;
 }
@@ -32,9 +31,9 @@ export default function DropdownFiltro({
   const [selected, setSelected] = useState(categorias[0]);
   const [open, setOpen] = useState(false);
 
-  // useEffect(() => {
-  //   setSelected(categoria)
-  // },[setFiltro])
+  useEffect(() => {
+    setSelected(categorias.find((cat) => cat.id === filtro) || categorias[0]);
+  },[filtro])
 
   const onChange = (categoria: Categoria) => {
     console.log('categoria', categoria)

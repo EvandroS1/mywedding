@@ -4,7 +4,6 @@ import "../../app/globals.css";
 
 import { Heart, Home, ShoppingCart } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import DropdownFiltro from "@/components/dropDown";
 
 interface Item {
@@ -17,10 +16,9 @@ interface Item {
 
 
 const Presentes = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [item, setItem] = useState<Item[]>([])
   const [filtro, setFiltro] = useState<string>("")
-  const {filter} = router.query;
   const itens: Item[] = [
     {
       id: 1,
@@ -292,19 +290,29 @@ const Presentes = () => {
   
 
   useEffect(() => {
-    setItem(itens)
-    setItem(itens.filter(value => value.categoria.includes(filter as string)))
-    setFiltro(filter as string)
-  },[])
+    const savedFilter = localStorage.getItem("filter");
+    if(savedFilter) {
+      setItem(itens.filter(value => value.categoria.includes(savedFilter)));
+      setFiltro(savedFilter);
+    } else {
+      setItem(itens);
+    }
+  }, []);
 
   const handleClick = (valor: string) => {
-    setItem(itens.filter(value => value.categoria.includes(valor)))
+    console.log('valor', valor)
     setFiltro(valor)
+    localStorage.setItem("filter", valor);
+    setItem(itens.filter(value => value.categoria.includes(valor)))
   }
+  useEffect(() => {
+    console.log('itens', item)
+  },[item])
 
   const reset = () => {
     setItem(itens)
     setFiltro("")
+    localStorage.removeItem("filter")
   }
 
   return (
@@ -321,7 +329,7 @@ const Presentes = () => {
         <img src="assets/m&e.png" alt="melissa e evandro" />
         <h1 className="pt-2 text-2xl">Lista de presentes</h1>
       </div>
-      <DropdownFiltro filtro={filtro} setFiltro={setFiltro} reset={reset} handleClick={handleClick}/>
+      <DropdownFiltro filtro={filtro} reset={reset} handleClick={handleClick}/>
       <div className="grid justify-center items-center grid-cols-2 gap-4 p-4 mb-20 mx-auto">
         {item.map((item) => 
         <Card image={item.image} nome={item.nome} valor={item.valor} key={item.id} />)}

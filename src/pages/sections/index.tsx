@@ -14,6 +14,11 @@ const categorias = [
 const Sections = () => {
   const router = useRouter();
 
+  const handleClick = (filtro: string) => {
+    localStorage.setItem("filter", filtro);
+    router.push(`/presentes`);
+  }
+
   return (
     <div className="min-h-screen bg-[#fcf1ed] text-black px-4 py-20 flex flex-col items-center">
       <h1 className="text-4xl font-extrabold mb-12">Seções</h1>
@@ -22,7 +27,7 @@ const Sections = () => {
         {categorias.map(({ nome, img, filtro }) => (
           <div
             key={filtro}
-            onClick={() => router.push(`/presentes?filter=${filtro}`)}
+            onClick={() => handleClick(filtro)}
             className="cursor-pointer transition-all duration-300 transform hover:scale-105 group"
           >
             <div className="rounded-2xl bg-white/30 backdrop-blur-md border border-white/30 shadow-lg p-4 h-40 w-40 flex items-center justify-center mx-auto">
