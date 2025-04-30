@@ -1,5 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { useState } from "react";
+// import { set } from "react-hook-form";
 
 const categorias = [
   { id: "", nome: "Todos" },
@@ -26,9 +27,14 @@ export default function DropdownFiltro({
   filtro,
   reset,
   handleClick,
+  // setFiltro
 }: DropdownFiltroProps) {
   const [selected, setSelected] = useState(categorias[0]);
   const [open, setOpen] = useState(false);
+
+  // useEffect(() => {
+  //   setSelected(categoria)
+  // },[setFiltro])
 
   const onChange = (categoria: Categoria) => {
     console.log('categoria', categoria)

@@ -293,7 +293,6 @@ const Presentes = () => {
 
   useEffect(() => {
     setItem(itens)
-    console.log('filter', filter)
     setItem(itens.filter(value => value.categoria.includes(filter as string)))
     setFiltro(filter as string)
   },[])
