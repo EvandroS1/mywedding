@@ -1,9 +1,11 @@
 import Card from "@/components/card";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../app/globals.css";
+
 import { Heart, Home, ShoppingCart } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import DropdownFiltro from "@/components/dropDown";
 
 interface Item {
   id: number;
@@ -307,36 +309,20 @@ const Presentes = () => {
   }
 
   return (
-    <div className="font-sans">
+    <div className="font-extrabold text-xl bg-[#fcf1ed] ">
       <div
-      className="fixed gap-5 flex justify-center items-center bottom-6 h-20 w-10/12 bg-red-600 bg-opacity-80 left-1/2 -translate-x-1/2 rounded-2xl"
+      className="fixed gap-5 flex justify-center items-center bottom-6 h-20 w-10/12 bg-[#fcf1ed] bg-opacity-80 left-1/2 -translate-x-1/2 rounded-2xl"
       >
-        <Home size={30} />
-        <ShoppingCart size={40}/>
-        <Heart size={30} />
+        <Home size={30} color="black" />
+        <ShoppingCart size={40} color="black"/>
+        <Heart size={30} color="black"/>
 
       </div>
-      <div className="text-center py-5">
-        <h1>Lista de presene dos noivos</h1>
+      <div className="text-center p-4">
+        <img src="assets/m&e.png" alt="melissa e evandro" />
+        <h1 className="pt-2 text-2xl">Lista de presentes</h1>
       </div>
-      <div className="flex gap-2 px-2 pb-4 w-full no-scrollbar overflow-auto justify-start items-start">
-      <button onClick={() => reset()} className={`btn btn-success`}>All</button>
-        <button onClick={() => handleClick('eletro')}   className={`btn btn-danger ${filtro == 'eletro' ? 'active scale-125 mx-3' : ''} text-nowrap`}>
-          Eletrodomésticos
-        </button >
-        <button onClick={() => handleClick('quarto')} className={`btn btn-danger ${filtro == 'quarto' ? 'active scale-125 mx-3' : ''} text-nowrap`}>
-          quarto
-        </button>
-        <button onClick={() => handleClick('cozinha')} className={`btn btn-danger ${filtro == 'cozinha' ? 'active scale-125 mx-3' : ''} text-nowrap`}>
-          cozinha
-        </button>
-        <button onClick={() => handleClick('sala')} className={`btn btn-danger ${filtro == 'sala' ? 'active scale-125 mx-3' : ''} text-nowrap`}>
-          sala
-        </button>
-        <button onClick={() => handleClick('variado')} className={`btn btn-danger ${filtro == 'variado' ? 'active scale-125 mx-3' : ''} text-nowrap`}>
-          Variados
-        </button>
-      </div>
+      <DropdownFiltro filtro={filtro} setFiltro={setFiltro} reset={reset} handleClick={handleClick}/>
       <div className="grid justify-center items-center grid-cols-2 gap-4 p-4 mb-20 mx-auto">
         {item.map((item) => 
         <Card image={item.image} nome={item.nome} valor={item.valor} key={item.id} />)}

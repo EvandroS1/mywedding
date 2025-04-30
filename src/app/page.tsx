@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Bar from "@/components/bar";
 
+
 export default function Home() {
 
   return (

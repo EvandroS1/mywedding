@@ -5,7 +5,7 @@ const Sections = () => {
   const router = useRouter();
   return (
     <>
-      <div className="text-center pt-20 w-screen h-screen bg-white text-black">
+      <div className="text-center pt-20 w-screen h-screen bg-[#fcf1ed] text-black">
         <h1 className="text-4xl">Seções</h1>
         <div className="grid text-2xl justify-center h-full items-center grid-cols-2 gap-4 p-4 mb-20 mx-auto">
           <div className="flex flex-col gap-2">
