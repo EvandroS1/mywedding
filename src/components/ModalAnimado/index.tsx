@@ -1,4 +1,5 @@
 // components/ModalAnimado.tsx
+import { Heart, X } from "@geist-ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 
@@ -22,14 +23,16 @@ const ModalAnimado = ({ show, onClose, image, nome, valor }: ModalProps) => {
           onClick={onClose}
         >
           <motion.div
-            className="bg-white rounded-2xl shadow-lg p-6 w-10/12 max-w-md"
+            className="bg-white relative max-h-[800px] rounded-2xl shadow-lg p-6 w-10/12 max-w-md"
             initial={{ scale: 0.7 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0.7 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             onClick={(e) => e.stopPropagation()} // Evita fechar ao clicar no card
           >
-            <img src={image} alt={nome} className="rounded-xl w-full h-auto mb-4" />
+            <Heart size={30} className="absolute left-4 top-4 z-10" color="black" />
+            <X size={30} className="absolute right-4 top-4"/>
+            <img src={image} alt={nome} className="rounded-xl w-full h-fit max-h-[500px]" />
             <h2 className="text-xl font-bold">{nome}</h2>
             <p className="text-lg">{valor}</p>
           </motion.div>
