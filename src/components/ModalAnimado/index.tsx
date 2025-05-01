@@ -1,7 +1,10 @@
 // components/ModalAnimado.tsx
-import { Heart, X } from "@geist-ui/icons";
+import { Heart, ShoppingCart, X } from "@geist-ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../../app/globals.css";
+import { Button } from "@headlessui/react";
 
 interface ModalProps {
   show: boolean;
@@ -35,6 +38,10 @@ const ModalAnimado = ({ show, onClose, image, nome, valor }: ModalProps) => {
             <img src={image} alt={nome} className="rounded-xl w-full h-fit max-h-[500px]" />
             <h2 className="text-xl font-bold">{nome}</h2>
             <p className="text-lg">{valor}</p>
+            <div className="relative py-4">
+              <ShoppingCart size={20} className="absolute left-4 top-8 z-10" color="black" />
+            <Button type="button" className="bg-amber-600 w-full rounded-lg h-10">Adicionar ao carrinho</Button>
+            </div>
           </motion.div>
         </motion.div>
       )}
