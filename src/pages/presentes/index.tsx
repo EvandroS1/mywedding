@@ -5,6 +5,7 @@ import "../../app/globals.css";
 import { Heart, Home, ShoppingCart } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
 import DropdownFiltro from "@/components/dropDown";
+import { useRouter } from "next/router";
 
 interface Item {
   id: number;
@@ -16,7 +17,7 @@ interface Item {
 
 
 const Presentes = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const [item, setItem] = useState<Item[]>([])
   const [filtro, setFiltro] = useState<string>("")
   const itens: Item[] = [
@@ -318,9 +319,10 @@ const Presentes = () => {
   return (
     <div className="font-extrabold text-xl bg-[#fcf1ed] ">
       <div
-      className="fixed gap-5 flex justify-center items-center bottom-6 h-20 w-10/12 bg-[#fcf1ed] bg-opacity-80 left-1/2 -translate-x-1/2 rounded-2xl"
+      className="fixed gap-5 flex justify-center z-50 border-amber-700 border shadow-sm items-center bottom-6 h-20 w-10/12 bg-white/30 backdrop-blur-md left-1/2 -translate-x-1/2 rounded-2xl"
+
       >
-        <Home size={30} color="black" />
+        <Home size={30} color="black" onClick={() => router.push('/')} />
         <ShoppingCart size={40} color="black"/>
         <Heart size={30} color="black"/>
 
