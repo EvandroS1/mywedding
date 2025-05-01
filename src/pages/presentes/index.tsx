@@ -1,11 +1,12 @@
 import Card from "@/components/card";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../../app/globals.css";
 
 import { Heart, Home, ShoppingCart } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
 import DropdownFiltro from "@/components/dropDown";
 import { useRouter } from "next/router";
+import ModalAnimado from "@/components/ModalAnimado";
 
 interface Item {
   id: number;
@@ -15,11 +16,12 @@ interface Item {
   categoria: [string, string?, string?];
 }
 
-
 const Presentes = () => {
   const router = useRouter();
-  const [item, setItem] = useState<Item[]>([])
-  const [filtro, setFiltro] = useState<string>("")
+  const [item, setItem] = useState<Item[]>([]);
+  const [filtro, setFiltro] = useState<string>("");
+  const [modalData, setModalData] = useState<Item | null>(null);
+
   const itens: Item[] = [
     {
       id: 1,
@@ -288,12 +290,11 @@ const Presentes = () => {
       categoria: ["quarto"],
     },
   ];
-  
 
   useEffect(() => {
     const savedFilter = localStorage.getItem("filter");
-    if(savedFilter) {
-      setItem(itens.filter(value => value.categoria.includes(savedFilter)));
+    if (savedFilter) {
+      setItem(itens.filter((value) => value.categoria.includes(savedFilter)));
       setFiltro(savedFilter);
     } else {
       setItem(itens);
@@ -301,40 +302,47 @@ const Presentes = () => {
   }, []);
 
   const handleClick = (valor: string) => {
-    console.log('valor', valor)
-    setFiltro(valor)
+    console.log("valor", valor);
+    setFiltro(valor);
     localStorage.setItem("filter", valor);
-    setItem(itens.filter(value => value.categoria.includes(valor)))
-  }
+    setItem(itens.filter((value) => value.categoria.includes(valor)));
+  };
   useEffect(() => {
-    console.log('itens', item)
-  },[item])
+    console.log("itens", item);
+  }, [item]);
 
   const reset = () => {
-    setItem(itens)
-    setFiltro("")
-    localStorage.removeItem("filter")
-  }
+    setItem(itens);
+    setFiltro("");
+    localStorage.removeItem("filter");
+  };
 
   return (
     <div className="font-extrabold text-xl bg-[#fcf1ed] ">
-      <div
-      className="fixed gap-5 flex justify-center z-50 border-amber-700 border shadow-sm items-center bottom-6 h-20 w-10/12 bg-white/30 backdrop-blur-md left-1/2 -translate-x-1/2 rounded-2xl"
+      <ModalAnimado
+        show={modalData !== null}
+        onClose={() => setModalData(null)}
+        image={modalData?.image || ""}
+        nome={modalData?.nome || ""}
+        valor={modalData?.valor || ""}
+      />
 
-      >
-        <Home size={30} color="black" onClick={() => router.push('/')} />
-        <ShoppingCart size={40} color="black"/>
-        <Heart size={30} color="black"/>
-
+      <div className="fixed gap-5 flex justify-center z-50 border-amber-700 border shadow-sm items-center bottom-6 h-20 w-10/12 bg-white/30 backdrop-blur-md left-1/2 -translate-x-1/2 rounded-2xl">
+        <Home size={30} color="black" onClick={() => router.push("/")} />
+        <ShoppingCart size={40} color="black" />
+        <Heart size={30} color="black" />
       </div>
       <div className="text-center p-4">
         <img src="assets/m&e.png" alt="melissa e evandro" />
         <h1 className="pt-2 text-2xl">Lista de presentes</h1>
       </div>
-      <DropdownFiltro filtro={filtro} reset={reset} handleClick={handleClick}/>
+      <DropdownFiltro filtro={filtro} reset={reset} handleClick={handleClick} />
       <div className="grid justify-center items-center grid-cols-2 gap-4 p-4 mb-20 mx-auto">
-        {item.map((item) => 
-        <Card image={item.image} nome={item.nome} valor={item.valor} key={item.id} />)}
+        {item.map((item) => (
+          <div key={item.id} onClick={() => setModalData(item)}>
+            <Card image={item.image} nome={item.nome} valor={item.valor} />
+          </div>
+        ))}
       </div>
     </div>
   );
