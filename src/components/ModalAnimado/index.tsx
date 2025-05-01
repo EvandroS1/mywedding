@@ -34,7 +34,7 @@ const ModalAnimado = ({ show, onClose, image, nome, valor }: ModalProps) => {
             onClick={(e) => e.stopPropagation()} // Evita fechar ao clicar no card
           >
             <Heart size={30} className="absolute left-4 top-4 z-10" color="black" />
-            <X size={30} className="absolute right-4 top-4"/>
+            <X onClick={onClose} size={30} className="absolute right-4 top-4"/>
             <img src={image} alt={nome} className="rounded-xl w-full h-fit max-h-[500px]" />
             <h2 className="text-xl font-bold">{nome}</h2>
             <p className="text-lg">{valor}</p>
