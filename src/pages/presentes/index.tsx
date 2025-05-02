@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import DropdownFiltro from "@/components/dropDown";
 import { useRouter } from "next/router";
 import ModalAnimado from "@/components/ModalAnimado";
+import SidebarCarrinho from "@/components/sideBar";
 
 interface Item {
   id: number;
@@ -21,6 +22,8 @@ const Presentes = () => {
   const [item, setItem] = useState<Item[]>([]);
   const [filtro, setFiltro] = useState<string>("");
   const [modalData, setModalData] = useState<Item | null>(null);
+  const [aberto, setAberto] = useState(false);
+
 
   const itens: Item[] = [
     {
@@ -326,10 +329,11 @@ const Presentes = () => {
         nome={modalData?.nome || ""}
         valor={modalData?.valor || ""}
       />
+      <SidebarCarrinho aberto={aberto} setAberto={setAberto} />
 
-      <div className="fixed gap-5 flex justify-center z-50 border-amber-700 border shadow-sm items-center bottom-6 h-20 w-10/12 bg-white/30 backdrop-blur-md left-1/2 -translate-x-1/2 rounded-2xl">
+      <div className="fixed gap-5 flex justify-center z-40 border-amber-700 border shadow-sm items-center bottom-6 h-20 w-10/12 bg-white/30 backdrop-blur-md left-1/2 -translate-x-1/2 rounded-2xl">
         <Home size={30} color="black" onClick={() => router.push("/")} />
-        <ShoppingCart size={40} color="black" />
+        <ShoppingCart size={40} color="black" onClick={() => setAberto(true)} />
         <Heart size={30} color="black" />
       </div>
       <div className="text-center p-4">
