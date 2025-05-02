@@ -19,14 +19,11 @@ export default function Login () {
           placeholder="Senha"
           className="w-full p-2 mb-12 border shadow-lg border-gray-300 rounded-lg"
         />
-        <button className="w-full p-2 mb-2 shadow-lg text-white bg-amber-700 rounded-lg">
+        <button className="w-full p-2 mb-10 shadow-lg text-white bg-amber-700 rounded-lg">
           Entrar
         </button>
-        <button className="w-full p-2 mb-10 shadow-lg text-white bg-amber-700 rounded-lg">
-          Criar conta
-        </button>
-        <button className="flex justify-center mb-2 items-center p-4 gap-7 h-8 w-full shadow-lg border-gray rounded-lg border"> <img width={20} src="/assets/google.png" alt="" /><p>Continue com Google</p></button>
-        <button className="flex justify-center mb-2 items-center p-4 bg-blue-400 gap-4 h-8 w-full shadow-lg border-gray rounded-lg border"> <img width={20} src="https://static.xx.fbcdn.net/rsrc.php/v4/y3/r/U7MAWJlE6hZ.png" alt="" /><p>Continue com Facebook</p></button>
+        <button className="flex justify-center mb-2 items-center p-4 gap-7 h-10 w-full shadow-lg border-gray rounded-lg border"> <img width={20} src="/assets/google.png" alt="" /><p>Continue com Google</p></button>
+        <button className="flex justify-center mb-2 items-center p-4 bg-blue-400 gap-4 h-10 w-full shadow-lg border-gray rounded-lg border"> <img width={20} src="https://static.xx.fbcdn.net/rsrc.php/v4/y3/r/U7MAWJlE6hZ.png" alt="" /><p>Continue com Facebook</p></button>
       </div>
     </div>
   );
