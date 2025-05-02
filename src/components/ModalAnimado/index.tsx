@@ -40,7 +40,7 @@ const ModalAnimado = ({ show, onClose, image, nome, valor }: ModalProps) => {
             <p className="text-lg">{valor}</p>
             <div className="relative py-4">
               <ShoppingCart size={20} className="absolute left-4 top-8 z-10" color="black" />
-            <Button type="button" className="bg-amber-600 w-full rounded-lg h-10">Adicionar ao carrinho</Button>
+            <Button type="button" className="bg-amber-700 w-full rounded-lg h-10">Adicionar ao carrinho</Button>
             </div>
           </motion.div>
         </motion.div>
