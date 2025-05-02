@@ -3,6 +3,7 @@ import "../../app/globals.css";
 export default function Login () {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-[#fcf1ed]">
+      <p className="absolute bottom-4 m-auto">Ainda não tem cadastro? <a className="text-amber-700" href="">Crie uma conta</a></p>
       <div className="absolute top-3 p-4">
         <img src="assets/m&e.png" alt="melissa e evandro" />
         </div>
