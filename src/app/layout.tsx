@@ -4,7 +4,8 @@ import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
-
+import { SessionProvider } from "next-auth/react";
+import type { Session } from "next-auth"; // Importe o tipo Session
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,16 +24,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  pageProps: { session },
 }: Readonly<{
   children: React.ReactNode;
+  pageProps: { session?: Session | null };
 }>) {
+  console.log("Session in RootLayout:", session); // Adicione este log
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SessionProvider session={session} refetchInterval={5 * 60}>
         <ToastContainer />
+
         {children}
+        </SessionProvider>
       </body>
     </html>
   );
