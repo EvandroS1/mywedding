@@ -1,6 +1,8 @@
-// pages/api/auth/[...nextauth].ts
-import NextAuth, { NextAuthOptions } from 'next-auth';
+import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import type { NextAuthOptions, Session, User, Account, Profile } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
+
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -11,26 +13,54 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET!,
   callbacks: {
-    async signIn({ account, profile }) {
+    async signIn({
+      account,
+      profile,
+    }: {
+      account: Account | null;
+      profile?: Profile;
+      user: User;
+      credentials?: Record<string, unknown>;
+    }) {
       console.log('SignIn', { account, profile });
       return true;
     },
-    async jwt({ token, account, profile }) {
+
+    async jwt({
+      token,
+      account,
+      profile,
+    }: {
+      token: JWT;
+      account?: Account | null;
+      profile?: Profile;
+    }) {
       if (account) {
-        token.accessToken = account.access_token; // Garante que o accessToken seja adicionado ao token JWT
+        token.accessToken = account.access_token;
       }
+
       if (profile) {
-        token.name = profile?.name;
-        token.email = profile?.email;
-        token.picture = (profile as any)?.picture;
+        token.name = profile.name;
+        token.email = profile.email;
+        token.picture = (profile).picture ?? (profile).image;
       }
+
       return token;
     },
-    async session({ session, token }) {
-      session.accessToken = token.accessToken; // Garante que o accessToken seja transferido do token JWT para a sessão
-      session.user.name = token.name;
-      session.user.email = token.email;
-      session.user.image = token.picture;
+
+    async session({
+      session,
+      token,
+    }: {
+      session: Session;
+      token: JWT;
+    }) {
+      session.accessToken = token.accessToken as string;
+      session.user = {
+        name: token.name,
+        email: token.email,
+        image: token.picture,
+      };
       return session;
     },
   },
