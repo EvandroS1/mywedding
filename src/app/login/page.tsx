@@ -1,3 +1,4 @@
+"use client";
 import { signIn } from 'next-auth/react';
 import "../../app/globals.css";
 import Image from 'next/image';
@@ -32,13 +33,6 @@ export default function Login() {
         >
           <Image width={20} height={20} src="/assets/google.png" alt="Google logo" />
           <p>Continue com Google</p>
-        </button>
-        <button
-          className="flex justify-center mb-2 items-center p-4 bg-blue-400 gap-4 h-10 w-full shadow-lg border-gray rounded-lg border"
-          onClick={() => signIn('facebook')}
-        >
-          <img width={20} src="https://static.xx.fbcdn.net/rsrc.php/v4/y3/r/U7MAWJlE6hZ.png" alt="Facebook logo" />
-          <p>Continue com Facebook</p>
         </button>
       </div>
     </div>

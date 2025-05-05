@@ -1,4 +1,4 @@
-// pages/privacidade/exclusao-de-dados.js
+"use client";
 import Head from 'next/head';
 import "../../app/globals.css";
 import { useEffect, useState } from 'react';

@@ -1,4 +1,3 @@
-// src/pages/api/auth/[...nextauth].js
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -21,8 +20,12 @@ export const authOptions = {
       return {
         ...session,
         accessToken: token.accessToken,
-        expires: session.expires, // <-- garantir que 'expires' esteja presente
+        expires: session.expires,
       };
+    },
+    async redirect({ baseUrl }) {
+      // Sempre redireciona para /sections após login
+      return `${baseUrl}/sections`;
     },
   },
 };

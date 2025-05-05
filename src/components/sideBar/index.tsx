@@ -1,11 +1,19 @@
 // components/SidebarCarrinho.tsx
 import { motion, AnimatePresence } from "framer-motion";
+import { useSession } from "next-auth/react";
+import ProfileOptions from "../ProfileOptions";
+import Link from "next/link";
 
 interface SidebarCarrinhoProps {
   setAberto: (aberto: boolean) => void;
   aberto: boolean;
 }
-export default function SidebarCarrinho({setAberto, aberto}: SidebarCarrinhoProps) {
+export default function SidebarCarrinho({
+  setAberto,
+  aberto,
+}: SidebarCarrinhoProps) {
+  // const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   return (
     <>
@@ -32,12 +40,30 @@ export default function SidebarCarrinho({setAberto, aberto}: SidebarCarrinhoProp
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Seu Carrinho</h2>
-                <button onClick={() => setAberto(false)} className="text-gray-600">
+                <button
+                  onClick={() => setAberto(false)}
+                  className="text-gray-600"
+                >
                   ✕
                 </button>
               </div>
-              {/* Conteúdo do carrinho aqui */}
-              <p className="text-gray-500">Nenhum item adicionado ainda.</p>
+
+              {session ? (
+                <div>
+                  <ProfileOptions />
+                </div>
+              ) : (
+                <div className="absolute bottom-6 m-auto z-50 w-[90%]  flex items-center justify-center">
+                  <div className="flex w-full items-center justify-center  gap-2 bg-white/20 backdrop-blur-md rounded-full px-4 py-2 text-black shadow-lg hover:bg-white/30 transition">
+                    <img
+                      src='assets/nouser.png'
+                      alt="Imagem de perfil"
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                    <span className="font-semibold">Faça <Link href="/login">login</Link></span>
+                  </div>
+                </div>
+              )}
             </motion.aside>
           </>
         )}

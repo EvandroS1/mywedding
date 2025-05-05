@@ -1,11 +1,12 @@
+"use client";
 import Card from "@/components/card";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../app/globals.css";
-
+// import { useSession } from "next-auth/react";
 import { Heart, Home, ShoppingCart } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
 import DropdownFiltro from "@/components/dropDown";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import ModalAnimado from "@/components/ModalAnimado";
 import SidebarCarrinho from "@/components/sideBar";
 
@@ -23,6 +24,7 @@ const Presentes = () => {
   const [filtro, setFiltro] = useState<string>("");
   const [modalData, setModalData] = useState<Item | null>(null);
   const [aberto, setAberto] = useState(false);
+  // const { data: session, status } = useSession();
 
 
   const itens: Item[] = [
