@@ -59,7 +59,7 @@ const CartItem = () => {
             />
             <div className="flex flex-col justify-end items-center">
               
-              <h3 className="text-lg text-center font-semibold">{item.nome}</h3>
+              <h3 className="text-lg text-center max-w-32 font-semibold">{item.nome}</h3>
               <p className="text-gray-500">{item.valor}</p>
               <Trash
                 size={20}
