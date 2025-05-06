@@ -26,7 +26,6 @@ const Presentes = () => {
   const [aberto, setAberto] = useState(false);
   // const { data: session, status } = useSession();
 
-
   const itens: Item[] = [
     {
       id: 1,
@@ -330,6 +329,10 @@ const Presentes = () => {
         image={modalData?.image || ""}
         nome={modalData?.nome || ""}
         valor={modalData?.valor || ""}
+        onAddToCart={() => {
+          setModalData(null);
+          setAberto(true);
+        }}
       />
       <SidebarCarrinho aberto={aberto} setAberto={setAberto} />
 

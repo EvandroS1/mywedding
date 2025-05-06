@@ -5,28 +5,46 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../app/globals.css";
 import { Button } from "@headlessui/react";
-import { toast, ToastContainer } from "react-toastify";
 
 interface ModalProps {
   show: boolean;
   onClose: () => void;
+  onAddToCart: () => void;
   image: string;
   nome: string;
   valor: string;
 }
 
-const ModalAnimado = ({ show, onClose, image, nome, valor }: ModalProps) => {
+interface CartItemProps {
+  nome: string;
+  image: string;
+  valor: string;
+  qtde: number;
+}
 
+const ModalAnimado = ({
+  show,
+  onClose,
+  image,
+  nome,
+  valor,
+  onAddToCart,
+}: ModalProps) => {
   const handleClick = (nome: string, image: string, valor: string) => {
-      console.log('nomee', nome)
-      const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+    const itemExists = cartItems.find((item: CartItemProps) => item.nome === nome);
+    console.log('itemExists', itemExists)
+    if(itemExists) {
+      itemExists.qtde += 1;
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    } else {
       const newItem = { nome, image, valor, qtde: 1 };
       cartItems.push(newItem);
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
-      toast.success(`${nome} adicionado(a) ao carrinho!`, {
-                  theme: "dark",
-                });
-  }
+    }
+    onAddToCart();
+  };
   return (
     <AnimatePresence>
       {show && (
@@ -45,17 +63,34 @@ const ModalAnimado = ({ show, onClose, image, nome, valor }: ModalProps) => {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             onClick={(e) => e.stopPropagation()} // Evita fechar ao clicar no card
           >
-            <Heart size={30} className="absolute left-4 top-4 z-10" color="black" />
-            <X onClick={onClose} size={30} className="absolute right-4 top-4"/>
-            <img src={image} alt={nome} className="rounded-xl w-full h-fit max-h-[500px]" />
+            <Heart
+              size={30}
+              className="absolute left-4 top-4 z-10"
+              color="black"
+            />
+            <X onClick={onClose} size={30} className="absolute right-4 top-4" />
+            <img
+              src={image}
+              alt={nome}
+              className="rounded-xl w-full h-fit max-h-[500px]"
+            />
             <h2 className="text-xl font-bold">{nome}</h2>
             <p className="text-lg">{valor}</p>
             <div className="relative py-4">
-              <ShoppingCart size={20} className="absolute left-4 top-8 z-10" color="black" />
-            <Button type="button" onClick={() => handleClick(nome,image,valor)} className="bg-amber-700 w-full rounded-lg h-10">Adicionar ao carrinho</Button>
+              <ShoppingCart
+                size={20}
+                className="absolute left-4 top-8 z-10"
+                color="black"
+              />
+              <Button
+                type="button"
+                onClick={() => handleClick(nome, image, valor)}
+                className="bg-amber-700 w-full rounded-lg h-10"
+              >
+                Adicionar ao carrinho
+              </Button>
             </div>
           </motion.div>
-          <ToastContainer />
         </motion.div>
       )}
     </AnimatePresence>

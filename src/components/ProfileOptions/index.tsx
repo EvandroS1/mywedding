@@ -7,11 +7,11 @@ export default function ProfileOptions() {
   const { data: session } = useSession()
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="absolute bottom-6 right-6 w-[90%] z-50">
       <Popover>
         {({ open }) => (
           <>
-            <PopoverButton className="flex items-center gap-2 bg-white/20 backdrop-blur-md rounded-full px-4 py-2 text-black shadow-lg hover:bg-white/30 transition">
+            <PopoverButton className="flex items-center w-full gap-2 bg-white/20 backdrop-blur-md rounded-full px-4 py-2 text-black shadow-lg hover:bg-white/30 transition">
               <img
                 src={session?.user?.image ?? ''}
                 alt="Imagem de perfil"

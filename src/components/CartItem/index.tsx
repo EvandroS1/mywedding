@@ -27,6 +27,16 @@ const CartItem = () => {
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
 
+  const handleQtde = (indexToUpdate: number, newQuantity: number) => {
+    if (newQuantity < 1) return;
+
+    const updatedCartItems = cartItems.map((item, index) =>
+      index === indexToUpdate ? { ...item, qtde: newQuantity } : item
+    );
+    setCartItems(updatedCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  };
+
   return (
     <div className="flex flex-col gap-4">
       
@@ -45,7 +55,7 @@ const CartItem = () => {
             <img
               src={item.image}
               alt={item.nome}
-              className="w-40 rounded-lg"
+              className="w-40 rounded-lg self-center"
             />
             <div className="flex flex-col">
               
@@ -58,16 +68,17 @@ const CartItem = () => {
                 onClick={() => handleRemoveItem(index)}
               />
               <div className="flex items-center justify-center w-28 shadow-sm bg-gray-500 rounded-lg gap-2 mt-2">
-                <button className="w-6">+</button>
+                <button className="w-6" onClick={() => handleQtde(index, item.qtde + 1)}>+</button>
                 <input
                   className="w-10 text-center"
                   type="text"
                   name="qtd"
                   id="qtd"
+                  onChange={(e) => handleQtde(index, parseInt(e.target.value) || 1)}
                   value={item.qtde}
                   readOnly
                 />
-                <button className="w-6">-</button>
+                <button className="w-6" onClick={() => handleQtde(index, item.qtde - 1)}>-</button>
               </div>
             </div>
           </motion.div>
