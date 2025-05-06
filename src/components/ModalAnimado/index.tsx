@@ -5,6 +5,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../app/globals.css";
 import { Button } from "@headlessui/react";
+import { toast, ToastContainer } from "react-toastify";
 
 interface ModalProps {
   show: boolean;
@@ -15,6 +16,17 @@ interface ModalProps {
 }
 
 const ModalAnimado = ({ show, onClose, image, nome, valor }: ModalProps) => {
+
+  const handleClick = (nome: string, image: string, valor: string) => {
+      console.log('nomee', nome)
+      const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+      const newItem = { nome, image, valor, qtde: 1 };
+      cartItems.push(newItem);
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      toast.success(`${nome} adicionado(a) ao carrinho!`, {
+                  theme: "dark",
+                });
+  }
   return (
     <AnimatePresence>
       {show && (
@@ -40,9 +52,10 @@ const ModalAnimado = ({ show, onClose, image, nome, valor }: ModalProps) => {
             <p className="text-lg">{valor}</p>
             <div className="relative py-4">
               <ShoppingCart size={20} className="absolute left-4 top-8 z-10" color="black" />
-            <Button type="button" className="bg-amber-700 w-full rounded-lg h-10">Adicionar ao carrinho</Button>
+            <Button type="button" onClick={() => handleClick(nome,image,valor)} className="bg-amber-700 w-full rounded-lg h-10">Adicionar ao carrinho</Button>
             </div>
           </motion.div>
+          <ToastContainer />
         </motion.div>
       )}
     </AnimatePresence>

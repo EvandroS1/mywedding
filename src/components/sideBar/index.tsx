@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSession } from "next-auth/react";
 import ProfileOptions from "../ProfileOptions";
 import Link from "next/link";
+import CartItem from "../CartItem";
 
 interface SidebarCarrinhoProps {
   setAberto: (aberto: boolean) => void;
@@ -50,6 +51,7 @@ export default function SidebarCarrinho({
 
               {session ? (
                 <div>
+                  <CartItem />
                   <ProfileOptions />
                 </div>
               ) : (

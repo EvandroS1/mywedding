@@ -19,7 +19,7 @@ export default function ProfileOptions() {
               />
               <span className="font-semibold">{session?.user?.name}</span>
               <svg
-                className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`}
+                className={`w-4 h-4 rotate-180 transition-transform ${open ? 'rotate-0' : ''}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -47,7 +47,7 @@ export default function ProfileOptions() {
                 </a>
                 <button
                   className="w-full text-left rounded-lg px-3 py-2 transition hover:bg-white/20 font-semibold"
-                  onClick={() => signOut({callbackUrl: '/presentes'})}
+                  onClick={() => signOut({callbackUrl: 'http://localhost:3000/presentes'})}
                 >
                   Sair
                 </button>

@@ -32,7 +32,7 @@ export default function Login() {
           onClick={() => signIn('google')}
         >
           <Image width={20} height={20} src="/assets/google.png" alt="Google logo" />
-          <p>Continue com Google</p>
+          <p className='m-0'>Continue com Google</p>
         </button>
       </div>
     </div>

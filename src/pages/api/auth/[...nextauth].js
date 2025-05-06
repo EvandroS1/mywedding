@@ -23,8 +23,15 @@ export const authOptions = {
         expires: session.expires,
       };
     },
-    async redirect({ baseUrl }) {
-      // Sempre redireciona para /sections após login
+    async redirect({ url, baseUrl }) {
+      console.log('url------------', url)
+      console.log('baseUrl------------', baseUrl)
+      // Verifica se o URL de redirecionamento é fornecido
+      if (url === 'http://localhost:3000/presentes') {
+        return url.startsWith(baseUrl) ? url : baseUrl; // Garante que o redirecionamento seja dentro da baseUrl
+      }
+  
+      // Redireciona para /sections após login
       return `${baseUrl}/sections`;
     },
   },

@@ -26,15 +26,6 @@ const Sectionss = () => {
     return <p className="text-center py-20">Carregando sessão...</p>;
   }
 
-  if (!session) {
-    return (
-      <div className="min-h-screen bg-[#fcf1ed] text-black px-4 py-20 flex flex-col items-center">
-        <h1 className="text-4xl font-extrabold mb-12">Seções</h1>
-        <p className="text-lg">Você precisa estar logado para acessar esta página.</p>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-[#fcf1ed] text-black px-4 py-20 flex flex-col items-center">
       <h1 className="text-4xl font-extrabold mb-12">Seções</h1>
