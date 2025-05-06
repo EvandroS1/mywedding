@@ -9,6 +9,7 @@ import DropdownFiltro from "@/components/dropDown";
 import { useRouter } from "next/navigation";
 import ModalAnimado from "@/components/ModalAnimado";
 import SidebarCarrinho from "@/components/sideBar";
+import Favoritos from "@/components/Favoritos";
 
 interface Item {
   id: number;
@@ -24,6 +25,7 @@ const Presentes = () => {
   const [filtro, setFiltro] = useState<string>("");
   const [modalData, setModalData] = useState<Item | null>(null);
   const [aberto, setAberto] = useState(false);
+  const [favoritosAberto, setFavoritosAberto] = useState(false);
   // const { data: session, status } = useSession();
 
   const itens: Item[] = [
@@ -335,11 +337,12 @@ const Presentes = () => {
         }}
       />
       <SidebarCarrinho aberto={aberto} setAberto={setAberto} />
+      <Favoritos favoritosAberto={favoritosAberto} setFavoritosAberto={setFavoritosAberto} />
 
       <div className="fixed gap-5 flex justify-center z-40 border-amber-700 border shadow-sm items-center bottom-6 h-20 w-10/12 bg-white/30 backdrop-blur-md left-1/2 -translate-x-1/2 rounded-2xl">
         <Home size={30} color="black" onClick={() => router.push("/")} />
         <ShoppingCart size={40} color="black" onClick={() => setAberto(true)} />
-        <Heart size={30} color="black" />
+        <Heart size={30} color="black" onClick={() => setFavoritosAberto(true)}/>
       </div>
       <div className="text-center p-4">
         <img src="assets/m&e.png" alt="melissa e evandro" />

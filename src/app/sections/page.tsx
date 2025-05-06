@@ -2,20 +2,81 @@
 import "../../app/globals.css";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 const categorias = [
   { nome: "todos", img: "/assets/all.png", filtro: "todos" },
-  { nome: "Eletrodomésticos", img: "/assets/wishlist/eletro.png", filtro: "eletro" },
+  {
+    nome: "Eletrodomésticos",
+    img: "/assets/wishlist/eletro.png",
+    filtro: "eletro",
+  },
   { nome: "Quarto", img: "/assets/wishlist/quarto.png", filtro: "quarto" },
   { nome: "Cozinha", img: "/assets/wishlist/cozinha.webp", filtro: "cozinha" },
   { nome: "Sala", img: "/assets/wishlist/sala.png", filtro: "sala" },
   { nome: "Variados", img: "/assets/logo.png", filtro: "variado" },
 ];
-
+interface IUsers {
+  nome?: string | null;
+  email?: string | null;
+  ProfilePic?: string | null;
+}
 const Sectionss = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  console.log('session', session)
+  const [users, setusers] = useState([]);
+
+  const getUsers = async () => {
+    try {
+      const response = await fetch(
+        "https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile"
+      );
+      const data = await response.json();
+      setusers(data);
+    } catch (error) {
+      console.error("Error fetching convidados:", error);
+    }
+  };
+
+  const postUsers = async () => {
+    try {
+      await fetch(
+        "https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome: session?.user?.name,
+            email: session?.user?.email,
+            ProfilePic: session?.user?.image,
+            typeAuth: "google",
+          }),
+        }
+      );
+      console.log("foi");
+    } catch {
+      console.error("Error fetching convidados:");
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+  useEffect(() => {
+    if (users.length > 0) {
+    const cadastrado = users.find(
+      (item: IUsers) => item.email === session?.user?.email
+    );
+    console.log('cadastrado', cadastrado)
+    if (cadastrado) return
+    if (cadastrado === undefined) {
+      postUsers();
+    }
+  }
+
+  }, [users]);
 
   const handleClick = (filtro: string) => {
     localStorage.setItem("filter", filtro);
