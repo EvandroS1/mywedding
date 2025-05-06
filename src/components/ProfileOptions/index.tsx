@@ -7,7 +7,7 @@ export default function ProfileOptions() {
   const { data: session } = useSession()
 
   return (
-    <div className="fixed bottom-6 bg-black w-[70%] z-50 flex justify-center items-center">
+    <div className="fixed bottom-6 w-[70%] z-50 flex justify-center items-center">
       <Popover>
         {({ open }) => (
           <>
