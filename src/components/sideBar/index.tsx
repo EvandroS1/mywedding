@@ -33,7 +33,7 @@ export default function SidebarCarrinho({
 
             {/* Sidebar animada */}
             <motion.aside
-              className="fixed top-0 right-0 h-full w-[60%] bg-white z-50 shadow-lg p-6 overflow-y-auto"
+              className="fixed top-0 right-0 h-full w-[80%] bg-white z-50 shadow-lg p-6 overflow-y-auto"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
