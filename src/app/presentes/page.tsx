@@ -307,12 +307,15 @@ const Presentes = () => {
     }
   }, []);
 
+  
+
   const handleClick = (valor: string) => {
     console.log("valor", valor);
     setFiltro(valor);
     localStorage.setItem("filter", valor);
     setItem(itens.filter((value) => value.categoria.includes(valor)));
   };
+  
   useEffect(() => {
     console.log("itens", item);
   }, [item]);
@@ -349,7 +352,7 @@ const Presentes = () => {
         <h1 className="pt-2 text-2xl">Lista de presentes</h1>
       </div>
       <DropdownFiltro filtro={filtro} reset={reset} handleClick={handleClick} />
-      <div className="grid justify-center items-center grid-cols-2 gap-4 p-4 mb-20 mx-auto">
+      <div className="grid grid-cols-2 gap-4 p-4 mb-20 mx-auto">
         {item.map((item) => (
           <div key={item.id} onClick={() => setModalData(item)}>
             <Card image={item.image} nome={item.nome} valor={item.valor} />

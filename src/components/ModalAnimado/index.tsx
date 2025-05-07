@@ -1,10 +1,15 @@
 // components/ModalAnimado.tsx
 import { Heart, ShoppingCart, X } from "@geist-ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../app/globals.css";
 import { Button } from "@headlessui/react";
+import { useSession } from "next-auth/react";
+import IUsers from "../../../types/user";
+import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
+import getUsers from "@/functions/getUsers";
 
 interface ModalProps {
   show: boolean;
@@ -15,7 +20,7 @@ interface ModalProps {
   valor: string;
 }
 
-interface CartItemProps {
+export interface CartItemProps {
   nome: string;
   image: string;
   valor: string;
@@ -30,21 +35,78 @@ const ModalAnimado = ({
   valor,
   onAddToCart,
 }: ModalProps) => {
-  const handleClick = (nome: string, image: string, valor: string) => {
-    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+  const { data: session } = useSession();
+  const [users, setusers] = useState<IUsers[]>([]);
 
-    const itemExists = cartItems.find((item: CartItemProps) => item.nome === nome);
-    console.log('itemExists', itemExists)
-    if(itemExists) {
-      itemExists.qtde += 1;
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    } else {
-      const newItem = { nome, image, valor, qtde: 1 };
-      cartItems.push(newItem);
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  const router = useRouter();
+
+
+  useEffect(() => {
+    async function loadUsers() {
+      const data: IUsers[] = await getUsers();
+      setusers(data);
+      console.log('data', data)
     }
-    onAddToCart();
+
+    loadUsers()
+  }, []);
+
+  const updateCart = async () => {
+    if (!session) {
+      return toast.error(
+        "Clique aqui e faça login para adicionar ao carrinho",
+        { onClick: () => router.push("/login"), theme: "dark" }
+      );
+    }
+  
+    const carrinhoItem = {
+      nome: nome,
+      image: image,
+      valor: valor,
+      qtde: 1,
+    };
+  
+    const user: IUsers | undefined = users?.find(
+      (user: IUsers) => user?.email === session?.user?.email
+    );
+  
+    if (!user) return;
+  
+    // Verifica se item já existe
+    const existingItemIndex = user?.carrinho?.findIndex(
+      (item: CartItemProps) => item.nome === carrinhoItem.nome
+    );
+    console.log('existingItemIndex', existingItemIndex)
+  
+    let updatedCart;
+  
+    if (existingItemIndex !== -1) {
+      // Item já existe, incrementa qtde
+      updatedCart = [...user.carrinho];
+      updatedCart[existingItemIndex].qtde += 1;
+    } else {
+      // Item novo, adiciona ao carrinho
+      updatedCart = [...user.carrinho, carrinhoItem];
+    }
+  
+    try {
+      await fetch(
+        `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/${user.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ carrinho: updatedCart }),
+        }
+      );
+      onAddToCart();
+    } catch {
+      console.error("Error updating cart");
+    }
   };
+  
+
   return (
     <AnimatePresence>
       {show && (
@@ -84,7 +146,7 @@ const ModalAnimado = ({
               />
               <Button
                 type="button"
-                onClick={() => handleClick(nome, image, valor)}
+                onClick={() => updateCart()}
                 className="bg-amber-700 w-full rounded-lg h-10"
               >
                 Adicionar ao carrinho
@@ -93,6 +155,7 @@ const ModalAnimado = ({
           </motion.div>
         </motion.div>
       )}
+      <ToastContainer />
     </AnimatePresence>
   );
 };

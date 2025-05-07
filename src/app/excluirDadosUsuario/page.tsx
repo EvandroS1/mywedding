@@ -4,16 +4,8 @@ import "../../app/globals.css";
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from "react-toastify";
-
-interface Profile {
-  id: number;
-  createdAt: string;
-  nome: string;
-  email: string;
-  senha: string;
-  typeAuth: string;
-  ProfilePic: string;
-}
+import IUsers from '../../../types/user';
+import getUsers from '@/functions/getUsers';
 
 interface IFormData {
   email: string;
@@ -22,7 +14,7 @@ interface IFormData {
 
 
 const ExcluirDadosUsuario = () => {
-  const [profile, setProfile] = useState<Profile[]>([])
+  const [profile, setProfile] = useState<IUsers[]>([])
 
   const {
       register,
@@ -31,21 +23,15 @@ const ExcluirDadosUsuario = () => {
       formState: { },
     } = useForm<IFormData>({
     });
-  useEffect(() => {
-    getProfiles();
-  }, []);
-  const getProfiles = async () => {
-      try {
-        const response = await fetch(
-          "https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile"
-        );
-        const data = await response.json();
-        console.log('data', data)
-        setProfile(data);
-      } catch (error) {
-        console.error("Error fetching convidados:", error);
-      }
-    };
+  
+    useEffect(() => {
+          async function loadUsers() {
+            const data: IUsers[] = await getUsers();
+            setProfile(data);
+          }
+      
+          loadUsers()
+        }, []);
     
   const onSubmit = async (data: IFormData) => {
     const userExists = profile.find((user) => user.email === data.email);

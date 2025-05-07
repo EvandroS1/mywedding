@@ -3,6 +3,8 @@ import "../../app/globals.css";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import getUsers from "@/functions/getUsers";
+import IUsers from "../../../types/user";
 
 const categorias = [
   { nome: "todos", img: "/assets/all.png", filtro: "todos" },
@@ -16,28 +18,13 @@ const categorias = [
   { nome: "Sala", img: "/assets/wishlist/sala.png", filtro: "sala" },
   { nome: "Variados", img: "/assets/logo.png", filtro: "variado" },
 ];
-interface IUsers {
-  nome?: string | null;
-  email?: string | null;
-  ProfilePic?: string | null;
-}
+
 const Sectionss = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [users, setusers] = useState([]);
+  const [users, setusers] = useState<IUsers[]>([]);
 
-  const getUsers = async () => {
-    try {
-      const response = await fetch(
-        "https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile"
-      );
-      const data = await response.json();
-      setusers(data);
-    } catch (error) {
-      console.error("Error fetching convidados:", error);
-    }
-  };
-
+  
   const postUsers = async () => {
     try {
       await fetch(
@@ -62,14 +49,19 @@ const Sectionss = () => {
   };
 
   useEffect(() => {
-    getUsers();
-  }, []);
+      async function loadUsers() {
+        const data: IUsers[] = await getUsers();
+        setusers(data);
+      }
+  
+      loadUsers()
+    }, []);
   useEffect(() => {
+    if(!session) return
     if (users.length > 0) {
-    const cadastrado = users.find(
-      (item: IUsers) => item.email === session?.user?.email
-    );
-    console.log('cadastrado', cadastrado)
+      const cadastrado = users.find(
+        (item: IUsers) => item.email === session?.user?.email
+      );
     if (cadastrado) return
     if (cadastrado === undefined) {
       postUsers();
