@@ -1,9 +1,13 @@
 // components/SidebarCarrinho.tsx
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession } from "next-auth/react";
-import ProfileOptions from "../ProfileOptions";
 import Link from "next/link";
 import CartItem from "../CartItem";
+import { Button } from "@headlessui/react";
+import { useEffect, useState } from "react";
+import IUsers from "../../../types/user";
+import getUsers from "@/functions/getUsers";
+import CartItemProps from "../../../types/cart";
 
 interface SidebarCarrinhoProps {
   setAberto: (aberto: boolean) => void;
@@ -13,8 +17,37 @@ export default function SidebarCarrinho({
   setAberto,
   aberto,
 }: SidebarCarrinhoProps) {
-  // const { data: session, status } = useSession();
   const { data: session } = useSession();
+  const [total, setTotal] = useState(0);
+  // const [users, setusers] = useState<IUsers[]>([]);
+  
+  useEffect(() => {
+    
+    
+      async function loadUsers() {
+        const data: IUsers[] = await getUsers();
+      
+      const user = data.find((user) => user.email === session?.user?.email);
+    const storedItems: CartItemProps[] = user?.carrinho ?? [];
+    console.log('storedItems', storedItems)
+    if (storedItems) {
+      console.log('foieerew')
+      // const cartItems = JSON.parse(storedItems);
+      // console.log('cartItems', cartItems)
+      const totalValue = storedItems.reduce((acc: number, item: CartItemProps) => {
+        return acc + item.valor * item.qtde;
+      }, 0);
+      console.log('totalValue', totalValue)
+      setTotal(totalValue);
+    }
+  }
+  loadUsers()
+
+  }, [session]);
+
+  useEffect(() => {
+    console.log('total', total)
+  },[total])
 
   return (
     <>
@@ -80,13 +113,14 @@ export default function SidebarCarrinho({
             </motion.aside>
             {session ? 
             <motion.aside
-              className="fixed bottom-0 flex justify-center items-center right-0 w-[80%] z-50 p-6"
+              className="fixed bottom-0 flex justify-between items-center right-0 w-[80%] z-50 p-6"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-                  <ProfileOptions />
+                  <span>Total: {total}</span>
+                  <Button className='w-40 h-12 rounded-lg text-white font-normal bg-amber-700'>Finalizar</Button>
 
             </motion.aside>
             : null}

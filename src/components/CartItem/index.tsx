@@ -4,13 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import getUsers from "@/functions/getUsers";
 import IUsers from "../../../types/user";
 import { useSession } from "next-auth/react";
-
-interface CartItemProps {
-  nome: string;
-  image: string;
-  valor: string;
-  qtde: number;
-}
+import CartItemProps from "../../../types/cart";
 
 const CartItem = () => {
   const [cartItems, setCartItems] = useState<CartItemProps[] | undefined>([]);

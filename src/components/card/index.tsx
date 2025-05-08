@@ -3,7 +3,7 @@
 type CardProps = {
   image: string;
   nome: string;
-  valor: string;
+  valor: number;
 };
 
 export default function Card({ image, nome, valor }: CardProps) {

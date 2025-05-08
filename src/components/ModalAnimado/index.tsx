@@ -10,6 +10,7 @@ import IUsers from "../../../types/user";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import getUsers from "@/functions/getUsers";
+import CartItemProps from "../../../types/cart";
 
 interface ModalProps {
   show: boolean;
@@ -17,14 +18,7 @@ interface ModalProps {
   onAddToCart: () => void;
   image: string;
   nome: string;
-  valor: string;
-}
-
-export interface CartItemProps {
-  nome: string;
-  image: string;
-  valor: string;
-  qtde: number;
+  valor: number;
 }
 
 const ModalAnimado = ({

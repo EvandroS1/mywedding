@@ -1,4 +1,4 @@
-import { CartItemProps } from "@/components/ModalAnimado";
+import CartItemProps from "./cart";
 
 export default interface IUsers {
   id?: string;
