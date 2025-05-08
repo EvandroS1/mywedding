@@ -7,6 +7,6 @@ export default interface IUsers {
   ProfilePic?: string | null;
   typeAuth?: string | null;
   carrinho: CartItemProps[];
-  favoritos?: [];
+  favoritos: [];
   createdAt?: string;
 }

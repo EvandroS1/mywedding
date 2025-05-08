@@ -7,10 +7,12 @@ import FavItem from "../FavItem";
 interface SidebarCarrinhoProps {
   setFavoritosAberto: (favoritosAberto: boolean) => void;
   favoritosAberto: boolean;
+  handleDelete: () => void;
 }
 export default function Favoritos({
   setFavoritosAberto,
   favoritosAberto,
+  handleDelete,
 }: SidebarCarrinhoProps) {
   // const { data: session, status } = useSession();
   const { data: session } = useSession();
@@ -32,7 +34,7 @@ export default function Favoritos({
 
             {/* Sidebar animada */}
             <motion.aside
-              className="fixed top-0 right-0 h-full w-[80%] bg-white z-50 shadow-lg p-6 overflow-y-auto"
+              className="fixed top-0 right-0 h-full w-[80%] bg-white/10 backdrop-blur-md z-50 shadow-lg p-6 overflow-y-auto"
               initial={{ x: "-100%" }}
               animate={{ x: "-25%" }}
               exit={{ x: "-130%" }}
@@ -42,7 +44,7 @@ export default function Favoritos({
                 <h2 className="text-xl font-bold">Seus favoritos</h2>
                 <button
                   onClick={() => setFavoritosAberto(false)}
-                  className="text-gray-600"
+                  className="text-white"
                 >
                   ✕
                 </button>
@@ -50,7 +52,7 @@ export default function Favoritos({
 
               {session ? (
                 <div>
-                  <FavItem />
+                  <FavItem handleDelete={handleDelete} />
                 </div>
               ) : (
                 <div className="absolute bottom-6 m-auto z-50 w-[90%]  flex items-center justify-center">

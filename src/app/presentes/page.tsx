@@ -3,28 +3,36 @@ import Card from "@/components/card";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../app/globals.css";
 // import { useSession } from "next-auth/react";
-import { Heart, Home, ShoppingCart } from "@geist-ui/icons";
+import { Heart, HeartFill, Home, ShoppingCart } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
 import DropdownFiltro from "@/components/dropDown";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import ModalAnimado from "@/components/ModalAnimado";
 import SidebarCarrinho from "@/components/sideBar";
 import Favoritos from "@/components/Favoritos";
+import IUsers from "../../../types/user";
+import { useSession } from "next-auth/react";
+import { toast, ToastContainer } from "react-toastify";
+import getUsers from "@/functions/getUsers";
 
 interface Item {
-  id: number;
+  id?: number;
   image: string;
   nome: string;
   valor: string;
-  categoria: [string, string?, string?];
+  categoria?: [string, string?, string?];
 }
 
 const Presentes = () => {
   const router = useRouter();
+  const {data: session} = useSession();
   const [item, setItem] = useState<Item[]>([]);
   const [filtro, setFiltro] = useState<string>("");
   const [modalData, setModalData] = useState<Item | null>(null);
   const [aberto, setAberto] = useState(false);
+  const [users, setusers] = useState<IUsers[]>();
+  const [user, setuser] = useState<IUsers>();
   const [favoritosAberto, setFavoritosAberto] = useState(false);
   // const { data: session, status } = useSession();
 
@@ -297,34 +305,106 @@ const Presentes = () => {
     },
   ];
 
-  useEffect(() => {
+  const att = () => {
+    console.log('foi')
     const savedFilter = localStorage.getItem("filter");
     if (savedFilter) {
-      setItem(itens.filter((value) => value.categoria.includes(savedFilter)));
+      setItem(itens.filter((value) => value?.categoria?.includes(savedFilter)));
       setFiltro(savedFilter);
     } else {
       setItem(itens);
     }
+    async function loadUsers() {
+            const data: IUsers[] = await getUsers();
+            setusers(data);
+            console.log('data', data)
+          }
+      
+          loadUsers()
+          
+  }
+  useEffect(() => {
+    att()
   }, []);
+
+  useEffect(() => {
+    const user: IUsers | undefined = users?.find(
+      (user: IUsers) => user?.email === session?.user?.email
+    );
+    setuser(user)
+    console.log('user', user)
+
+  }, [users]);
 
   
 
   const handleClick = (valor: string) => {
-    console.log("valor", valor);
     setFiltro(valor);
     localStorage.setItem("filter", valor);
-    setItem(itens.filter((value) => value.categoria.includes(valor)));
+    setItem(itens.filter((value) => value?.categoria?.includes(valor)));
   };
   
-  useEffect(() => {
-    console.log("itens", item);
-  }, [item]);
+  
 
   const reset = () => {
     setItem(itens);
     setFiltro("");
     localStorage.removeItem("filter");
   };
+
+  const handleFav = async ({nome, image, valor}: Item) => {
+        if (!session) {
+          return toast.error(
+            "Clique aqui e faça login para adicionar ao carrinho",
+            { onClick: () => router.push("/login"), theme: "dark" }
+          );
+        }
+      
+        const favItem = {
+          nome: nome,
+          image: image,
+          valor: valor,
+        };
+      
+        const user: IUsers | undefined = users?.find(
+          (user: IUsers) => user?.email === session?.user?.email
+        );
+        if (!user) return;
+        setuser(user)
+      
+        // Verifica se item já existe
+        const existingItemIndex = user?.favoritos?.findIndex(
+          (item: Item) => item.nome === favItem.nome
+        );
+      
+        let updatedCart;
+      
+        if (existingItemIndex !== -1) {
+          // Item já existe, incrementa qtde
+          updatedCart = [...user?.favoritos];
+          updatedCart.splice(existingItemIndex, 1);
+        } else {
+          // Item novo, adiciona ao favoritos
+          updatedCart = [...user.favoritos, favItem];
+        }
+      
+        try {
+          await fetch(
+            `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/${user.id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ favoritos: updatedCart }),
+            }
+          );
+          setFavoritosAberto(true);
+          att()
+        } catch {
+          console.error("Error updating cart");
+        }
+      };
 
   return (
     <div className="font-extrabold text-xl bg-[#fcf1ed] ">
@@ -340,7 +420,7 @@ const Presentes = () => {
         }}
       />
       <SidebarCarrinho aberto={aberto} setAberto={setAberto} />
-      <Favoritos favoritosAberto={favoritosAberto} setFavoritosAberto={setFavoritosAberto} />
+      <Favoritos favoritosAberto={favoritosAberto} setFavoritosAberto={setFavoritosAberto} handleDelete={() => att()} />
 
       <div className="fixed gap-5 flex justify-center z-40 border-amber-700 border shadow-sm items-center bottom-6 h-20 w-10/12 bg-white/30 backdrop-blur-md left-1/2 -translate-x-1/2 rounded-2xl">
         <Home size={30} color="black" onClick={() => router.push("/")} />
@@ -354,11 +434,32 @@ const Presentes = () => {
       <DropdownFiltro filtro={filtro} reset={reset} handleClick={handleClick} />
       <div className="grid grid-cols-2 gap-4 p-4 mb-20 mx-auto">
         {item.map((item) => (
-          <div key={item.id} onClick={() => setModalData(item)}>
+          <div key={item.id} className="relative">
+            <motion.div
+  className="absolute transition-all right-4 top-4 z-30 h-8 w-8 flex justify-center items-center rounded-lg bg-black/30 backdrop-blur-lg"
+  whileTap={{ scale: 1.4 }}
+>
+  {user?.favoritos.find((value: Item) => value.nome === item.nome) === undefined ? 
+    <Heart
+      color="white"
+      className="relative z-50 cursor-pointer"
+      onClick={() => handleFav({ nome: item.nome, image: item.image, valor: item.valor })}
+    /> :
+    <HeartFill
+      fill="true"
+      color="white"
+      className="relative z-50 cursor-pointer"
+      onClick={() => handleFav({ nome: item.nome, image: item.image, valor: item.valor })}
+    />
+  }
+</motion.div>
+          <div  onClick={() => setModalData(item)}>
             <Card image={item.image} nome={item.nome} valor={item.valor} />
           </div>
+        </div>
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 };

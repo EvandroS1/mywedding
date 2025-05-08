@@ -36,16 +36,16 @@ const ModalAnimado = ({
   onAddToCart,
 }: ModalProps) => {
   const { data: session } = useSession();
-  const [users, setusers] = useState<IUsers[]>([]);
-
+  
   const router = useRouter();
+  const [users, setusers] = useState<IUsers[]>([]);
 
 
   useEffect(() => {
     async function loadUsers() {
       const data: IUsers[] = await getUsers();
       setusers(data);
-      console.log('data', data)
+      
     }
 
     loadUsers()
@@ -76,7 +76,6 @@ const ModalAnimado = ({
     const existingItemIndex = user?.carrinho?.findIndex(
       (item: CartItemProps) => item.nome === carrinhoItem.nome
     );
-    console.log('existingItemIndex', existingItemIndex)
   
     let updatedCart;
   

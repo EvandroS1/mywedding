@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { ShoppingCart, Trash } from "@geist-ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@headlessui/react";
+import IUsers from "../../../types/user";
+import getUsers from "@/functions/getUsers";
+import { useSession } from "next-auth/react";
 
 interface FavItem {
   nome: string;
@@ -10,32 +13,62 @@ interface FavItem {
   qtde: number;
 }
 
-const FavItem = () => {
-  const [cartItems, setCartItems] = useState<FavItem[]>([]);
+interface IFav {
+  handleDelete: () => void;
+}
+
+const FavItem = ({handleDelete}: IFav) => {
+  const {data: session} = useSession();
+  const [favItems, setFavItems] = useState<FavItem[] | undefined>([]);
+  const [user, setUser] = useState<IUsers>();
+
 
   useEffect(() => {
-    const storedItems = localStorage.getItem("cartItems");
-    if (storedItems) {
-      setCartItems(JSON.parse(storedItems));
-    }
-  }, []);
+      async function loadUsers() {
+        const data: IUsers[] = await getUsers();
+        const user: IUsers | undefined = data.find((user: IUsers) => user?.email === session?.user?.email);
 
-  const handleRemoveItem = (indexToRemove: number) => {
-    const updatedCartItems = cartItems.filter(
-      (_, index) => index !== indexToRemove
-    );
-    setCartItems(updatedCartItems);
-    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-  };
+        setUser(user);
+        
+        
+        setFavItems(user?.favoritos);
+      }
+  
+      loadUsers()
+    }, []);
+
+    const handleRemoveItem = async (indexToRemove: number) => {
+      
+      const updatedFavItems = favItems?.filter(
+        (_, index) => index !== indexToRemove
+      );
+      setFavItems(updatedFavItems);
+  
+      try {
+        await fetch(
+          `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/${user?.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ favoritos: updatedFavItems }),
+          }
+        );
+      } catch {
+        console.error("Error updating cart");
+      }
+      handleDelete()
+    };
 
   const handleClick = () => {};
 
   return (
     <div className="flex flex-col gap-4">
       <AnimatePresence>
-        {cartItems.map((item, index) => (
+        {favItems?.map((item, index) => (
           <motion.div
-            key={`${item.nome}-${index}`}
+            key={`${item.nome}-${index}-${item.image}`}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
