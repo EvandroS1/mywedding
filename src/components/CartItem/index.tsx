@@ -32,12 +32,12 @@ const CartItem = () => {
     } catch {
       console.error("Error updating cart");
     }
-  }
+  };
   useEffect(() => {
     async function loadUsers() {
       const data: IUsers[] = await getUsers();
       const user = data.find((user) => user.email === session?.user?.email);
-      setUser(user)
+      setUser(user);
       setCartItems(user?.carrinho);
     }
 
@@ -51,7 +51,6 @@ const CartItem = () => {
     setCartItems(updatedCartItems);
 
     putCart(updatedCartItems);
-    
   };
 
   const handleQtde = (indexToUpdate: number, newQuantity: number) => {
@@ -65,61 +64,67 @@ const CartItem = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex h-full flex-col gap-4">
       <AnimatePresence>
-        {cartItems?.map((item, index) => (
-          <motion.div
-            key={`${item.nome}-${index}`}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center justify-between p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-md"
-          >
-            <img
-              src={item.image}
-              alt={item.nome}
-              className="w-24 rounded-lg self-center"
-            />
-            <div className="flex flex-col justify-end items-center">
-              <h3 className="text-lg text-center max-w-32 font-semibold">
-                {item.nome}
-              </h3>
-              <p className="text-gray-500">{item.valor}</p>
-              <Trash
-                size={20}
-                className="cursor-pointer"
-                color="red"
-                onClick={() => handleRemoveItem(index)}
+        {cartItems?.length == 0 ? (
+          <div className="flex h-full w-full justify-center items-center">
+            <img src="/assets/noCart.png" alt="sem itens carrinho" />
+          </div>
+        ) : (
+          cartItems?.map((item, index) => (
+            <motion.div
+              key={`${item.nome}-${index}`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-center justify-between p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-md"
+            >
+              <img
+                src={item.image}
+                alt={item.nome}
+                className="w-24 rounded-lg self-center"
               />
-              <div className="flex items-center justify-center w-28 shadow-sm bg-gray-500 rounded-lg gap-2 mt-2">
-                <button
-                  className="w-6"
-                  onClick={() => handleQtde(index, item.qtde + 1)}
-                >
-                  +
-                </button>
-                <input
-                  className="w-10 text-center"
-                  type="text"
-                  name="qtd"
-                  id="qtd"
-                  onChange={(e) =>
-                    handleQtde(index, parseInt(e.target.value) || 1)
-                  }
-                  value={item.qtde}
-                  readOnly
+              <div className="flex flex-col justify-end items-center">
+                <h3 className="text-lg text-center max-w-32 font-semibold">
+                  {item.nome}
+                </h3>
+                <p className="text-gray-500">{item.valor}</p>
+                <Trash
+                  size={20}
+                  className="cursor-pointer"
+                  color="red"
+                  onClick={() => handleRemoveItem(index)}
                 />
-                <button
-                  className="w-6"
-                  onClick={() => handleQtde(index, item.qtde - 1)}
-                >
-                  -
-                </button>
+                <div className="flex items-center justify-center w-28 shadow-sm bg-gray-500 rounded-lg gap-2 mt-2">
+                  <button
+                    className="w-6"
+                    onClick={() => handleQtde(index, item.qtde + 1)}
+                  >
+                    +
+                  </button>
+                  <input
+                    className="w-10 text-center"
+                    type="text"
+                    name="qtd"
+                    id="qtd"
+                    onChange={(e) =>
+                      handleQtde(index, parseInt(e.target.value) || 1)
+                    }
+                    value={item.qtde}
+                    readOnly
+                  />
+                  <button
+                    className="w-6"
+                    onClick={() => handleQtde(index, item.qtde - 1)}
+                  >
+                    -
+                  </button>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))
+        )}
       </AnimatePresence>
     </div>
   );

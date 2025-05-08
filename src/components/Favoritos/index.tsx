@@ -25,7 +25,7 @@ export default function Favoritos({
           <>
             {/* Fundo com efeito de glass */}
             <motion.div
-              className="fixed inset-0 bg-white/10 backdrop-blur-lg z-50"
+              className="fixed h-full inset-0 bg-white/10 backdrop-blur-lg z-50"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -51,20 +51,28 @@ export default function Favoritos({
               </div>
 
               {session ? (
-                <div>
+                <div className="h-[90%]">
                   <FavItem handleDelete={handleDelete} />
                 </div>
               ) : (
+                <div className="flex flex-col items-center justify-center h-full">
+                    <img
+                      src='/assets/noLoginFav.png'
+                      alt="Imagem de perfil"
+                      className="object-cover"
+                    />
                 <div className="absolute bottom-6 m-auto z-50 w-[90%]  flex items-center justify-center">
                   <div className="flex w-full items-center justify-center  gap-2 bg-white/20 backdrop-blur-md rounded-full px-4 py-2 text-black shadow-lg hover:bg-white/30 transition">
                     <img
-                      src='assets/nouser.png'
+                      src='/assets/nouser.png'
                       alt="Imagem de perfil"
                       className="w-8 h-8 rounded-full object-cover"
                     />
                     <span className="font-semibold">Faça <Link href="/login">login</Link></span>
                   </div>
                 </div>
+                </div>
+
               )}
             </motion.aside>
           </>

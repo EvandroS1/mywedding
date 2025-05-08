@@ -40,15 +40,18 @@ const ModalAnimado = ({
   const router = useRouter();
   const [users, setusers] = useState<IUsers[]>([]);
 
+const att = async () => {
 
+  async function loadUsers() {
+    const data: IUsers[] = await getUsers();
+    setusers(data);
+    
+  }
+  
+  loadUsers()
+}
   useEffect(() => {
-    async function loadUsers() {
-      const data: IUsers[] = await getUsers();
-      setusers(data);
-      
-    }
-
-    loadUsers()
+    att()
   }, []);
 
   const updateCart = async () => {
@@ -78,6 +81,8 @@ const ModalAnimado = ({
     );
   
     let updatedCart;
+
+    console.log('existingItemIndex', existingItemIndex)
   
     if (existingItemIndex !== -1) {
       // Item já existe, incrementa qtde
@@ -99,6 +104,7 @@ const ModalAnimado = ({
           body: JSON.stringify({ carrinho: updatedCart }),
         }
       );
+      att()
       onAddToCart();
     } catch {
       console.error("Error updating cart");

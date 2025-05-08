@@ -8,7 +8,7 @@ export default function ProfileOptions() {
   console.log('session?.user?.image', session?.user?.image)
 
   return (
-    <div className="fixed bottom-6 w-[70%] z-50 flex justify-center items-center">
+    <div className="fixed bottom-4 w-[100%] z-50 flex justify-center items-center">
       <Popover>
         {({ open }) => (
           <>

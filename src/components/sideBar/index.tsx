@@ -24,7 +24,7 @@ export default function SidebarCarrinho({
           <>
             {/* Fundo com efeito de glass */}
             <motion.div
-              className="fixed inset-0 bg-white/10 backdrop-blur-lg z-50"
+              className="fixed inset-0 bg-white/10 backdrop-blur-lg z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -32,8 +32,11 @@ export default function SidebarCarrinho({
             />
 
             {/* Sidebar animada */}
+            <div className="fixed bottom-4 w-[90%] m-auto z-50 flex items-center justify-center">
+
+                  </div>
             <motion.aside
-              className="fixed top-0 right-0 h-full w-[80%] bg-white/20 backdrop-blur-md z-50 shadow-lg p-6 overflow-y-auto"
+              className="fixed top-0 right-0 h-full w-[80%] bg-white/20 backdrop-blur-md z-40 shadow-lg p-6 overflow-y-auto"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -50,11 +53,17 @@ export default function SidebarCarrinho({
               </div>
 
               {session ? (
-                <div>
+                <div className="h-[90%]">
                   <CartItem />
-                  <ProfileOptions />
+                  
                 </div>
               ) : (
+                <div className="flex flex-col items-center justify-center h-full">
+                    <img
+                      src='/assets/noLoginCart.png'
+                      alt="Imagem de perfil"
+                      className="object-cover"
+                    />
                 <div className="absolute bottom-6 m-auto z-50 w-[90%]  flex items-center justify-center">
                   <div className="flex w-full items-center justify-center  gap-2 bg-white/20 backdrop-blur-md rounded-full px-4 py-2 text-black shadow-lg hover:bg-white/30 transition">
                     <img
@@ -65,8 +74,22 @@ export default function SidebarCarrinho({
                     <span className="font-semibold">Faça <Link href="/login">login</Link></span>
                   </div>
                 </div>
+                </div>
+
               )}
             </motion.aside>
+            {session ? 
+            <motion.aside
+              className="fixed bottom-0 flex justify-center items-center right-0 w-[80%] z-50 p-6"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+                  <ProfileOptions />
+
+            </motion.aside>
+            : null}
           </>
         )}
       </AnimatePresence>

@@ -27,7 +27,7 @@ interface Item {
 
 const Presentes = () => {
   const router = useRouter();
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const [item, setItem] = useState<Item[]>([]);
   const [filtro, setFiltro] = useState<string>("");
   const [modalData, setModalData] = useState<Item | null>(null);
@@ -307,7 +307,7 @@ const Presentes = () => {
   ];
 
   const att = () => {
-    console.log('foi')
+    console.log("foi");
     const savedFilter = localStorage.getItem("filter");
     if (savedFilter) {
       setItem(itens.filter((value) => value?.categoria?.includes(savedFilter)));
@@ -316,36 +316,42 @@ const Presentes = () => {
       setItem(itens);
     }
     async function loadUsers() {
-            const data: IUsers[] = await getUsers();
-            setusers(data);
-            console.log('data', data)
-          }
-      
-          loadUsers()
-          
-  }
+      const data: IUsers[] = await getUsers();
+      setusers(data);
+      console.log("data", data);
+    }
+
+    loadUsers();
+  };
   useEffect(() => {
-    att()
+    att();
   }, []);
 
   useEffect(() => {
     const user: IUsers | undefined = users?.find(
       (user: IUsers) => user?.email === session?.user?.email
     );
-    setuser(user)
-    console.log('user', user)
-
+    setuser(user);
+    console.log("user", user);
   }, [users]);
 
+  useEffect(() => {
+    if (aberto || favoritosAberto) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
   
+    return () => {
+      document.body.style.overflow = "auto"; // limpa quando o componente desmonta
+    };
+  }, [aberto, favoritosAberto]);
 
   const handleClick = (valor: string) => {
     setFiltro(valor);
     localStorage.setItem("filter", valor);
     setItem(itens.filter((value) => value?.categoria?.includes(valor)));
   };
-  
-  
 
   const reset = () => {
     setItem(itens);
@@ -353,62 +359,64 @@ const Presentes = () => {
     localStorage.removeItem("filter");
   };
 
-  const handleFav = async ({nome, image, valor, fill}: Item) => {
-        if (!session) {
-          return toast.error(
-            "Clique aqui e faça login para adicionar ao carrinho",
-            { onClick: () => router.push("/login"), theme: "dark" }
-          );
+  const handleFav = async ({ nome, image, valor, fill }: Item) => {
+    if (!session) {
+      return toast.error(
+        "Clique aqui e faça login para adicionar ao carrinho",
+        { onClick: () => router.push("/login"), theme: "dark" }
+      );
+    }
+
+    const favItem = {
+      nome: nome,
+      image: image,
+      valor: valor,
+    };
+
+    const user: IUsers | undefined = users?.find(
+      (user: IUsers) => user?.email === session?.user?.email
+    );
+    if (!user) return;
+    setuser(user);
+
+    // Verifica se item já existe
+    const existingItemIndex = user?.favoritos?.findIndex(
+      (item: Item) => item.nome === favItem.nome
+    );
+
+    let updatedCart;
+
+    if (existingItemIndex !== -1) {
+      // Item já existe, incrementa qtde
+      updatedCart = [...user?.favoritos];
+      updatedCart.splice(existingItemIndex, 1);
+    } else {
+      // Item novo, adiciona ao favoritos
+      updatedCart = [...user.favoritos, favItem];
+    }
+
+    try {
+      await fetch(
+        `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/${user.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ favoritos: updatedCart }),
         }
-      
-        const favItem = {
-          nome: nome,
-          image: image,
-          valor: valor,
-        };
-      
-        const user: IUsers | undefined = users?.find(
-          (user: IUsers) => user?.email === session?.user?.email
-        );
-        if (!user) return;
-        setuser(user)
-      
-        // Verifica se item já existe
-        const existingItemIndex = user?.favoritos?.findIndex(
-          (item: Item) => item.nome === favItem.nome
-        );
-      
-        let updatedCart;
-      
-        if (existingItemIndex !== -1) {
-          // Item já existe, incrementa qtde
-          updatedCart = [...user?.favoritos];
-          updatedCart.splice(existingItemIndex, 1);
-        } else {
-          // Item novo, adiciona ao favoritos
-          updatedCart = [...user.favoritos, favItem];
-        }
-      
-        try {
-          await fetch(
-            `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/${user.id}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ favoritos: updatedCart }),
-            }
-          );
-          if(!fill)setFavoritosAberto(true);
-          att()
-        } catch {
-          console.error("Error updating cart");
-        }
-      };
+      );
+      if (!fill) setFavoritosAberto(true);
+      att();
+    } catch {
+      console.error("Error updating cart");
+    }
+  };
 
   return (
-    <div className="font-extrabold text-xl bg-[#fcf1ed] ">
+    <div
+      className="font-extrabold text-xl bg-[#fcf1ed]"
+    >
       <ModalAnimado
         show={modalData !== null}
         onClose={() => setModalData(null)}
@@ -421,12 +429,20 @@ const Presentes = () => {
         }}
       />
       <SidebarCarrinho aberto={aberto} setAberto={setAberto} />
-      <Favoritos favoritosAberto={favoritosAberto} setFavoritosAberto={setFavoritosAberto} handleDelete={() => att()} />
+      <Favoritos
+        favoritosAberto={favoritosAberto}
+        setFavoritosAberto={setFavoritosAberto}
+        handleDelete={() => att()}
+      />
 
-      <div className="fixed gap-5 flex justify-center z-40 border-amber-700 border shadow-sm items-center bottom-6 h-20 w-10/12 bg-white/30 backdrop-blur-md left-1/2 -translate-x-1/2 rounded-2xl">
+      <div className="fixed gap-5 flex justify-center z-30 border-amber-700 border shadow-sm items-center bottom-6 h-20 w-10/12 bg-white/30 backdrop-blur-md left-1/2 -translate-x-1/2 rounded-2xl">
         <Home size={30} color="black" onClick={() => router.push("/")} />
         <ShoppingCart size={40} color="black" onClick={() => setAberto(true)} />
-        <Heart size={30} color="black" onClick={() => setFavoritosAberto(true)}/>
+        <Heart
+          size={30}
+          color="black"
+          onClick={() => setFavoritosAberto(true)}
+        />
       </div>
       <div className="text-center p-4">
         <img src="assets/m&e.png" alt="melissa e evandro" />
@@ -437,27 +453,44 @@ const Presentes = () => {
         {item.map((item) => (
           <div key={item.id} className="relative">
             <motion.div
-  className="absolute transition-all right-4 top-4 z-30 h-8 w-8 flex justify-center items-center rounded-lg bg-black/30 backdrop-blur-lg"
-  whileTap={{ scale: 1.4 }}
->
-  {user?.favoritos.find((value: Item) => value.nome === item.nome) === undefined ? 
-    <Heart
-      color="white"
-      className="relative z-50 cursor-pointer"
-      onClick={() => handleFav({ nome: item.nome, image: item.image, valor: item.valor, fill: false })}
-    /> :
-    <HeartFill
-      fill="true"
-      color="white"
-      className="relative z-50 cursor-pointer"
-      onClick={() => handleFav({ nome: item.nome, image: item.image, valor: item.valor, fill: true })}  
-    />
-  }
-</motion.div>
-          <div  onClick={() => setModalData(item)}>
-            <Card image={item.image} nome={item.nome} valor={item.valor} />
+              className="absolute transition-all right-4 top-4 z-20 h-8 w-8 flex justify-center items-center rounded-lg bg-black/30 backdrop-blur-lg"
+              whileTap={{ scale: 1.4 }}
+            >
+              {user?.favoritos.find(
+                (value: Item) => value.nome === item.nome
+              ) === undefined ? (
+                <Heart
+                  color="white"
+                  className="relative z-10 cursor-pointer"
+                  onClick={() =>
+                    handleFav({
+                      nome: item.nome,
+                      image: item.image,
+                      valor: item.valor,
+                      fill: false,
+                    })
+                  }
+                />
+              ) : (
+                <HeartFill
+                  fill="true"
+                  color="white"
+                  className="relative z-10 cursor-pointer"
+                  onClick={() =>
+                    handleFav({
+                      nome: item.nome,
+                      image: item.image,
+                      valor: item.valor,
+                      fill: true,
+                    })
+                  }
+                />
+              )}
+            </motion.div>
+            <div onClick={() => setModalData(item)}>
+              <Card image={item.image} nome={item.nome} valor={item.valor} />
+            </div>
           </div>
-        </div>
         ))}
       </div>
       <ToastContainer />

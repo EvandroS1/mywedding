@@ -48,7 +48,7 @@ export default function DropdownFiltro({
   };
 
   return (
-    <div className="w-full max-w-xs relative z-40 mx-auto pb-4 px-2">
+    <div className="w-full max-w-xs relative z-30 mx-auto pb-4 px-2">
       <Listbox value={selected} onChange={onChange}>
         <div className="relative">
           <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-amber-700 py-2 pl-3 pr-10 text-left text-white font-extrabold shadow-md focus:outline-none">
@@ -77,7 +77,7 @@ export default function DropdownFiltro({
             leaveTo="opacity-0 translate-y-1"
           >
             <Listbox.Options
-              className="absolute z-10 mt-1 max-h-60 w-full overflow-auto
+              className="absolute z-30 mt-1 max-h-60 w-full overflow-auto
     rounded-xl bg-white/10 backdrop-blur-md border border-white/20
     py-2 text-base shadow-xl ring-1 ring-black/10 focus:outline-none"
             >
