@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import IUsers from "../../../types/user";
 import getUsers from "@/functions/getUsers";
 import CartItemProps from "../../../types/cart";
+import formatCurrency from "@/functions/FormatValue";
 
 interface SidebarCarrinhoProps {
   setAberto: (aberto: boolean) => void;
@@ -119,7 +120,8 @@ export default function SidebarCarrinho({
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-                  <span>Total: {total}</span>
+                  <span>Total: {formatCurrency(total)}</span>
+
                   <Button className='w-40 h-12 rounded-lg text-white font-normal bg-amber-700'>Finalizar</Button>
 
             </motion.aside>

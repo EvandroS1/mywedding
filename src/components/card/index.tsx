@@ -1,5 +1,7 @@
 "use client";
 
+import formatCurrency from "@/functions/FormatValue";
+
 type CardProps = {
   image: string;
   nome: string;
@@ -14,7 +16,7 @@ export default function Card({ image, nome, valor }: CardProps) {
       </div>
       <div className="px-2">
         <p>{nome}</p>
-        <p>{valor}</p>
+        <p>{formatCurrency(valor)}</p>
       </div>
     </div>
   );

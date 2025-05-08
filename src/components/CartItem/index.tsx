@@ -5,6 +5,7 @@ import getUsers from "@/functions/getUsers";
 import IUsers from "../../../types/user";
 import { useSession } from "next-auth/react";
 import CartItemProps from "../../../types/cart";
+import formatCurrency from "@/functions/FormatValue";
 
 const CartItem = () => {
   const [cartItems, setCartItems] = useState<CartItemProps[] | undefined>([]);
@@ -83,7 +84,7 @@ const CartItem = () => {
                 <h3 className="text-lg text-center max-w-32 font-semibold">
                   {item.nome}
                 </h3>
-                <p className="text-gray-500">{item.valor}</p>
+                <p className="text-gray-500">{formatCurrency(item.valor)}</p>
                 <Trash
                   size={20}
                   className="cursor-pointer"
