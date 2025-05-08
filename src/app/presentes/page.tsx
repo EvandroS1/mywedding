@@ -22,6 +22,7 @@ interface Item {
   nome: string;
   valor: string;
   categoria?: [string, string?, string?];
+  fill?: boolean;
 }
 
 const Presentes = () => {
@@ -352,7 +353,7 @@ const Presentes = () => {
     localStorage.removeItem("filter");
   };
 
-  const handleFav = async ({nome, image, valor}: Item) => {
+  const handleFav = async ({nome, image, valor, fill}: Item) => {
         if (!session) {
           return toast.error(
             "Clique aqui e faça login para adicionar ao carrinho",
@@ -399,7 +400,7 @@ const Presentes = () => {
               body: JSON.stringify({ favoritos: updatedCart }),
             }
           );
-          setFavoritosAberto(true);
+          if(!fill)setFavoritosAberto(true);
           att()
         } catch {
           console.error("Error updating cart");
@@ -443,13 +444,13 @@ const Presentes = () => {
     <Heart
       color="white"
       className="relative z-50 cursor-pointer"
-      onClick={() => handleFav({ nome: item.nome, image: item.image, valor: item.valor })}
+      onClick={() => handleFav({ nome: item.nome, image: item.image, valor: item.valor, fill: false })}
     /> :
     <HeartFill
       fill="true"
       color="white"
       className="relative z-50 cursor-pointer"
-      onClick={() => handleFav({ nome: item.nome, image: item.image, valor: item.valor })}
+      onClick={() => handleFav({ nome: item.nome, image: item.image, valor: item.valor, fill: true })}  
     />
   }
 </motion.div>
