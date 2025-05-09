@@ -5,12 +5,16 @@ import getUsers from "@/functions/getUsers";
 import IUsers from "../../../types/user";
 import { useSession } from "next-auth/react";
 import CartItemProps from "../../../types/cart";
-import formatCurrency from "@/functions/FormatValue";
+import formatValue from "@/functions/formatValue";
+import { ApplicationState } from "@/store";
+import { useSelector } from "react-redux";
 
 const CartItem = () => {
   const [cartItems, setCartItems] = useState<CartItemProps[] | undefined>([]);
   const { data: session } = useSession();
   const [user, setUser] = useState<IUsers | undefined>();
+  const cart = useSelector((state: ApplicationState) => state.Cart.data)
+
 
   const putCart = async (data: CartItemProps[] | undefined) => {
     try {
@@ -61,7 +65,7 @@ const CartItem = () => {
   return (
     <div className="flex h-full flex-col gap-4">
       <AnimatePresence>
-        {cartItems?.length == 0 ? (
+        {cart?.length == 0 ? (
           <div className="flex h-full w-full justify-center items-center">
             <img src="/assets/noCart.png" alt="sem itens carrinho" />
           </div>
@@ -84,7 +88,7 @@ const CartItem = () => {
                 <h3 className="text-lg text-center max-w-32 font-semibold">
                   {item.nome}
                 </h3>
-                <p className="text-gray-500">{formatCurrency(item.valor)}</p>
+                <p className="text-gray-500">{formatValue(item.valor)}</p>
                 <Trash
                   size={20}
                   className="cursor-pointer"

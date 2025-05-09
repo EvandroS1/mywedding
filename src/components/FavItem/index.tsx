@@ -1,50 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ShoppingCart, Trash } from "@geist-ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@headlessui/react";
-import IUsers from "../../../types/user";
-import getUsers from "@/functions/getUsers";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
+import IFavItem from "../../../types/fav";
+import { ApplicationState } from "@/store";
+import { useSelector } from "react-redux";
+import formatValue from "@/functions/formatValue";
 
-interface FavItem {
-  nome: string;
-  image: string;
-  valor: string;
-  qtde: number;
-}
+
 
 interface IFav {
   handleDelete: () => void;
 }
 
 const FavItem = ({ handleDelete }: IFav) => {
-  const { data: session } = useSession();
-  const [favItems, setFavItems] = useState<FavItem[] | undefined>([]);
-  const [user, setUser] = useState<IUsers>();
-
-  useEffect(() => {
-    async function loadUsers() {
-      const data: IUsers[] = await getUsers();
-      const user: IUsers | undefined = data.find(
-        (user: IUsers) => user?.email === session?.user?.email
-      );
-
-      setUser(user);
-
-      setFavItems(user?.favoritos.reverse());
-    }
-
-    loadUsers();
-    console.log("favItems", favItems);
-  }, []);
-
-  useEffect(() => {
-    const reverseFavItems = favItems?.reverse();
-    console.log(
-      "favItems",
-      reverseFavItems?.map((item) => console.log("item.nome", item))
-    );
-  }, [favItems]);
+  // const { data: session } = useSession();
+  const [favItems, setFavItems] = useState<IFavItem[] | undefined>([]);
+  const fav = useSelector((state: ApplicationState) => state.Favoritos.data)
 
   const handleRemoveItem = async (indexToRemove: number) => {
     const updatedFavItems = favItems?.filter(
@@ -54,7 +27,7 @@ const FavItem = ({ handleDelete }: IFav) => {
 
     try {
       await fetch(
-        `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/${user?.id}`,
+        `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/id}`,
         {
           method: "PUT",
           headers: {
@@ -73,14 +46,14 @@ const FavItem = ({ handleDelete }: IFav) => {
 
   return (
     <>
-      {favItems?.length === 0 ? (
+      {fav?.length === 0 ? (
         <div className="flex h-full w-full justify-center items-center">
           <img src="/assets/noFav.png" alt="sem favoritos" />
         </div>
       ) : (
         <div className="flex flex-col gap-4">
           <AnimatePresence>
-            {favItems?.map((item, index) => (
+            {fav?.map((item, index) => (
               <motion.div
                 key={`${item.nome}-${index}-${item.image}`}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -100,7 +73,7 @@ const FavItem = ({ handleDelete }: IFav) => {
                       className="w-24 rounded-lg self-center"
                     />
                     <div className="flex flex-col justify-end items-center">
-                      <p className="text-gray-500">{item.valor}</p>
+                      <p className="text-gray-500">{formatValue(item.valor)}</p>
                       <Trash
                         size={20}
                         className="cursor-pointer"

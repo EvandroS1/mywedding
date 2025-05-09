@@ -16,6 +16,9 @@ import IUsers from "../../../types/user";
 import { useSession, signOut } from "next-auth/react";
 import { toast, ToastContainer } from "react-toastify";
 import getUsers from "@/functions/getUsers";
+import { loadCartRequest } from "@/store/modules/loja/actions";
+import { useDispatch } from "react-redux";
+import { loadFavRequest } from "@/store/modules/favoritos/actions";
 
 interface Item {
   id?: number;
@@ -37,6 +40,7 @@ const Presentes = () => {
   const [user, setuser] = useState<IUsers>();
   const [favoritosAberto, setFavoritosAberto] = useState(false);
   // const { data: session, status } = useSession();
+  const disptach = useDispatch()
 
   const itens: Item[] = [
     {
@@ -308,7 +312,6 @@ const Presentes = () => {
   ];
 
   const att = () => {
-    console.log("foi");
     const savedFilter = localStorage.getItem("filter");
     if (savedFilter) {
       setItem(itens.filter((value) => value?.categoria?.includes(savedFilter)));
@@ -319,13 +322,13 @@ const Presentes = () => {
     async function loadUsers() {
       const data: IUsers[] = await getUsers();
       setusers(data);
-      console.log("data", data);
     }
 
     loadUsers();
   };
   useEffect(() => {
     att();
+    
   }, []);
 
   useEffect(() => {
@@ -333,7 +336,8 @@ const Presentes = () => {
       (user: IUsers) => user?.email === session?.user?.email
     );
     setuser(user);
-    console.log("user", user);
+    disptach(loadCartRequest(user?.email))
+    disptach(loadFavRequest(user?.email))
   }, [users]);
 
   useEffect(() => {
