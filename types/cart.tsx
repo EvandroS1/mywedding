@@ -3,4 +3,5 @@ export default interface CartItemProps {
   image?: string | undefined;
   valor: number;
   qtde: number;
+  id:number;
 }

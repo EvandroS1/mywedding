@@ -1,64 +1,40 @@
-import { useEffect, useState } from "react";
 import { Trash } from "@geist-ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
-import getUsers from "@/functions/getUsers";
-import IUsers from "../../../types/user";
-import { useSession } from "next-auth/react";
 import CartItemProps from "../../../types/cart";
 import formatValue from "@/functions/formatValue";
 import { ApplicationState } from "@/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUpdateCartRequest } from "@/store/modules/loja/actions";
+import { useEffect, useState } from "react";
 
 const CartItem = () => {
-  const [cartItems, setCartItems] = useState<CartItemProps[] | undefined>([]);
-  const { data: session } = useSession();
-  const [user, setUser] = useState<IUsers | undefined>();
+  const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const cart = useSelector((state: ApplicationState) => state.Cart.data)
+  const user = useSelector((state: ApplicationState) => state.User.data)
+  const dispatch = useDispatch();
 
-
-  const putCart = async (data: CartItemProps[] | undefined) => {
-    try {
-      await fetch(
-        `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/${user?.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ carrinho: data }),
-        }
-      );
-    } catch {
-      console.error("Error updating cart");
-    }
-  };
-  useEffect(() => {
-    async function loadUsers() {
-      const data: IUsers[] = await getUsers();
-      const user = data.find((user) => user.email === session?.user?.email);
-      setUser(user);
-      setCartItems(user?.carrinho);
-    }
-
-    loadUsers();
-  }, []);
+useEffect(() => {
+  setCartItems(cart)
+},[cart])
 
   const handleRemoveItem = async (indexToRemove: number) => {
-    const updatedCartItems = cartItems?.filter(
+    console.log('foi')
+    const updatedCartItems = cart?.filter(
       (_, index) => index !== indexToRemove
     );
     setCartItems(updatedCartItems);
+    console.log('updatedCartItems', updatedCartItems, user?.id, user?.email)
 
-    putCart(updatedCartItems);
+    dispatch(loadUpdateCartRequest(updatedCartItems, user?.id, user?.email));
   };
 
   const handleQtde = (indexToUpdate: number, newQuantity: number) => {
     if (newQuantity < 1) return;
 
-    const updatedCartItems = cartItems?.map((item, index) =>
+    const updatedCartItems = cart?.map((item, index) =>
       index === indexToUpdate ? { ...item, qtde: newQuantity } : item
     );
-    putCart(updatedCartItems);
+    dispatch(loadUpdateCartRequest(updatedCartItems, user?.id, user?.email));
     setCartItems(updatedCartItems);
   };
 

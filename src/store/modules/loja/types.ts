@@ -3,6 +3,7 @@ export enum CartTypes {
   GET_CART_REQUEST = '@repositories/GET_CART_REQUEST',
   LOAD_CART_SUCCES = '@repositories/LOAD_CART_SUCCES',
   LOAD_CART_FAILURE = '@repositories/LOAD_CART_FAILURE',
+  UPDATE_CART_REQUEST = '@repositories/UPDATE_CART_REQUEST',
 }
 
 // Data types

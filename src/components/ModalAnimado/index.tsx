@@ -1,16 +1,17 @@
 // components/ModalAnimado.tsx
 import { Heart, ShoppingCart, X } from "@geist-ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../app/globals.css";
 import { Button } from "@headlessui/react";
 import { useSession } from "next-auth/react";
-import IUsers from "../../../types/user";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
-import getUsers from "@/functions/getUsers";
 import CartItemProps from "../../../types/cart";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUpdateCartRequest } from "@/store/modules/loja/actions";
+import { ApplicationState } from "@/store";
 
 interface ModalProps {
   show: boolean;
@@ -19,6 +20,7 @@ interface ModalProps {
   image: string;
   nome: string;
   valor: number;
+  id: number;
 }
 
 const ModalAnimado = ({
@@ -27,25 +29,16 @@ const ModalAnimado = ({
   image,
   nome,
   valor,
+  id,
   onAddToCart,
 }: ModalProps) => {
   const { data: session } = useSession();
   
   const router = useRouter();
-  const [users, setusers] = useState<IUsers[]>([]);
+   const usuario = useSelector((state: ApplicationState) => state?.User.data)
+  const disptach = useDispatch();
 
-const att = async () => {
-
-  async function loadUsers() {
-    const data: IUsers[] = await getUsers();
-    setusers(data);
-    
-  }
-  
-  loadUsers()
-}
   useEffect(() => {
-    att()
   }, []);
 
   const updateCart = async () => {
@@ -57,52 +50,44 @@ const att = async () => {
     }
   
     const carrinhoItem = {
+      id: id,
       nome: nome,
       image: image,
       valor: valor,
       qtde: 1,
     };
   
-    const user: IUsers | undefined = users?.find(
-      (user: IUsers) => user?.email === session?.user?.email
-    );
-  
-    if (!user) return;
+    if (!usuario) return;
   
     // Verifica se item já existe
-    const existingItemIndex = user?.carrinho?.findIndex(
+    const existingItemIndex = usuario?.carrinho?.findIndex(
       (item: CartItemProps) => item.nome === carrinhoItem.nome
     );
   
-    let updatedCart;
+    let updatedCart: CartItemProps[];
 
     console.log('existingItemIndex', existingItemIndex)
   
     if (existingItemIndex !== -1) {
       // Item já existe, incrementa qtde
-      updatedCart = [...user.carrinho];
-      updatedCart[existingItemIndex].qtde += 1;
+      updatedCart = [...usuario.carrinho];
+      updatedCart = updatedCart.map((item, index) =>
+        index === existingItemIndex
+          ? { ...item, qtde: item.qtde + 1 }
+          : item
+      );
+      
+      
     } else {
       // Item novo, adiciona ao carrinho
-      updatedCart = [...user.carrinho, carrinhoItem];
+      console.log('usuario.carrinho', usuario.carrinho)
+      updatedCart = [...usuario.carrinho, carrinhoItem];
     }
-  
-    try {
-      await fetch(
-        `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/${user.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ carrinho: updatedCart }),
-        }
-      );
-      att()
+    console.log('usuario?.id', updatedCart)
+
+      disptach(loadUpdateCartRequest(updatedCart, usuario.id, usuario?.email));
       onAddToCart();
-    } catch {
-      console.error("Error updating cart");
-    }
+    
   };
   
 

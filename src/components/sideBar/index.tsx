@@ -5,10 +5,10 @@ import Link from "next/link";
 import CartItem from "../CartItem";
 import { Button } from "@headlessui/react";
 import { useEffect, useState } from "react";
-import IUsers from "../../../types/user";
-import getUsers from "@/functions/getUsers";
 import CartItemProps from "../../../types/cart";
 import formatValue from "@/functions/formatValue";
+import { ApplicationState } from "@/store";
+import { useSelector } from "react-redux";
 
 interface SidebarCarrinhoProps {
   setAberto: (aberto: boolean) => void;
@@ -19,40 +19,23 @@ export default function SidebarCarrinho({
   aberto,
 }: SidebarCarrinhoProps) {
   const { data: session } = useSession();
-  const [total, setTotal] = useState(0);
-  // const [users, setusers] = useState<IUsers[]>([]);
+  const [total, setTotal] = useState<number>(0);
+    const cart = useSelector((state: ApplicationState) => state?.Cart.data)
   
   useEffect(() => {
-    
-    
-      async function loadUsers() {
-        const data: IUsers[] = await getUsers();
-      
-      const user = data.find((user) => user.email === session?.user?.email);
-    const storedItems: CartItemProps[] = user?.carrinho ?? [];
-    console.log('storedItems', storedItems)
-    if (storedItems) {
-      console.log('foieerew')
-      // const cartItems = JSON.parse(storedItems);
-      // console.log('cartItems', cartItems)
-      const totalValue = storedItems.reduce((acc: number, item: CartItemProps) => {
-        return acc + item.valor * item.qtde;
-      }, 0);
-      console.log('totalValue', totalValue)
-      setTotal(totalValue);
-    }
-  }
-  loadUsers()
+    const totalValue = cart?.reduce((acc: number, item: CartItemProps) => {
+      return acc + item.valor * item.qtde;
+    }, 0);
+    setTotal(totalValue);
+  }, [cart]);
 
-  }, [session]);
-
-  useEffect(() => {
-    console.log('total', total)
-  },[total])
+  // useEffect(() => {
+  //   console.log('total', total)
+  //   console.log('cart', cart)
+  // },[total])
 
   return (
     <>
-      {/* Overlay + Sidebar */}
       <AnimatePresence>
         {aberto && (
           <>
@@ -65,7 +48,6 @@ export default function SidebarCarrinho({
               onClick={() => setAberto(false)}
             />
 
-            {/* Sidebar animada */}
             <div className="fixed bottom-4 w-[90%] m-auto z-50 flex items-center justify-center">
 
                   </div>

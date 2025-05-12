@@ -1,5 +1,5 @@
-export default function formatValue(value: number | string) {
-  let numericValue: number;
+export default function formatValue(value: number | string): string {
+  let numericValue: number | undefined
 
   if (typeof value === 'string') {
     // Remove qualquer símbolo não numérico, exceto dígitos, vírgula e ponto

@@ -17,8 +17,10 @@ import { useSession, signOut } from "next-auth/react";
 import { toast, ToastContainer } from "react-toastify";
 import getUsers from "@/functions/getUsers";
 import { loadCartRequest } from "@/store/modules/loja/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loadFavRequest } from "@/store/modules/favoritos/actions";
+import { loadUserRequest } from "@/store/modules/user/actions";
+import { ApplicationState } from "@/store";
 
 interface Item {
   id?: number;
@@ -37,10 +39,9 @@ const Presentes = () => {
   const [modalData, setModalData] = useState<Item | null>(null);
   const [aberto, setAberto] = useState(false);
   const [users, setusers] = useState<IUsers[]>();
-  const [user, setuser] = useState<IUsers>();
   const [favoritosAberto, setFavoritosAberto] = useState(false);
-  // const { data: session, status } = useSession();
   const disptach = useDispatch()
+  const user = useSelector((state: ApplicationState) => state?.User.data)
 
   const itens: Item[] = [
     {
@@ -328,17 +329,14 @@ const Presentes = () => {
   };
   useEffect(() => {
     att();
-    
   }, []);
 
   useEffect(() => {
-    const user: IUsers | undefined = users?.find(
-      (user: IUsers) => user?.email === session?.user?.email
-    );
-    setuser(user);
-    disptach(loadCartRequest(user?.email))
-    disptach(loadFavRequest(user?.email))
-  }, [users]);
+    if (!session) return;
+    disptach(loadUserRequest(session?.user?.email))
+    disptach(loadCartRequest(session?.user?.email))
+    disptach(loadFavRequest(session?.user?.email))
+  }, [session]);
 
   useEffect(() => {
     if (aberto || favoritosAberto) {
@@ -382,8 +380,6 @@ const Presentes = () => {
       (user: IUsers) => user?.email === session?.user?.email
     );
     if (!user) return;
-    setuser(user);
-
     // Verifica se item já existe
     const existingItemIndex = user?.favoritos?.findIndex(
       (item: Item) => item.nome === favItem.nome
@@ -428,6 +424,7 @@ const Presentes = () => {
         image={modalData?.image || ""}
         nome={modalData?.nome || ""}
         valor={modalData?.valor || 0}
+        id={modalData?.id || 666}
         onAddToCart={() => {
           setModalData(null);
           setAberto(true);
