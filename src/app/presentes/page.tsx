@@ -31,7 +31,7 @@ import { Fav } from "@/store/modules/favoritos/types";
 import { loadSideBarRequest } from "@/store/modules/sideBars/actions";
 // import IFavItem from "../../../types/fav";
 
-interface Item {
+export interface Item {
   id: number;
   image: string;
   nome: string;
