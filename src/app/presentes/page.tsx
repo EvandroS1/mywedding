@@ -321,17 +321,19 @@ const Presentes = () => {
     },
   ];
 
-  const att = () => {
+  useEffect(() => {
     const savedFilter = localStorage.getItem("filter");
+    console.log('saveFilter', savedFilter)
+    if(savedFilter === 'todos') {
+      setItem(itens);
+      return
+    }
     if (savedFilter) {
       setItem(itens.filter((value) => value?.categoria?.includes(savedFilter)));
       setFiltro(savedFilter);
     } else {
       setItem(itens);
     }
-  };
-  useEffect(() => {
-    att();
   }, []);
 
   useEffect(() => {
