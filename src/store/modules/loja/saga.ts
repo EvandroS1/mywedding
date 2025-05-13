@@ -4,6 +4,7 @@ import { ActionType } from 'typesafe-actions';
 import { loadSucces, loadFailure, loadCartRequest, loadUpdateCartRequest } from './actions';
 import IUsers from '../../../../types/user';
 import { CartTypes } from './types';
+import { loadUserRequest } from '../user/actions';
 
 interface ApiResponse {
   data: IUsers[];
@@ -37,6 +38,8 @@ function* updateCart(action: ActionType<typeof loadUpdateCartRequest>): Generato
     (yield call(api.put, `/${id}`, {carrinho: cart})) as ApiResponse; // 👈 ajuste aqui!
 
     yield put(loadCartRequest(email));
+    yield put(loadUserRequest(email));
+    
 
   } catch (error: unknown) {
     yield put(loadFailure());

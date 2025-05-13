@@ -12,6 +12,7 @@ import CartItemProps from "../../../types/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUpdateCartRequest } from "@/store/modules/loja/actions";
 import { ApplicationState } from "@/store";
+import { loadSideBarRequest } from "@/store/modules/sideBars/actions";
 
 interface ModalProps {
   show: boolean;
@@ -36,12 +37,12 @@ const ModalAnimado = ({
   
   const router = useRouter();
    const usuario = useSelector((state: ApplicationState) => state?.User.data)
-  const disptach = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
   }, []);
 
-  const updateCart = async () => {
+  const updateCart = () => {
     if (!session) {
       return toast.error(
         "Clique aqui e faça login para adicionar ao carrinho",
@@ -66,8 +67,6 @@ const ModalAnimado = ({
   
     let updatedCart: CartItemProps[];
 
-    console.log('existingItemIndex', existingItemIndex)
-  
     if (existingItemIndex !== -1) {
       // Item já existe, incrementa qtde
       updatedCart = [...usuario.carrinho];
@@ -85,7 +84,9 @@ const ModalAnimado = ({
     }
     console.log('usuario?.id', updatedCart)
 
-      disptach(loadUpdateCartRequest(updatedCart, usuario.id, usuario?.email));
+      dispatch(loadUpdateCartRequest(updatedCart, usuario.id, usuario?.email));
+      dispatch(loadSideBarRequest({cartOpen: true, favOpen: false}));
+      
       onAddToCart();
     
   };
