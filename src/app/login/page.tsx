@@ -46,23 +46,24 @@ export default function Login() {
       <div className="absolute top-3 p-4">
         <img src="assets/m&e.png" alt="melissa e evandro" />
       </div>
-      <div className="flex flex-col items-center justify-center w-full max-w-xs p-4 mt-4 bg-white rounded-lg shadow-md">
+      <div className="relative flex flex-col items-center justify-center w-full max-w-xs p-4 mt-4 bg-white rounded-lg shadow-md">
         <h1 className="pt-2 py-4 text-2xl">Lista de presentes</h1>
-        {error && <p className="mb-4 text-red-500">{error}</p>}
+        {error && <p className="absolute z-10 top-16 text-red-500">{error}</p>}
         <input
           type="email"
           placeholder="Email"
           className="w-full p-2 mb-4 border shadow-lg border-gray-300 rounded-lg"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {setEmail(e.target.value); setError("")}}
         />
         <div className="relative w-full mb-12">
           <input
             name="senha"
             type={showSenha ? "text" : "password"}
             className="w-full p-2 border shadow-lg border-gray-300 rounded-lg pr-10"
+            placeholder="Senha"
             value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            onChange={(e) => {setSenha(e.target.value); setError("")}}
           />
           <button
             type="button"
