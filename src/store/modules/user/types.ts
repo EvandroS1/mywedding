@@ -10,9 +10,10 @@ export enum UserTypes {
 // Data types
 
 export interface IUser {
-  id: number | undefined;
+  id?: number | undefined;
   nome?: string | null;
   email?: string | null;
+  senha?: string;
   ProfilePic?: string | null;
   typeAuth?: string | null;
   carrinho: CartItemProps[];

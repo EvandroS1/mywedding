@@ -29,6 +29,7 @@ import { loadUserRequest } from "@/store/modules/user/actions";
 import { ApplicationState } from "@/store";
 import { Fav } from "@/store/modules/favoritos/types";
 import { loadSideBarRequest } from "@/store/modules/sideBars/actions";
+import Link from "next/link";
 // import IFavItem from "../../../types/fav";
 
 export interface Item {
@@ -50,7 +51,6 @@ const Presentes = () => {
   const user = useSelector((state: ApplicationState) => state?.User.data);
   const fav = useSelector((state: ApplicationState) => state?.Favoritos.data);
   const open = useSelector((state: ApplicationState) => state?.SideBars.data);
-
 
   const itens: Item[] = [
     {
@@ -323,10 +323,10 @@ const Presentes = () => {
 
   useEffect(() => {
     const savedFilter = localStorage.getItem("filter");
-    console.log('saveFilter', savedFilter)
-    if(savedFilter === 'todos') {
+    console.log("saveFilter", savedFilter);
+    if (savedFilter === "todos") {
       setItem(itens);
-      return
+      return;
     }
     if (savedFilter) {
       setItem(itens.filter((value) => value?.categoria?.includes(savedFilter)));
@@ -340,8 +340,8 @@ const Presentes = () => {
     dispatch(loadFavRequest(session?.user?.email));
     dispatch(loadUserRequest(session?.user?.email));
     dispatch(loadCartRequest(session?.user?.email));
+    console.log("session", session);
   }, [session]);
-
 
   useEffect(() => {
     if (open.cartOpen || open.favOpen) {
@@ -399,8 +399,7 @@ const Presentes = () => {
     }
 
     dispatch(loadUpdateFavRequest(updatedFav, user?.id, user?.email));
-    if (!fill) dispatch(loadSideBarRequest({cartOpen: false, favOpen: true}));
-    ;
+    if (!fill) dispatch(loadSideBarRequest({ cartOpen: false, favOpen: true }));
   };
 
   return (
@@ -451,16 +450,22 @@ const Presentes = () => {
                 leaveTo="opacity-0 translate-y-1"
               >
                 <PopoverPanel className="absolute -translate-x-36 bottom-full mb-2 w-52 rounded-xl bg-white/80 text-black backdrop-blur-md border border-white/20 p-3 text-sm shadow-xl">
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-2 mb-3 overflow-hidden">
                     <img
-                      src={session?.user?.image ?? ""}
+                      src={session?.user?.image ?? "assets/nouser.png"}
                       alt="Imagem de perfil"
                       className="w-8 h-8 rounded-full object-cover"
                     />
-                    <span className="font-semibold">{session?.user?.name}</span>
+                    <span className="font-semibold w-32 max-h-10 break-words">
+                      {session?.user?.name ?? session?.user?.email ?? (
+                        <span className="font-semibold">
+                          Faça <Link href="/login">login</Link>
+                        </span>
+                      )}
+                    </span>
                   </div>
-                  <button
-                    className="w-full text-left rounded-lg px-3 py-2 transition hover:bg-white/20 font-semibold"
+                  {session ? <button
+                    className="w-full text-left rounded-lg px-3 py-2 transition text-red-400 hover:bg-white/20 font-semibold"
                     onClick={() =>
                       signOut({
                         callbackUrl: "http://localhost:3000/presentes",
@@ -468,7 +473,7 @@ const Presentes = () => {
                     }
                   >
                     Sair
-                  </button>
+                  </button> : null}
                 </PopoverPanel>
               </Transition>
             </>
