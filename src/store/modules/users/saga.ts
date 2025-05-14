@@ -6,7 +6,7 @@
     all,
     takeLatest,
   } from "redux-saga/effects";
-  import api from "@/services/api";
+  import {api} from "@/services/api";
   import { loadSucces, loadFailure, postUsersRequest } from "./actions";
   import { UserTypes } from "./types";
   import { IUser } from "../user/types";

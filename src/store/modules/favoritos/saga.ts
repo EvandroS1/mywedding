@@ -1,5 +1,5 @@
 import { call, put, Effect, ForkEffect, all, takeLatest } from 'redux-saga/effects';
-import api from '@/services/api';
+import {api} from '@/services/api';
 import { ActionType } from 'typesafe-actions';
 import { loadSucces, loadFailure, loadFavRequest, loadUpdateFavRequest } from './actions';
 import IUsers from '../../../../types/user';
