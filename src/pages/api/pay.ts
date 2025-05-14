@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const response = await axios.post(
       'https://api.mercadopago.com/checkout/preferences',
       {
-        items: [{ title: 'Produto', quantity: 1, currency_id: 'BRL', unit_price: 100 }],
+        items: [{ title: 'Produto', quantity: 1, currency_id: 'BRL', unit_price: 1 }],
         back_urls: {
           success: "https://wedding-beige-psi.vercel.app/presentes",
           failure: "https://wedding-beige-psi.vercel.app/presentes",
