@@ -24,6 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     try {
       const paymentId = req.body.data?.id;
+      console.log('paymentId', paymentId)
 
       if (!paymentId) {
         return res.status(400).json({ error: 'ID do pagamento não fornecido.' });
@@ -38,6 +39,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       const { payer, transaction_amount, status } = paymentDetails.data;
+
+      console.log('payer, transaction_amount, status', payer, transaction_amount, status)
 
       if (status === 'approved') {
         // Enviar e-mail de agradecimento
@@ -57,7 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           <title>Presente Recebido</title>
         </head>
         <body style="margin:0;padding:0;font-family: 'Georgia', serif;background-color: #f8f2f0;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background-image: url('https://wedding-beige-psi.vercel.app/email-bg.png'); background-size: cover; background-repeat: no-repeat; background-position: center top; min-height: 100vh;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background-image: url('https://i.pinimg.com/736x/21/9b/e2/219be2d87cbf9a64526124109b6f8d62.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center top; min-height: 100vh;">
             <tr>
               <td align="center" style="padding: 60px 20px;">
                 <table width="600" cellpadding="0" cellspacing="0" style="background-color: rgba(255,255,255,0.9); border-radius: 12px; padding: 40px;">
