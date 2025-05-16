@@ -9,7 +9,6 @@ export default async function handler(
   const token = process.env.MP_TOKEN;
 
   const { items, userName } = req.body;
-
   if (!token) {
     return res.status(500).json({ error: "Token não encontrado" });
   }
@@ -20,7 +19,7 @@ export default async function handler(
       {
         items: items,
         payer: {
-          first_name: userName,
+          first_name: userName ?? "convidado",
           last_name: ""
         },
         back_urls: {
