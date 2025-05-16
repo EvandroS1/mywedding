@@ -17,7 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         throw new Error(`Erro na requisição: ${response.status}`);
       }
     
-      res.status(200).json({ received: true });
     } catch (err) {
       console.error("Erro ao enviar para MockAPI:", err);
       res.status(500).json({ error: 'Erro ao enviar para o banco' });
