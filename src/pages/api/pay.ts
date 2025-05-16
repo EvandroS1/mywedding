@@ -11,7 +11,6 @@ export default async function handler(
   const { items, userName, userEmail } = req.body;
 
   console.log('userEmail', userEmail) 
-  return
   if (!token) {
     return res.status(500).json({ error: "Token não encontrado" });
   }
