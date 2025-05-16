@@ -26,6 +26,7 @@ interface ModalProps {
   nome: string;
   valor: number;
   id: number;
+  desc: string;
 }
 
 const ModalAnimado = ({
@@ -35,6 +36,7 @@ const ModalAnimado = ({
   nome,
   valor,
   id,
+  desc,
   onAddToCart,
 }: ModalProps) => {
   const { data: session } = useSession();
@@ -65,6 +67,7 @@ const ModalAnimado = ({
       image: image,
       valor: valor,
       qtde: 1,
+      desc: desc
     };
 
     if (!usuario) return;

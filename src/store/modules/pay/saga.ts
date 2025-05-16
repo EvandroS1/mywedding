@@ -7,16 +7,35 @@ import {
   takeLatest,
 } from "redux-saga/effects";
 import axios from "axios";
-import { loadFailure } from "./actions";
+import { loadFailure, postPayRequest } from "./actions";
 import { UserTypes } from "./types";
+import { ActionType } from "typesafe-actions";
 
 interface MercadoPagoPreferenceResponse {
   data: { init_point: string };
 }
 
-function* postPay(): Generator<Effect, void, MercadoPagoPreferenceResponse> {
+function* postPay(action: ActionType<typeof postPayRequest>): Generator<Effect, void, MercadoPagoPreferenceResponse> {
   try {
-    const response: { data: {init_point: string} } = yield call(axios.post, "/api/pay");
+  const { items, userName } = action.payload;
+
+  console.log('items, userName', items, userName)
+  
+
+    const formattedItems = items.map((item) => ({
+      title: item.nome ?? "Item sem nome",
+      quantity: item.qtde,
+      currency_id: "BRL",
+      unit_price: item.valor,
+      id: item.id,
+      description: item.desc,
+    }));
+
+    console.log('formattedItems', formattedItems)
+    const response: { data: { init_point: string } } = yield call(
+      axios.post,
+      "/api/pay",{items: formattedItems, userName}
+    );
     console.log("response", response);
 
     const initPoint = response.data.init_point;

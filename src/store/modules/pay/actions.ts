@@ -2,7 +2,7 @@ import { action } from 'typesafe-actions';
 import { UserTypes } from './types';
 import CartItemProps from '../../../../types/cart';
 
-export const postPayRequest = () => action(UserTypes.POST_PAY_REQUEST);
+export const postPayRequest = (items: CartItemProps[], userName: string | null | undefined) => action(UserTypes.POST_PAY_REQUEST,{items, userName});
 // export const postPayRequest = (cart: CartItemProps[]) => action(UserTypes.POST_PAY_REQUEST, cart);
 
 export const loadSucces = (data: CartItemProps[]) =>

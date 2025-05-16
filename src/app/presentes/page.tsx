@@ -39,6 +39,7 @@ export interface Item {
   valor: number;
   categoria?: [string, string?, string?];
   fill?: boolean;
+  desc?: string;
 }
 
 const Presentes = () => {
@@ -54,11 +55,20 @@ const Presentes = () => {
 
   const itens: Item[] = [
     {
+      id: 42,
+      image: "/assets/teste.webp",
+      nome: "teste",
+      valor: 1,
+      categoria: ["eletro"],
+      desc: "Máquina de lavar roupas moderna e eficiente para facilitar o dia a dia."
+    },
+    {
       id: 1,
       image: "/assets/wishlist/maquinaLavar.png",
       nome: "Maquina de lavar",
       valor: 4000.0,
       categoria: ["eletro"],
+      desc: "Máquina de lavar roupas moderna e eficiente para facilitar o dia a dia."
     },
     {
       id: 2,
@@ -66,6 +76,7 @@ const Presentes = () => {
       nome: "Geladeira",
       valor: 4000.0,
       categoria: ["eletro", "cozinha"],
+      desc: "Geladeira espaçosa e econômica, ideal para conservar alimentos frescos."
     },
     {
       id: 3,
@@ -73,6 +84,7 @@ const Presentes = () => {
       nome: "Lava Louças",
       valor: 2089.0,
       categoria: ["eletro", "cozinha"],
+      desc: "Praticidade e higiene para lavar louças com eficiência."
     },
     {
       id: 4,
@@ -80,6 +92,7 @@ const Presentes = () => {
       nome: "Jogo de panela",
       valor: 489.89,
       categoria: ["cozinha"],
+      desc: "Conjunto de panelas de qualidade para preparar refeições deliciosas."
     },
     {
       id: 5,
@@ -87,6 +100,7 @@ const Presentes = () => {
       nome: "Ar-condicionado",
       valor: 2169.0,
       categoria: ["eletro"],
+      desc: "Ar-condicionado potente para refrescar os ambientes com conforto."
     },
     {
       id: 6,
@@ -94,6 +108,7 @@ const Presentes = () => {
       nome: "Armario cozinha",
       valor: 2169.0,
       categoria: ["cozinha"],
+      desc: "Armário funcional para organizar utensílios e mantimentos na cozinha."
     },
     {
       id: 7,
@@ -101,6 +116,7 @@ const Presentes = () => {
       nome: "Tv Smart",
       valor: 2899.0,
       categoria: ["eletro", "sala"],
+      desc: "Smart TV com ótima resolução e acesso aos principais apps de streaming."
     },
     {
       id: 8,
@@ -108,6 +124,7 @@ const Presentes = () => {
       nome: "Sofá 3 lugares",
       valor: 3200.0,
       categoria: ["sala"],
+      desc: "Sofá confortável e espaçoso para acomodar toda a família."
     },
     {
       id: 9,
@@ -115,6 +132,7 @@ const Presentes = () => {
       nome: "Mesa de jantar",
       valor: 1890.0,
       categoria: ["cozinha", "sala"],
+      desc: "Mesa elegante e resistente para refeições em família."
     },
     {
       id: 10,
@@ -122,6 +140,7 @@ const Presentes = () => {
       nome: "Micro-ondas",
       valor: 851.0,
       categoria: ["eletro", "cozinha"],
+      desc: "Micro-ondas prático para aquecer e preparar alimentos com rapidez."
     },
     {
       id: 11,
@@ -129,6 +148,7 @@ const Presentes = () => {
       nome: "Aspirador de pó",
       valor: 359.0,
       categoria: ["utilidades"],
+      desc: "Aspirador eficiente para manter a casa sempre limpa."
     },
     {
       id: 12,
@@ -136,6 +156,7 @@ const Presentes = () => {
       nome: "Frigobar",
       valor: 980.0,
       categoria: ["eletro", "cozinha"],
+      desc: "Frigobar compacto e útil para bebidas e lanches."
     },
     {
       id: 13,
@@ -143,6 +164,7 @@ const Presentes = () => {
       nome: "Liquidificador",
       valor: 219.0,
       categoria: ["eletro", "cozinha"],
+      desc: "Liquidificador potente para preparar sucos, vitaminas e receitas."
     },
     {
       id: 14,
@@ -150,6 +172,7 @@ const Presentes = () => {
       nome: "Guarda-roupa",
       valor: 2590.0,
       categoria: ["quarto"],
+      desc: "Guarda-roupa espaçoso para manter tudo organizado."
     },
     {
       id: 15,
@@ -157,6 +180,7 @@ const Presentes = () => {
       nome: "Abajur",
       valor: 129.0,
       categoria: ["decoração", "quarto", "sala"],
+      desc: "Abajur decorativo que traz charme e aconchego ao ambiente."
     },
     {
       id: 16,
@@ -164,6 +188,7 @@ const Presentes = () => {
       nome: "Processador",
       valor: 134.0,
       categoria: ["eletro", "cozinha"],
+      desc: "Processador versátil para agilizar o preparo de alimentos."
     },
     {
       id: 19,
@@ -171,6 +196,7 @@ const Presentes = () => {
       nome: "Batedeira",
       valor: 118.66,
       categoria: ["eletro", "cozinha"],
+      desc: "Batedeira ideal para massas, bolos e outras delícias."
     },
     {
       id: 20,
@@ -178,6 +204,7 @@ const Presentes = () => {
       nome: "Sanduicheira",
       valor: 150.49,
       categoria: ["eletro", "cozinha"],
+      desc: "Sanduicheira prática para lanches rápidos e saborosos."
     },
     {
       id: 21,
@@ -185,6 +212,7 @@ const Presentes = () => {
       nome: "Forno Elétrico",
       valor: 460.58,
       categoria: ["eletro", "cozinha"],
+      desc: "Forno elétrico para assar e gratinar suas receitas favoritas."
     },
     {
       id: 22,
@@ -192,6 +220,7 @@ const Presentes = () => {
       nome: "Triturador",
       valor: 15.9,
       categoria: ["cozinha"],
+      desc: "Triturador manual prático para temperos e alimentos."
     },
     {
       id: 23,
@@ -199,6 +228,7 @@ const Presentes = () => {
       nome: "Jogo de pratos",
       valor: 410.0,
       categoria: ["cozinha"],
+      desc: "Conjunto elegante de pratos para todas as ocasiões."
     },
     {
       id: 24,
@@ -206,6 +236,7 @@ const Presentes = () => {
       nome: "Jogo de Copos",
       valor: 99.9,
       categoria: ["cozinha"],
+      desc: "Copos resistentes e estilosos para uso diário."
     },
     {
       id: 25,
@@ -213,6 +244,7 @@ const Presentes = () => {
       nome: "Faqueiro em inox",
       valor: 220.0,
       categoria: ["cozinha"],
+      desc: "Conjunto de talheres de inox com design sofisticado."
     },
     {
       id: 27,
@@ -220,6 +252,7 @@ const Presentes = () => {
       nome: "Jogo de panos de prato",
       valor: 47.9,
       categoria: ["cozinha"],
+      desc: "Panos de prato úteis e decorativos para a cozinha."
     },
     {
       id: 28,
@@ -227,6 +260,7 @@ const Presentes = () => {
       nome: "Jogo de Tupperware",
       valor: 140.9,
       categoria: ["cozinha"],
+      desc: "Potes plásticos para armazenar alimentos com segurança."
     },
     {
       id: 29,
@@ -234,6 +268,7 @@ const Presentes = () => {
       nome: "Jogo de Tempero",
       valor: 290.9,
       categoria: ["cozinha"],
+      desc: "Kit de recipientes para organizar temperos com praticidade."
     },
     {
       id: 30,
@@ -241,6 +276,7 @@ const Presentes = () => {
       nome: "Jogo de Potes Herméticos",
       valor: 257.9,
       categoria: ["cozinha"],
+      desc: "Potes herméticos que mantêm os alimentos frescos por mais tempo."
     },
     {
       id: 31,
@@ -248,6 +284,7 @@ const Presentes = () => {
       nome: "Jogo de cama",
       valor: 161.7,
       categoria: ["quarto"],
+      desc: "Conjunto macio e confortável para uma boa noite de sono."
     },
     {
       id: 32,
@@ -255,6 +292,7 @@ const Presentes = () => {
       nome: "Jogo de toalha",
       valor: 99.99,
       categoria: ["quarto"],
+      desc: "Toalhas felpudas e de qualidade para o dia a dia."
     },
     {
       id: 33,
@@ -262,6 +300,7 @@ const Presentes = () => {
       nome: "Edredon Queen",
       valor: 189.9,
       categoria: ["quarto"],
+      desc: "Edredom quentinho e macio para noites confortáveis."
     },
     {
       id: 34,
@@ -269,6 +308,7 @@ const Presentes = () => {
       nome: "Ajudar na lua de mel",
       valor: 480.0,
       categoria: ["variado"],
+      desc: "Contribuição especial para a viagem de lua de mel dos noivos."
     },
     {
       id: 35,
@@ -276,6 +316,7 @@ const Presentes = () => {
       nome: "Cortina Blackout",
       valor: 129.9,
       categoria: ["sala", "quarto"],
+      desc: "Cortina blackout que bloqueia a luz e garante privacidade."
     },
     {
       id: 36,
@@ -283,6 +324,7 @@ const Presentes = () => {
       nome: "Vale Spa para Noiva",
       valor: 329.9,
       categoria: ["variado"],
+      desc: "Um dia de relaxamento e cuidados em um spa para a noiva."
     },
     {
       id: 37,
@@ -290,6 +332,7 @@ const Presentes = () => {
       nome: "Vale Night para os Noivos",
       valor: 357.9,
       categoria: ["variado"],
+      desc: "Um momento especial de lazer e diversão para o casal."
     },
     {
       id: 38,
@@ -297,6 +340,7 @@ const Presentes = () => {
       nome: "PlayStation 5 para o Noivo",
       valor: 3149.0,
       categoria: ["variado", "sala"],
+      desc: "Diversão garantida com o novo PlayStation 5 para o noivo."
     },
     {
       id: 39,
@@ -304,6 +348,7 @@ const Presentes = () => {
       nome: "Chaleira elétrica",
       valor: 41.9,
       categoria: ["cozinha"],
+      desc: "Chaleira elétrica prática para ferver água rapidamente."
     },
     {
       id: 40,
@@ -311,6 +356,7 @@ const Presentes = () => {
       nome: "Cobertor",
       valor: 146.7,
       categoria: ["quarto"],
+      desc: "Cobertor quentinho para noites frias e aconchegantes."
     },
     {
       id: 41,
@@ -318,8 +364,10 @@ const Presentes = () => {
       nome: "Cobre Leito",
       valor: 320.0,
       categoria: ["quarto"],
+      desc: "Cobre leito elegante para complementar a decoração da cama."
     },
   ];
+  
 
   useEffect(() => {
     const savedFilter = localStorage.getItem("filter");
@@ -411,6 +459,7 @@ const Presentes = () => {
         nome={modalData?.nome || ""}
         valor={modalData?.valor || 0}
         id={modalData?.id || 666}
+        desc={modalData?.desc || ""}
         onAddToCart={() => {
           setModalData(null);
         }}
@@ -437,7 +486,7 @@ const Presentes = () => {
         <Popover>
           {() => (
             <>
-              <PopoverButton className="transition">
+              <PopoverButton className="transition focus:outline-none focus:ring-0">
                 <User size={30} />
               </PopoverButton>
 

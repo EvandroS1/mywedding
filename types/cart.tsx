@@ -4,4 +4,5 @@ export default interface CartItemProps {
   valor: number;
   qtde: number;
   id:number;
+  desc?: string;
 }
