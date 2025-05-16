@@ -8,7 +8,10 @@ export default async function handler(
 ) {
   const token = process.env.MP_TOKEN;
 
-  const { items, userName } = req.body;
+  const { items, userName, userEmail } = req.body;
+
+  console.log('userEmail', userEmail) 
+  return
   if (!token) {
     return res.status(500).json({ error: "Token não encontrado" });
   }
@@ -20,7 +23,8 @@ export default async function handler(
         items: items,
         payer: {
           first_name: userName ?? "convidado",
-          last_name: ""
+          last_name: "",
+          email: userEmail
         },
         back_urls: {
           success: "https://wedding-beige-psi.vercel.app/presentes",
