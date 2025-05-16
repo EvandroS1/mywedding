@@ -82,7 +82,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         await transporter.sendMail({
           from: process.env.EMAIL_USER,
-          to: payer.email,
+          to: metadata.user_email,
           subject: '🎁 Presente Recebido - Agradecimento dos Noivos',
           html,
         });
