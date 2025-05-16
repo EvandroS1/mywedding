@@ -38,6 +38,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       const { payer, transaction_amount, status } = paymentDetails.data;
+      const metadata = paymentDetails.data.metadata;
+      console.log('metadata-----------', metadata)
 
       console.log('payer, transaction_amount, status', payer, transaction_amount, status)
 

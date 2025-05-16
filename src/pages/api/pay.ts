@@ -25,6 +25,10 @@ export default async function handler(
           last_name: "",
           email: userEmail
         },
+        metadata: {
+          userEmail: userEmail, // <- você pega do session?.user?.email, por exemplo
+          userName: userName
+        },
         back_urls: {
           success: "https://wedding-beige-psi.vercel.app/presentes",
           failure: "https://wedding-beige-psi.vercel.app/presentes",
