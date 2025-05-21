@@ -8,6 +8,7 @@ import { ApplicationState } from "@/store";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { loadUsersRequest, postUsersRequest } from "@/store/modules/users/actions";
+import BackButton from "@/components/Backbutton";
 
 interface IFormData {
   email: string;
@@ -47,6 +48,8 @@ export default function Cadastro() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-[#fcf1ed]">
+            <BackButton />
+      
       <p className="absolute bottom-4 m-auto">
         Já tem cadastro?{" "}
         <a

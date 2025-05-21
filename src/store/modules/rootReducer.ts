@@ -5,7 +5,9 @@ import Favoritos from './favoritos/index';
 import User from './user/index';
 import Users from './users/index';
 import Pay from './pay/index';
+import Convidados from './convidados//index'
 import SideBars from './sideBars/index'
+
 
 export default combineReducers({
   Users,
@@ -13,5 +15,6 @@ export default combineReducers({
   Cart,
   Pay,
   Favoritos,
+  Convidados,
   SideBars
 });

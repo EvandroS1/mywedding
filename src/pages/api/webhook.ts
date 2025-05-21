@@ -80,15 +80,15 @@ export default async function handler(
             <tr>
               <td align="center" style="padding: 60px 20px;">
                 <table width="100%" cellpadding="0" cellspacing="0" style="
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 12px;
-  padding: 40px;
-  height: 400px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-">
+                  background: rgba(255, 255, 255, 0.2);
+                  backdrop-filter: blur(10px);
+                  -webkit-backdrop-filter: blur(10px);
+                  border-radius: 12px;
+                  padding: 40px;
+                  height: 400px;
+                  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+                  border: 1px solid rgba(255, 255, 255, 0.3);
+                ">
                   <tr>
                     <td align="center">
                       <h1 style="font-size: 28px; color: #8B0000;">Muito obrigado pelo presente!</h1>

@@ -10,13 +10,13 @@ type CardProps = {
 
 export default function Card({ image, nome, valor }: CardProps) {
   return (
-    <div className="m-auto relative w-full flex flex-col overflow-hidden gap-2 max-w-48 shadow-2xl pb-4 max-h-72 rounded-2xl">
+    <div className="m-auto relative w-full h-80 flex flex-col overflow-hidden gap-2 max-w-48 shadow-2xl pb-4 max-h-80 rounded-2xl">
       <div className="rounded-xl bg-white/40 backdrop-blur-lg border border-white/40 shadow-2xl flex justify-center items-center w-full max-h-48 min-h-48 h-48 cursor-pointer">
         <img src={image} className="object-contain h-full max-h-48" alt="img" />
       </div>
-      <div className="px-2">
+      <div className="px-2 flex flex-col justify-between h-full">
         <p>{nome}</p>
-        <p>{formatValue(valor)}</p>
+        <p className="m-0">{formatValue(valor)}</p>
       </div>
     </div>
   );

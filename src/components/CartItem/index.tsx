@@ -39,7 +39,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="flex h-full flex-col gap-4">
+    <div className="flex h-full flex-col gap-4 max-h-40">
       <AnimatePresence>
         {cart?.length == 0 ? (
           <div className="flex h-full w-full justify-center items-center">

@@ -1,9 +1,11 @@
 import Container from "@/components/container";
 import "../../app/globals.css";
+import BackButton from "@/components/Backbutton";
 
 const Dia = () => {
   return (
     <Container picture="/assets/evandro melissa.jpg">
+      <BackButton />
       <div className="text-center p-6 bg-white rounded-lg shadow-2xl max-w-md mx-auto">
   <h1 className="text-2xl font-semibold mb-4">Data: 07/09/2025</h1>
   <ul className="space-y-3 text-lg text-gray-700">

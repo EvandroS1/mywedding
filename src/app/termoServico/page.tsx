@@ -1,9 +1,12 @@
 // pages/termos-de-servico.js
+import BackButton from '@/components/Backbutton';
 import Head from 'next/head';
 
 const termoservico = () => {
   return (
     <>
+          <BackButton />
+    
       <Head>
         <title>Termos de Serviço - My Wedding</title>
       </Head>

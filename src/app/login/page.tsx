@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { loadUsersRequest } from "@/store/modules/users/actions";
 import { useDispatch } from "react-redux";
+import BackButton from "@/components/Backbutton";
 
 export default function Login() {
   const [showSenha, setShowSenha] = useState(false);
@@ -37,6 +38,8 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-[#fcf1ed]">
+            <BackButton  />
+      
       <p className="absolute bottom-4 m-auto">
         Ainda não tem cadastro?{" "}
         <a className="text-amber-700" onClick={() => router.push("/cadastro")}>

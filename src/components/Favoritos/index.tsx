@@ -51,7 +51,7 @@ export default function Favoritos() {
               </div>
 
               {session ? (
-                <div className="h-[90%]">
+                <div className="h-[90%] mb-24">
                   <FavItem />
                 </div>
               ) : (

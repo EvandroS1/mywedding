@@ -1,9 +1,12 @@
 import Container from "@/components/container";
 import "../../app/globals.css";
+import BackButton from "@/components/Backbutton";
 
 const Local = () => {
   return (
     <Container picture="/assets/place.png">
+            <BackButton />
+      
         <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Rancho Papaloosa</h1>
       <p>R. Nassau, 40 - Água Azul, Guarulhos - SP, 07179-530</p>

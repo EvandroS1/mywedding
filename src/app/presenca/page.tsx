@@ -7,11 +7,10 @@ import { MinusCircle, PlusCircle } from "@geist-ui/icons";
 import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import { Loading } from "@geist-ui/react";
+import BackButton from "@/components/Backbutton";
+import { IConvidado } from "@/store/modules/convidados/types";
 
-interface IConvidado {
-  nome: string;
-  confirmado: boolean;
-}
+
 
 interface IFormData {
   convidados: IConvidado[];
@@ -99,9 +98,14 @@ console.log('errors', errors)
   
     for (let i = 0; i < data.convidados.length; i++) {
       const convidado = data.convidados[i];
+      console.log('convidado', convidado)
       const foiConvidado = convidados.some(
         (c) => c.nome?.toLowerCase() === convidado.nome?.toLowerCase()
       );
+      const convidadoOrig = convidados.find(
+        (c) => c.nome.toLowerCase() === convidado.nome.toLowerCase()
+      );
+
   
       if (!foiConvidado) {
         setError(`convidados.${i}`, {
@@ -119,13 +123,13 @@ console.log('errors', errors)
   
       try {
         const response = await fetch(
-          "https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/nome",
+          `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/nome/${convidadoOrig?.id}`,
           {
-            method: "POST",
+            method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ ...convidado, confirmado: true }),
+            body: JSON.stringify({ ...convidadoOrig, confirmado: true }),
           }
         );
   
@@ -177,6 +181,8 @@ console.log('errors', errors)
 
   return (
     <Container picture="/assets/alianca.jpg">
+            <BackButton />
+      
       <div className="h-full flex flex-col justify-space-between items-center bg-white rounded-t-3xl px-6 py-4 z-4">
         <Image src={"/assets/logo.png"} alt="logo" width={200} height={200} />
         <h1 className="text-2xl font-semibold mb-4">Confirme sua presença</h1>

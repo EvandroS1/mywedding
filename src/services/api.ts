@@ -6,4 +6,7 @@ export const api = axios.create({
 export const pay = axios.create({
   baseURL: 'https://api.mercadopago.com/checkout/preferences'
 })
+export const convidados = axios.create({
+  baseURL: 'https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/nome'
+})
 

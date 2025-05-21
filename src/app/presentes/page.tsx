@@ -513,6 +513,7 @@ const Presentes = () => {
                       )}
                     </span>
                   </div>
+                  {session?.user?.name === "tourmant vig" || session?.user?.email === "melissapequeno04@gmail.com" ? <span className="pl-10 " onClick={() => router.push('/confirmados')}>Confirmados</span> : null}
                   {session ? <button
                     className="w-full text-left rounded-lg px-3 py-2 transition text-red-400 hover:bg-white/20 font-semibold"
                     onClick={() =>

@@ -70,7 +70,7 @@ export default function SidebarCarrinho() {
                 <h2 className="text-xl font-bold">Seu Carrinho</h2>
                 <button
                   onClick={() => 
-                  loadSideBarRequest({ cartOpen: false, favOpen: false })
+                  dispatch(loadSideBarRequest({ cartOpen: false, favOpen: false }))
                   }
                   className="text-gray-600"
                 >
@@ -79,7 +79,7 @@ export default function SidebarCarrinho() {
               </div>
 
               {session ? (
-                <div className="h-[90%]">
+                <div className="h-[85%] overflow-auto">
                   <CartItem />
                   <div ref={endOfCartRef} />
                 </div>

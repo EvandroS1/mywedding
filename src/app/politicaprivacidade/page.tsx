@@ -1,9 +1,12 @@
 // pages/politica-de-privacidade.js
+import BackButton from '@/components/Backbutton';
 import Head from 'next/head';
 
 const politicaprivacidade = () => {
   return (
     <>
+          <BackButton />
+    
       <Head>
         <title>Política de Privacidade - My Wedding</title>
       </Head>
