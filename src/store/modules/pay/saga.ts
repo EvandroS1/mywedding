@@ -17,10 +17,9 @@ interface MercadoPagoPreferenceResponse {
 
 function* postPay(action: ActionType<typeof postPayRequest>): Generator<Effect, void, MercadoPagoPreferenceResponse> {
   try {
-  const { items, userName, userEmail, userId } = action.payload;
+  const { items, userName, userEmail, userId, images } = action.payload;
 
-  console.log('items, userName', items, userName)
-  
+  console.log('images', images)
 
     const formattedItems = items.map((item) => ({
       title: item.nome ?? "Item sem nome",
@@ -31,16 +30,13 @@ function* postPay(action: ActionType<typeof postPayRequest>): Generator<Effect, 
       description: item.desc,
     }));
 
-    console.log('formattedItems', formattedItems)
     const response: { data: { init_point: string } } = yield call(
       axios.post,
-      "/api/pay",{items: formattedItems, userName, userEmail, userId}
+      "/api/pay",{items: formattedItems, userName, userEmail, userId, images}
     );
-    console.log("response", response);
 
     const initPoint = response.data.init_point;
 
-    console.log("Checkout URL:", initPoint);
 
     // Redireciona o usuário para o Mercado Pago
     if (typeof window !== "undefined") {

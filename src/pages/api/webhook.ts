@@ -63,8 +63,13 @@ export default async function handler(
 
     // Espera que metadata contenha user_id, user_email e user_name
     const userId = metadata.user_id;
-    const cart = metadata.items
+    const cartNoImage = metadata.items
+    const images = metadata.images
     console.log('metadata', metadata)
+    const cart = cartNoImage.map((item: CartItemProps, index: number) => ({
+      ...item,
+      image: images[index]
+    }));
     if (!userId) {
       return res
         .status(400)

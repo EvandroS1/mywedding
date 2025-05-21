@@ -16,6 +16,7 @@ import { postPayRequest } from "@/store/modules/pay/actions";
 export default function SidebarCarrinho() {
   const { data: session } = useSession();
   const [total, setTotal] = useState<number>(0);
+  const [images, setImages] = useState<string[]>([]);
   const cart = useSelector((state: ApplicationState) => state?.Cart.data);
   const usuario = useSelector((state: ApplicationState) => state.User.data);
   const open = useSelector((state: ApplicationState) => state.SideBars.data);
@@ -34,6 +35,12 @@ export default function SidebarCarrinho() {
         endOfCartRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }, 500)
+    const imageList = cart
+  .map((item) => item.image)
+  .filter((img): img is string => typeof img === 'string');
+    setImages(imageList);
+
+
   }, [cart]);
 
   // useEffect(() => {
@@ -116,7 +123,7 @@ export default function SidebarCarrinho() {
               >
                 <div className="flex bg-white/10 backdrop-blur-md h-16 text-center w-full rounded-lg items-center justify-between px-2 shadow-md">
                   <span>Total: {formatValue(total)}</span>
-                  <Button onClick={() => dispatch(postPayRequest(cart, session?.user?.name, session?.user?.email, usuario?.id))} className="w-40 h-12 rounded-lg text-white font-normal bg-amber-700">
+                  <Button onClick={() => dispatch(postPayRequest(cart, session?.user?.name, session?.user?.email, usuario?.id, images))} className="w-40 h-12 rounded-lg text-white font-normal bg-amber-700">
                     Finalizar
                   </Button>
                 </div>
