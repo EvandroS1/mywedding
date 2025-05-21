@@ -50,13 +50,25 @@ export default async function handler(
       const { payer, transaction_amount, status } = paymentDetails.data;
       const metadata = paymentDetails.data.metadata;
       console.log("metadata-----------", metadata);
-
-      console.log(
-        "payer, transaction_amount, status",
-        payer,
-        transaction_amount,
-        status
+      const response = await fetch(
+        `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/${metadata.user_id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            pedidos: [
+              {
+                payer,
+                transaction_amount,
+                status,
+              },
+            ],
+          }),
+        }
       );
+      console.log('response', response)
 
       if (status === "approved") {
         // Enviar e-mail de agradecimento
