@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import formatValue from "@/functions/formatValue";
 import { loadUpdateFavRequest } from "@/store/modules/favoritos/actions";
 import { Fav } from "@/store/modules/favoritos/types";
-import CartItemProps from "../../../types/cart";
+import { CartItemProps } from "../../../types/cart";
 import { loadCartRequest, loadUpdateCartRequest } from "@/store/modules/loja/actions";
 import { loadSideBarRequest } from "@/store/modules/sideBars/actions";
 

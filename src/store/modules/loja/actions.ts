@@ -1,6 +1,6 @@
 import { action } from 'typesafe-actions';
 import { CartTypes } from './types';
-import CartItemProps from '../../../../types/cart';
+import { CartItemProps } from '../../../../types/cart';
 
 export const loadCartRequest = (email: string | null | undefined) => action(CartTypes.GET_CART_REQUEST, email);
 

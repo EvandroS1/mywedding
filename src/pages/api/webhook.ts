@@ -2,21 +2,32 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
 import axios from "axios";
-import CartItemProps from "../../../types/cart";
+import { CartItemPedido } from "../../../types/cart";
 
 export interface Pedido {
   id: string;
   external_reference?: string;
-  payer?: {email: string,
-          entity_type: string,
-          first_name: string,
-          id: number,
-          identification: {
-            number: string,
-            type: string}}
+  payer?: {
+    id: string;
+    email?: string | null;
+    entity_type?: string | null;
+    first_name?: string | null;
+    last_name?: string | null;
+    identification?: {
+      number?: string | null;
+      type?: string | null;
+    };
+    operator_id?: string | null;
+    phone?: {
+      number?: string | null;
+      extension?: string | null;
+      area_code?: string | null;
+    };
+    type?: string | null;
+  };
   transaction_amount: number;
   status: string;
-  cart: CartItemProps[];
+  cart?: CartItemPedido[];  // só existe em alguns pedidos
 }
 
 interface ShopProfile {
@@ -66,7 +77,7 @@ export default async function handler(
     const cartNoImage = metadata.items
     const images = metadata.images
     console.log('metadata', metadata)
-    const cart = cartNoImage.map((item: CartItemProps, index: number) => ({
+    const cart = cartNoImage.map((item: CartItemPedido, index: number) => ({
       ...item,
       image: images[index]
     }));

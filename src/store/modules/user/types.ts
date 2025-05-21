@@ -1,5 +1,5 @@
 import { Pedido } from "@/pages/api/webhook";
-import CartItemProps from "../../../../types/cart";
+import { CartItemProps } from "../../../../types/cart";
 
 // Action types
 export enum UserTypes {

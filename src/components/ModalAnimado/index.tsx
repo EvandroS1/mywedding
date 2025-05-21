@@ -8,7 +8,7 @@ import { Button } from "@headlessui/react";
 import { useSession } from "next-auth/react";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
-import CartItemProps from "../../../types/cart";
+import { CartItemProps } from "../../../types/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUpdateCartRequest } from "@/store/modules/loja/actions";
 import { ApplicationState } from "@/store";

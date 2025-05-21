@@ -5,7 +5,7 @@ import Link from "next/link";
 import CartItem from "../CartItem";
 import { Button } from "@headlessui/react";
 import { useEffect, useRef, useState } from "react";
-import CartItemProps from "../../../types/cart";
+import { CartItemProps } from "../../../types/cart";
 import formatValue from "@/functions/formatValue";
 import { ApplicationState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,4 +1,3 @@
-// components/ModalPedidos.tsx
 'use client';
 
 import React from 'react';
@@ -7,40 +6,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from 'react-redux';
 import { ApplicationState } from '@/store';
 
-interface CartItem {
-  id: number;
-  nome: string;
-  image: string;
-  valor: number;
-  qtde: number;
-  desc?: string;
-}
-
-interface Pedido {
-  payer: {
-    id: string;
-    email?: string;
-    first_name?: string;
-    last_name?: string;
-  };
-  transaction_amount: number;
-  status: string;
-  cart: CartItem[];
-}
-
 interface ModalPedidosProps {
   show: boolean;
   onClose: () => void;
-  pedidos: Pedido[];
 }
 
-export default function ModalPedidos({
-  show,
-  onClose,
-  pedidos
-}: ModalPedidosProps) {
-  const user = useSelector((state: ApplicationState) => state.User.data)
-  console.log('user', user)
+export default function ModalPedidos({ show, onClose }: ModalPedidosProps) {
+  const user = useSelector((state: ApplicationState) => state.User.data);
+
   return (
     <AnimatePresence>
       {show && (
@@ -69,11 +42,11 @@ export default function ModalPedidos({
               Meus Pedidos
             </h2>
 
-            {pedidos.length === 0 ? (
+            {user?.pedidos?.length === 0 ? (
               <p className="text-center text-gray-300">Nenhum pedido encontrado.</p>
             ) : (
               <div className="space-y-6 max-h-[70vh] overflow-y-auto pr-2">
-                {pedidos.map((pedido, idx) => (
+                {user?.pedidos?.map((pedido, idx) => (
                   <div
                     key={idx}
                     className="bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl p-4 shadow hover:shadow-lg transition"
@@ -101,24 +74,24 @@ export default function ModalPedidos({
                     </div>
 
                     <ul className="space-y-2 pl-0">
-                      {pedido.cart.map((item) => (
+                      {pedido.cart?.map((item) => (
                         <li
                           key={item.id}
                           className="flex items-center bg-white/70 backdrop-blur-sm border border-gray-100 rounded-lg p-2"
                         >
                           <img
-                            src={item.image}
-                            alt={item.nome}
+                            src={item.image ?? "/assets/noImage.png"}
+                            alt={item.title}
                             className="w-12 h-12 rounded-md object-cover mr-3"
                           />
                           <div className="flex-1">
-                            <p className="font-medium text-gray-800">{item.nome}</p>
+                            <p className="font-medium text-gray-800">{item.title}</p>
                             <p className="text-sm text-gray-600">
-                              {item.qtde} × R${item.valor.toFixed(2)}
+                              {item.quantity} × R${item.unit_price.toFixed(2)}
                             </p>
                           </div>
                           <p className="font-semibold text-gray-800">
-                            R${(item.valor * item.qtde).toFixed(2)}
+                            R${(item.unit_price * item.quantity).toFixed(2)}
                           </p>
                         </li>
                       ))}

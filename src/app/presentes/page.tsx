@@ -369,18 +369,6 @@ const Presentes = () => {
       desc: "Cobre leito elegante para complementar a decoração da cama."
     },
   ];
-  const pedidos = [
-    {
-      payer: { id: "2453155070", email: "user@example.com", first_name: "João" },
-      transaction_amount: 150.0,
-      status: "approved",
-      cart: [
-        { "id": 1, "nome": "Geladeira", "image": "/assets/wishlist/refrigerador.png", "valor": 100, "qtde": 1 },
-        { "id": 2, "nome": "Micro-ondas", "image": "/assets/wishlist/microondas.png", "valor": 50, "qtde": 1 },
-      ],
-    },
-    // ...outros pedidos
-  ];
 
   useEffect(() => {
     const savedFilter = localStorage.getItem("filter");
@@ -480,7 +468,6 @@ const Presentes = () => {
       <ModalPedidos
         show={show}
         onClose={() => setShow(false)}
-        pedidos={pedidos}
       />
       <SidebarCarrinho />
       <Favoritos />

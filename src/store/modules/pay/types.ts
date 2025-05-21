@@ -1,4 +1,4 @@
-import CartItemProps from "../../../../types/cart";
+import { CartItemProps } from "../../../../types/cart";
 
 // Action types
 export enum UserTypes {

@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { RepositoriesState, UserTypes } from './types';
-import CartItemProps from '../../../../types/cart';
+import { CartItemProps } from '../../../../types/cart';
 
 const INNITAL_STATE: RepositoriesState = {
   data: [],

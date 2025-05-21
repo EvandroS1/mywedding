@@ -1,6 +1,6 @@
 import { Trash } from "@geist-ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
-import CartItemProps from "../../../types/cart";
+import { CartItemProps } from "../../../types/cart";
 import formatValue from "@/functions/formatValue";
 import { ApplicationState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
