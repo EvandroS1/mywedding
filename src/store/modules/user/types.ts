@@ -1,3 +1,4 @@
+import { Pedido } from "@/pages/api/webhook";
 import CartItemProps from "../../../../types/cart";
 
 // Action types
@@ -19,6 +20,7 @@ export interface IUser {
   carrinho: CartItemProps[];
   favoritos: [];
   createdAt?: string;
+  pedidos?: Pedido[];
 }
 
 // State type

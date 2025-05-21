@@ -12,7 +12,7 @@ function* getUser(action: ActionType<typeof loadUserRequest>): Generator<Effect,
   try {
     const email = action.payload;
     const response = (yield call(api.get, "")) as ApiResponse; // 👈 ajuste aqui!
-
+    console.log('response', response)
     const user = response.data.find((user) => user?.email === email);
     if (!user) {
       console.log('User not found');

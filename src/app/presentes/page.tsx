@@ -30,6 +30,7 @@ import { ApplicationState } from "@/store";
 import { Fav } from "@/store/modules/favoritos/types";
 import { loadSideBarRequest } from "@/store/modules/sideBars/actions";
 import Link from "next/link";
+import ModalPedidos from "@/components/ModalPedidos";
 // import IFavItem from "../../../types/fav";
 
 export interface Item {
@@ -46,6 +47,7 @@ const Presentes = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [item, setItem] = useState<Item[]>([]);
+  const [show, setShow] = useState(false);
   const [filtro, setFiltro] = useState<string>("");
   const [modalData, setModalData] = useState<Item | null>(null);
   const dispatch = useDispatch();
@@ -367,7 +369,18 @@ const Presentes = () => {
       desc: "Cobre leito elegante para complementar a decoração da cama."
     },
   ];
-  
+  const pedidos = [
+    {
+      payer: { id: "2453155070", email: "user@example.com", first_name: "João" },
+      transaction_amount: 150.0,
+      status: "approved",
+      cart: [
+        { "id": 1, "nome": "Geladeira", "image": "/assets/wishlist/refrigerador.png", "valor": 100, "qtde": 1 },
+        { "id": 2, "nome": "Micro-ondas", "image": "/assets/wishlist/microondas.png", "valor": 50, "qtde": 1 },
+      ],
+    },
+    // ...outros pedidos
+  ];
 
   useEffect(() => {
     const savedFilter = localStorage.getItem("filter");
@@ -464,6 +477,11 @@ const Presentes = () => {
           setModalData(null);
         }}
       />
+      <ModalPedidos
+        show={show}
+        onClose={() => setShow(false)}
+        pedidos={pedidos}
+      />
       <SidebarCarrinho />
       <Favoritos />
 
@@ -498,14 +516,14 @@ const Presentes = () => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <PopoverPanel className="absolute -translate-x-36 bottom-full mb-2 w-52 rounded-xl bg-white/80 text-black backdrop-blur-md border border-white/20 p-3 text-sm shadow-xl">
-                  <div className="flex items-center gap-2 mb-3 overflow-hidden">
+                <PopoverPanel className="absolute flex flex-col -translate-x-36 bottom-full mb-2 w-52 rounded-xl bg-white/80 text-black backdrop-blur-md border border-white/20 p-3 text-sm shadow-xl">
+                  <div className="flex  items-center gap-2 mb-3 overflow-hidden">
                     <img
                       src={session?.user?.image ?? "assets/nouser.png"}
                       alt="Imagem de perfil"
                       className="w-8 h-8 rounded-full object-cover"
                     />
-                    <span className="font-semibold w-32 max-h-10 break-words">
+                    <span className="w-32 max-h-10 break-words">
                       {session?.user?.name ?? session?.user?.email ?? (
                         <span className="font-semibold">
                           Faça <Link href="/login">login</Link>
@@ -513,6 +531,7 @@ const Presentes = () => {
                       )}
                     </span>
                   </div>
+                  {session ? <button className="pb-3 pr-3 w-auto" onClick={() => setShow(true)}>Minhas compras</button> : null}
                   {session?.user?.name === "tourmant vig" || session?.user?.email === "melissapequeno04@gmail.com" ? <span className="pl-10 " onClick={() => router.push('/confirmados')}>Confirmados</span> : null}
                   {session ? <button
                     className="w-full text-left rounded-lg px-3 py-2 transition text-red-400 hover:bg-white/20 font-semibold"

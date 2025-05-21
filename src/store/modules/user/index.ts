@@ -10,6 +10,7 @@ const INNITAL_STATE: RepositoriesState = {
     typeAuth: null,
     carrinho: [],
     favoritos: [],
+    pedidos: [],
     createdAt: undefined,
   },
   error: false,

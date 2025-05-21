@@ -2,8 +2,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
 import axios from "axios";
+import CartItemProps from "../../../types/cart";
 
-interface Pedido {
+export interface Pedido {
   id: string;
   external_reference?: string;
   payer?: {email: string,
@@ -15,6 +16,7 @@ interface Pedido {
             type: string}}
   transaction_amount: number;
   status: string;
+  cart: CartItemProps[];
 }
 
 interface ShopProfile {
@@ -61,6 +63,8 @@ export default async function handler(
 
     // Espera que metadata contenha user_id, user_email e user_name
     const userId = metadata.user_id;
+    const cart = metadata.items
+    console.log('metadata', metadata)
     if (!userId) {
       return res
         .status(400)
@@ -83,6 +87,7 @@ export default async function handler(
       payer,
       transaction_amount,
       status,
+      cart
     };
 
     const idx = pedidosAtual.findIndex(
