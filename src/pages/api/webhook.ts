@@ -139,23 +139,31 @@ export default async function handler(
 
       const html = `
         <!DOCTYPE html>
-        <html lang="pt-BR">
-        <head><meta charset="UTF-8"><title>Presente Recebido</title></head>
-        <body style="margin:0;padding:0;font-family:Georgia, serif;background:#f8f2f0">
-          <table width="100%" style="background:url('https://i.pinimg.com/736x/d2/c1/72/d2c172a1d59f320cf23fc18fadeb060e.jpg') center top/cover no-repeat;min-height:100vh">
-            <tr><td align="center" style="padding:60px 20px">
-              <table width="100%" style="background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);border-radius:12px;padding:40px;box-shadow:0 4px 30px rgba(0,0,0,0.1);border:1px solid rgba(255,255,255,0.3)">
-                <tr><td align="center">
-                  <h1 style="font-size:28px;color:#8B0000">Muito obrigado pelo presente!</h1>
-                  <p style="font-size:18px;color:#333">${metadata.user_name ?? "Amigo(a)"}, recebemos sua contribuição de <strong>R$${transaction_amount}</strong>.</p>
-                  <p style="font-size:16px;color:#555">Ficamos imensamente felizes com seu carinho e participação nesse momento tão especial.</p>
-                  <p style="font-size:16px;color:#555">Com amor,<br/>Os noivos 💍</p>
-                </td></tr>
-              </table>
-            </td></tr>
-          </table>
-        </body>
-        </html>`;
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Presente Recebido</title>
+</head>
+<body style="margin:0;padding:0;font-family:Georgia, serif;background:#f8f2f0">
+  <table width="100%" style="background:url('https://i.pinimg.com/736x/d2/c1/72/d2c172a1d59f320cf23fc18fadeb060e.jpg') center top/cover no-repeat;min-height:100vh">
+    <tr>
+      <td align="center" style="padding:60px 20px">
+        <table width="100%" style="background:rgba(255,255,255,0.8);backdrop-filter:blur(10px);border-radius:12px;padding:40px;box-shadow:0 4px 30px rgba(0,0,0,0.1);border:1px solid rgba(255,255,255,0.3)">
+          <tr>
+            <td align="center">
+              <h1 style="font-size:28px;color:#000000">Muito obrigado pelo presente!</h1>
+              <p style="font-size:18px;color:#000000">${metadata.user_name ?? "Amigo(a)"}, recebemos sua contribuição de <strong>R$${transaction_amount}</strong>.</p>
+              <p style="font-size:16px;color:#000000">Ficamos imensamente felizes com seu carinho e participação nesse momento tão especial.</p>
+              <p style="font-size:16px;color:#000000">Com amor,<br/>Melissa & Evandro 💍</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
 
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
