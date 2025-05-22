@@ -17,16 +17,22 @@ interface GetCartRequestAction {
   type: typeof UserTypes.GET_USERS_REQUEST;
 }
 
+interface PostCartRequestAction {
+  type: typeof UserTypes.POST_USERS_REQUEST;
+}
+
 interface LoadCartFailureAction {
   type: typeof UserTypes.LOAD_USERS_FAILURE;
 }
 
-type CartAction = GetCartRequestAction | LoadCartSuccessAction | LoadCartFailureAction;
+type CartAction = GetCartRequestAction | LoadCartSuccessAction | LoadCartFailureAction | PostCartRequestAction;
 
 const reducer: Reducer<RepositoriesState, CartAction> = (state = INNITAL_STATE, action) => {
   switch (action.type) {
     case UserTypes.GET_USERS_REQUEST:
       return { ...state, loading: true };
+    case UserTypes.POST_USERS_REQUEST:
+      return {...state, loading: true}
     case UserTypes.LOAD_USERS_SUCCES:
       return {
         ...state,

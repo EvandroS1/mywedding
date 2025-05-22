@@ -20,6 +20,7 @@ export const authOptions = {
         const user = await fetchUserFromDatabase(email);
 
         if (!user) {
+          console('não foi dessa vez')
           return null; // Usuário não encontrado
         }
 
@@ -58,8 +59,6 @@ export const authOptions = {
       };
     },
     async redirect({ url, baseUrl }) {
-      console.log("url------------", url);
-      console.log("baseUrl------------", baseUrl);
       if (url === "http://localhost:3000/presentes") {
         return url.startsWith(baseUrl) ? url : baseUrl;
       }

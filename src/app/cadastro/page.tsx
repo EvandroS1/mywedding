@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { loadUsersRequest, postUsersRequest } from "@/store/modules/users/actions";
 import BackButton from "@/components/Backbutton";
+import { signIn } from "next-auth/react";
+import { Loading } from "@geist-ui/react";
 
 interface IFormData {
   email: string;
@@ -28,6 +30,7 @@ export default function Cadastro() {
     watch,
   } = useForm<IFormData>();
   const users = useSelector((state: ApplicationState) => state?.Users.data);
+  const loading = useSelector((state: ApplicationState) => state?.Users.loading);
   const dispatch = useDispatch()
   const password = watch("senha");
 
@@ -35,7 +38,7 @@ export default function Cadastro() {
     dispatch(loadUsersRequest())
   }, [])
 
-  const onsubmit = (data: IFormData) => {
+  const onsubmit  = async (data: IFormData) => {
     const exist = users.find((value) => value.email === data.email);
     if(exist) {
       toast.error('E-mail já cadastrado',
@@ -44,7 +47,18 @@ export default function Cadastro() {
       return
     }
     dispatch(postUsersRequest({email: data.email, senha: data.senha, carrinho: [], favoritos: [], typeAuth: 'trad'}))
+    if(!loading) {
+      await signIn("credentials", {
+        redirect: false, // Não redireciona automaticamente, vamos lidar com o resultado
+        email: data.email,
+        password: data.senha,
+      });
+      router.push("/sections");
+    }
   };
+  useEffect(() => {
+    console.log('loading', loading)
+  },[loading])
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-[#fcf1ed]">
@@ -138,7 +152,7 @@ export default function Cadastro() {
             type="submit"
             className="w-full p-2 mb-10 shadow-lg text-white bg-amber-700 rounded-lg"
           >
-            Cadastrar
+            {loading ? <Loading color="white"/> :  "Cadastrar"}
           </button>
         </form>
       </div>

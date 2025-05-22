@@ -48,6 +48,7 @@ const Presentes = () => {
   const { data: session } = useSession();
   const [item, setItem] = useState<Item[]>([]);
   const [show, setShow] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [filtro, setFiltro] = useState<string>("");
   const [modalData, setModalData] = useState<Item | null>(null);
   const dispatch = useDispatch();
@@ -386,6 +387,10 @@ const Presentes = () => {
   }, []);
 
   useEffect(() => {
+    console.log('profileOpen', profileOpen)
+  },[profileOpen])
+
+  useEffect(() => {
     dispatch(loadFavRequest(session?.user?.email));
     dispatch(loadUserRequest(session?.user?.email));
     dispatch(loadCartRequest(session?.user?.email));
@@ -489,10 +494,10 @@ const Presentes = () => {
           }
         />
         <Popover>
-          {() => (
+          {({close}) => (
             <>
               <PopoverButton className="transition focus:outline-none focus:ring-0">
-                <User size={30} />
+                <User onClick={() => setProfileOpen(true)} size={30} />
               </PopoverButton>
 
               <Transition
@@ -518,7 +523,7 @@ const Presentes = () => {
                       )}
                     </span>
                   </div>
-                  {session ? <button className="pb-3 pr-3 w-auto" onClick={() => setShow(true)}>Minhas compras</button> : null}
+                  {session ? <button className="pb-3 pr-3 w-auto" onClick={() => {setShow(true); close()}}>Minhas compras</button> : null}
                   {session?.user?.name === "tourmant vig" || session?.user?.email === "melissapequeno04@gmail.com" ? <span className="pl-10 " onClick={() => router.push('/confirmados')}>Confirmados</span> : null}
                   {session ? <button
                     className="w-full text-left rounded-lg px-3 py-2 transition text-red-400 hover:bg-white/20 font-semibold"

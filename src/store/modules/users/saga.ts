@@ -7,7 +7,7 @@
     takeLatest,
   } from "redux-saga/effects";
   import {api} from "@/services/api";
-  import { loadSucces, loadFailure, postUsersRequest } from "./actions";
+  import { loadSucces, loadFailure, postUsersRequest, loadUsersRequest } from "./actions";
   import { UserTypes } from "./types";
   import { IUser } from "../user/types";
   import { ActionType } from "typesafe-actions";
@@ -58,7 +58,8 @@
         ProfilePic,
         typeAuth,
       })) as ApiResponse;
-  
+      yield put(loadUsersRequest());
+      
       console.log("Registration response", registerResponse);
   
     } catch (error) {

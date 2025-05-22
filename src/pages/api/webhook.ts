@@ -89,6 +89,8 @@ export default async function handler(
 
     // 4) Busca perfil atual do lojista no MockAPI
     const profileUrl = `https://67fffe04b72e9cfaf72687d9.mockapi.io/api/convidados/shopProfile/${userId}`;
+    const recebidosUrl = `https://6823ff4b65ba058033988478.mockapi.io/Recebidos`;
+    
     const perfilResp = await fetch(profileUrl);
     if (!perfilResp.ok) {
       throw new Error(`Erro ao buscar perfil: ${perfilResp.status}`);
@@ -129,6 +131,11 @@ export default async function handler(
 
     // 7) Se o pagamento foi aprovado, envia e‑mail de agradecimento
     if (status === "approved") {
+      await fetch(recebidosUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome: metadata.user_name ?? metadata.user_email, items: cart}),
+      });
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
