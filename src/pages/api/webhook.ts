@@ -134,7 +134,7 @@ export default async function handler(
       await fetch(recebidosUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome: metadata.user_name ?? metadata.user_email, items: cart}),
+        body: JSON.stringify({ nome: metadata.user_name ?? metadata.user_email, items: cart, userImage: metadata.user_image}),
       });
       const transporter = nodemailer.createTransport({
         service: "gmail",

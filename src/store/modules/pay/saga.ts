@@ -17,7 +17,7 @@ interface MercadoPagoPreferenceResponse {
 
 function* postPay(action: ActionType<typeof postPayRequest>): Generator<Effect, void, MercadoPagoPreferenceResponse> {
   try {
-  const { items, userName, userEmail, userId, images } = action.payload;
+  const { items, userName, userEmail, userId, images, userImage } = action.payload;
 
   console.log('images', images)
 
@@ -32,7 +32,7 @@ function* postPay(action: ActionType<typeof postPayRequest>): Generator<Effect, 
 
     const response: { data: { init_point: string } } = yield call(
       axios.post,
-      "/api/pay",{items: formattedItems, userName, userEmail, userId, images}
+      "/api/pay",{items: formattedItems, userName, userEmail, userId, images, userImage}
     );
 
     const initPoint = response.data.init_point;

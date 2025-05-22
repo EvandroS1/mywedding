@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   const token = process.env.MP_TOKEN;
 
-  const { items, userName, userEmail, userId, images } = req.body;
+  const { items, userName, userEmail, userId, images, userImage } = req.body;
 
   console.log('userEmail', userEmail) 
   if (!token) {
@@ -28,6 +28,7 @@ export default async function handler(
         metadata: {
           userEmail: userEmail, // <- você pega do session?.user?.email, por exemplo
           userName: userName,
+          userImage: userImage,
           userId: userId,
           items: items,
           images: images
