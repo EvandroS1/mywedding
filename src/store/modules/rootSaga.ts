@@ -6,7 +6,8 @@ import User from "./user/saga";
 import Users from "./users/saga";
 import Pay from "./pay/saga";
 import Convidados from "./convidados/saga";
-import Sidebars from "./sideBars//saga";
+import Recebidos from "./recebidos/saga";
+import Sidebars from "./sideBars/saga";
 
 export default function* rootSaga(): Generator {
   return yield all([
@@ -16,6 +17,7 @@ export default function* rootSaga(): Generator {
     Pay,
     Favoritos,
     Convidados,
+    Recebidos,
     Sidebars
   ]);
 }

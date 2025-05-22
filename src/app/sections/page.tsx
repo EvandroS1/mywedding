@@ -90,7 +90,7 @@ const Sectionss = () => {
             onClick={() => handleClick(filtro)}
             className="cursor-pointer transition-all duration-300 transform hover:scale-105 group"
           >
-            <div className="rounded-2xl bg-white/30 backdrop-blur-md border border-white/30 shadow-lg p-4 h-40 w-40 flex items-center justify-center mx-auto">
+            <div className="rounded-2xl bg-white/30 backdrop-blur-md border border-white/30 shadow-lg p-4 h-30 w-30 flex items-center justify-center mx-auto">
               <img
                 src={img}
                 alt={nome}

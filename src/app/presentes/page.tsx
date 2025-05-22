@@ -31,6 +31,7 @@ import { Fav } from "@/store/modules/favoritos/types";
 import { loadSideBarRequest } from "@/store/modules/sideBars/actions";
 import Link from "next/link";
 import ModalPedidos from "@/components/ModalPedidos";
+import ModalRecebidos from "@/components/ModalRecebidos";
 // import IFavItem from "../../../types/fav";
 
 export interface Item {
@@ -48,6 +49,7 @@ const Presentes = () => {
   const { data: session } = useSession();
   const [item, setItem] = useState<Item[]>([]);
   const [show, setShow] = useState(false);
+  const [showRecebidos, setShowRecebidos] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false);
   const [filtro, setFiltro] = useState<string>("");
   const [modalData, setModalData] = useState<Item | null>(null);
@@ -398,7 +400,7 @@ const Presentes = () => {
   }, [session]);
 
   useEffect(() => {
-    if (open.cartOpen || open.favOpen) {
+    if (open.cartOpen || open.favOpen || show || showRecebidos) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -407,7 +409,7 @@ const Presentes = () => {
     return () => {
       document.body.style.overflow = "auto"; // limpa quando o componente desmonta
     };
-  }, [open]);
+  }, [open, showRecebidos, show]);
 
   const handleClick = (valor: string) => {
     setFiltro(valor);
@@ -474,6 +476,10 @@ const Presentes = () => {
         show={show}
         onClose={() => setShow(false)}
       />
+      <ModalRecebidos 
+      show={showRecebidos}
+      onClose={() =>setShowRecebidos(false)}
+      />
       <SidebarCarrinho />
       <Favoritos />
 
@@ -523,8 +529,10 @@ const Presentes = () => {
                       )}
                     </span>
                   </div>
-                  {session ? <button className="pb-3 pr-3 w-auto" onClick={() => {setShow(true); close()}}>Minhas compras</button> : null}
-                  {session?.user?.name === "tourmant vig" || session?.user?.email === "melissapequeno04@gmail.com" ? <span className="pl-10 " onClick={() => router.push('/confirmados')}>Confirmados</span> : null}
+                  {session ? <button className="pb-1 pr-3 w-auto" onClick={() => {setShow(true); close()}}>Minhas compras</button> : null}
+                  {session?.user?.name === "tourmant vig" || session?.user?.email === "melissapequeno04@gmail.com" || session?.user?.email === "evandrogomes542@gmail.com" ? <span className="pl-10 pb-1 cursor-pointer" onClick={() => router.push('/confirmados')}>Confirmados</span> : null}
+                  {session?.user?.name === "tourmant vig" || session?.user?.email === "melissapequeno04@gmail.com" || session?.user?.email === "evandrogomes542@gmail.com" ? <span className="pl-10 pb-1 cursor-pointer " onClick={() => {setShowRecebidos(true); close()}}>Presentes Recebidos</span> : null}
+                  
                   {session ? <button
                     className="w-full text-left rounded-lg px-3 py-2 transition text-red-400 hover:bg-white/20 font-semibold"
                     onClick={() =>
