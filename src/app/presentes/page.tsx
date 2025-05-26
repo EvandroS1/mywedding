@@ -514,14 +514,14 @@ const Presentes = () => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <PopoverPanel className="absolute flex flex-col -translate-x-36 bottom-full mb-2 w-52 rounded-xl bg-white/80 text-black backdrop-blur-md border border-white/20 p-3 text-sm shadow-xl">
-                  <div className="flex  items-center gap-2 mb-3 overflow-hidden">
+                <PopoverPanel className="absolute flex flex-col -translate-x-36 bottom-full mb-2 w-60 h-auto text-xl rounded-xl bg-white/80 text-black backdrop-blur-md border border-white/20 p-3 shadow-xl">
+                  <div className="flex  items-center gap-2 mb-3">
                     <img
                       src={session?.user?.image ?? "assets/nouser.png"}
                       alt="Imagem de perfil"
                       className="w-8 h-8 rounded-full object-cover"
                     />
-                    <span className="w-32 max-h-10 break-words">
+                    <span className="w-32 break-words">
                       {session?.user?.name ?? session?.user?.email ?? (
                         <span className="font-semibold">
                           Faça <Link href="/login">login</Link>
@@ -529,12 +529,12 @@ const Presentes = () => {
                       )}
                     </span>
                   </div>
-                  {session ? <button className="pb-1 pr-3 w-auto" onClick={() => {setShow(true); close()}}>Minhas compras</button> : null}
                   {session?.user?.name === "tourmant vig" || session?.user?.email === "melissapequeno04@gmail.com" || session?.user?.email === "evandrogomes542@gmail.com" ? <span className="pl-10 pb-1 cursor-pointer" onClick={() => router.push('/confirmados')}>Confirmados</span> : null}
                   {session?.user?.name === "tourmant vig" || session?.user?.email === "melissapequeno04@gmail.com" || session?.user?.email === "evandrogomes542@gmail.com" ? <span className="pl-10 pb-1 cursor-pointer " onClick={() => {setShowRecebidos(true); close()}}>Presentes Recebidos</span> : null}
+                  {session ? <button className="pb-4 pr-3 w-auto" onClick={() => {setShow(true); close()}}>Minhas compras</button> : null}
                   
                   {session ? <button
-                    className="w-full text-left rounded-lg px-3 py-2 transition text-red-400 hover:bg-white/20 font-semibold"
+                    className="w-full text-left self-end bg-black rounded-lg px-3 py-2 transition text-red-400 hover:bg-white/20 font-semibold"
                     onClick={() =>
                       signOut({
                         callbackUrl: "http://localhost:3000/presentes",

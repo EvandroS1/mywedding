@@ -24,7 +24,7 @@ export default function ModalRecebidos({ show, onClose }: ModalRecebidosProps) {
     <AnimatePresence>
       {show && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -55,7 +55,7 @@ export default function ModalRecebidos({ show, onClose }: ModalRecebidosProps) {
                 {recebidos?.map((pedido, idx) => (
                   <div
                     key={idx}
-                    className="bg-white/50  backdrop-blur-sm border border-gray-200 rounded-xl p-4 shadow hover:shadow-lg transition"
+                    className="bg-white/50   border border-gray-200 rounded-xl p-4 shadow hover:shadow-lg transition"
                   >
                     <div className='flex gap-2 pb-2'>
                 <img className="w-8 h-8 rounded-full object-cover" src={pedido.userImage} alt="" />

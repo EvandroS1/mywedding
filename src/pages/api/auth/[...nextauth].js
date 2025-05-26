@@ -32,7 +32,7 @@ export const authOptions = {
 
         if (passwordMatch) {
           // 3. Retornar o objeto do usuário se a senha corresponder
-          return { id: user.id, email: user.email, name: user.name }; // Adapte os campos do seu usuário
+          return { id: user.id, email: user.email, name: user.nome, tipeAuth: "trad" }; // Adapte os campos do seu usuário
         } else {
           return null; // Senha incorreta
         }
@@ -42,21 +42,35 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, account, user }) {
+      console.log('user----', user)
       if (account) {
         token.accessToken = account.access_token;
       }
       if (user) {
         token.userId = user.id; // Adiciona o ID do usuário ao token
+        token.name = user.name;
+        token.email = user.email;
+        token.tipeAuth = user.tipeAuth; // Adiciona o tipo de autenticação ao token
+      
       }
       return token;
     },
     async session({ session, token }) {
-      return {
-        ...session,
-        accessToken: token.accessToken,
-        userId: token.userId, // Disponibiliza o ID do usuário na sessão
-        expires: session.expires,
-      };
+      if(token.tipeAuth === "trad") {
+        session.user = {
+          id: token.userId, // Disponibiliza o ID do usuário na sessão
+          name: token.name,
+          email: token.email,
+        }
+        session.accessToken = token.accessToken;
+      return session;
+    }
+    return {
+      ...session,
+      accessToken: token.accessToken,
+      userId: token.userId, // Disponibiliza o ID do usuário na sessão
+      expires: session.expires,
+    };
     },
     async redirect({ url, baseUrl }) {
       if (url === "http://localhost:3000/presentes") {
@@ -84,6 +98,7 @@ async function fetchUserFromDatabase(email) {
     const users = await response.json(); // ✅ pegar o JSON da resposta
 
     const user = users.find((item) => item.email === email);
+    // console.log('user--------------', user)
     return user;
   } catch (error) {
     console.error("Erro ao buscar convidados:", error);

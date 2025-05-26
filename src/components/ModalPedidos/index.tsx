@@ -49,7 +49,7 @@ export default function ModalPedidos({ show, onClose }: ModalPedidosProps) {
                 {user?.pedidos?.map((pedido, idx) => (
                   <div
                     key={idx}
-                    className="bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl p-4 shadow hover:shadow-lg transition"
+                    className="bg-white/50  border border-gray-200 rounded-xl p-4 shadow hover:shadow-lg transition"
                   >
                     <div className="flex justify-between items-center mb-3">
                       <span className="font-medium text-gray-700">
@@ -64,7 +64,7 @@ export default function ModalPedidos({ show, onClose }: ModalPedidosProps) {
                             : 'bg-red-200 text-red-800'
                         }`}
                       >
-                        {pedido.status === "approved" ? "Aprovado" : "Pendente"}
+                        {pedido.status === "approved" ? "Aprovado" : pedido.status === "pending" ? "Pendente" : "Cancelado"}
                       </span>
                     </div>
 

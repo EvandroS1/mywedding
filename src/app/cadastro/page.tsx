@@ -13,6 +13,7 @@ import { signIn } from "next-auth/react";
 import { Loading } from "@geist-ui/react";
 
 interface IFormData {
+  nome: string;
   email: string;
   senha: string;
   csenha: string;
@@ -46,7 +47,7 @@ export default function Cadastro() {
       )
       return
     }
-    dispatch(postUsersRequest({email: data.email, senha: data.senha, carrinho: [], favoritos: [], typeAuth: 'trad'}))
+    dispatch(postUsersRequest({email: data.email, senha: data.senha, carrinho: [], favoritos: [], typeAuth: 'trad', nome: data.nome}))
     if(!loading) {
       await signIn("credentials", {
         redirect: false, // Não redireciona automaticamente, vamos lidar com o resultado
@@ -81,15 +82,23 @@ export default function Cadastro() {
       <div className="flex flex-col items-start justify-center w-full max-w-xs p-4 mt-4 bg-white rounded-lg shadow-md">
         <h1 className="pt-2 py-4 text-2xl self-center">Cadastro</h1>
         <form onSubmit={handleSubmit(onsubmit)}>
-          <label className="pl-2" htmlFor="email">
-            Email
+        <label className="pl-2" htmlFor="nome">
+            Nome
           </label>
           <input
-            {...register("email")}
-            name="email"
-            type="email"
+            {...register("nome")}
+            name="nome"
+            type="text"
             className="w-full p-2 mb-2 border shadow-lg border-gray-300 rounded-lg"
-          />
+          /> <label className="pl-2" htmlFor="email">
+          Email
+        </label>
+        <input
+          {...register("email")}
+          name="email"
+          type="email"
+          className="w-full p-2 mb-2 border shadow-lg border-gray-300 rounded-lg"
+        />
 
           <label className="pl-2" htmlFor="senha">
             Senha
