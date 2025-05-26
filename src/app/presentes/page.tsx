@@ -18,7 +18,7 @@ import ModalAnimado from "@/components/ModalAnimado";
 import SidebarCarrinho from "@/components/sideBar";
 import Favoritos from "@/components/Favoritos";
 import { useSession, signOut } from "next-auth/react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { loadCartRequest } from "@/store/modules/loja/actions";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -427,7 +427,7 @@ const Presentes = () => {
     if (!session) {
       return toast.error(
         "Clique aqui e faça login para adicionar ao carrinho",
-        { onClick: () => router.push("/login"), theme: "dark" }
+        { onClick: () => { toast.dismiss();router.push("/login")}, theme: "dark" }
       );
     }
 
@@ -598,7 +598,6 @@ const Presentes = () => {
           </div>
         ))}
       </div>
-      <ToastContainer />
     </div>
   );
 };

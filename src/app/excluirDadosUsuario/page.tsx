@@ -3,7 +3,7 @@ import Head from 'next/head';
 import "../../app/globals.css";
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import IUsers from '../../../types/user';
 import getUsers from '@/functions/getUsers';
 
@@ -139,7 +139,6 @@ const ExcluirDadosUsuario = () => {
           </section>
         </article>
       </main>
-      <ToastContainer />
     </>
   );
 };

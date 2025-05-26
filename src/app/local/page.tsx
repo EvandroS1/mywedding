@@ -15,6 +15,7 @@ const Local = () => {
           title="Google Maps Rancho Papaloosa"
           width="100%"
           height="250"
+          
           style={{ border: 0, borderRadius: "10px" }}
           loading="lazy"
           allowFullScreen

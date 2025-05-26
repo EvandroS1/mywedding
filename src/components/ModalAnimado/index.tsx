@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../app/globals.css";
 import { Button } from "@headlessui/react";
 import { useSession } from "next-auth/react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import { useRouter } from "next/navigation";
 import { CartItemProps } from "../../../types/cart";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,7 +57,7 @@ const ModalAnimado = ({
     if (!session) {
       return toast.error(
         "Clique aqui e faça login para adicionar ao carrinho",
-        { onClick: () => router.push("/login"), theme: "dark" }
+        { onClick: () => {router.push("/login"); toast.dismiss()}, theme: "dark" }
       );
     }
 
@@ -222,7 +222,6 @@ const ModalAnimado = ({
           </motion.div>
         </motion.div>
       )}
-      <ToastContainer />
     </AnimatePresence>
   );
 };

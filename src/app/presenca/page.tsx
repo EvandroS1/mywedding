@@ -4,7 +4,7 @@ import "../../app/globals.css";
 import Image from "next/image";
 import { useForm, useFieldArray } from "react-hook-form";
 import { MinusCircle, PlusCircle } from "@geist-ui/icons";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { Loading } from "@geist-ui/react";
 import BackButton from "@/components/Backbutton";
@@ -21,7 +21,7 @@ const Presenca = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [pass, setPass] = useState<boolean>(false);
-  const [sugestoes, setSugestoes] = useState<string[]>([]);
+  const [sugestoes, setSugestoes] = useState<IConvidado[]>([]);
   const {
     register,
     control,
@@ -76,8 +76,8 @@ console.log('errors', errors)
         .filter((convidado: IConvidado) =>
           convidado.nome?.toLowerCase().startsWith(valor.toLowerCase())
         )
-        .map((convidado: IConvidado) => convidado.nome);
-
+        
+console.log('resultados', resultados)
       setSugestoes(resultados);
     } else {
       setSugestoes([]);
@@ -119,6 +119,13 @@ console.log('errors', errors)
         });
         setValue(`convidados.${i}.nome`, "");
         continue;
+      }
+
+      if(convidados[i].confirmado) {
+        toast.error(`${convidado.nome} Já esta confirmado!`, {
+          theme: "dark",
+        });
+        continue
       }
   
       try {
@@ -162,6 +169,7 @@ console.log('errors', errors)
     }
   
     setLoading(false);
+    getConvidados();
   };
   
   useEffect(() => {
@@ -180,6 +188,19 @@ console.log('errors', errors)
   },[errors.convidados, setError])
 
   return (
+    <>
+            <div className="absolute top-4 right-4 p-2 bg-white/40 backdrop-blur-md rounded-lg">
+              <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-green-700"></div>
+            <span>Já Confirmado</span>
+              </div>
+              <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-red-700"></div>
+            <span>Ainda não confirmou</span>
+
+              </div>
+
+            </div>
     <Container picture="/assets/alianca.jpg">
             <BackButton />
       
@@ -204,14 +225,15 @@ console.log('errors', errors)
                   onChange={(e) => handleSearch(e, index)}
                 />
                 {activeIndex === index && sugestoes.length > 0 && (
-                  <ul className="absolute top-12 w-full max-h-32 overflow-auto bg-white border border-gray-300 rounded-lg shadow-lg z-10">
-                    {sugestoes.map((nome, idx) => (
+                  <ul className="absolute pl-0 top-12 w-full max-h-32 overflow-auto bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                    {sugestoes.map((convidado, idx) => (
                       <li
                         key={idx}
-                        onClick={() => handleSelectSugestao(nome, index)}
-                        className="p-2 cursor-pointer hover:bg-[#f1e7dc] border-b last:border-b-0"
+                        onClick={() => handleSelectSugestao(convidado.nome, index)}
+                        className="p-2 flex justify-between items-center px-4 cursor-pointer hover:bg-[#f1e7dc] border-b last:border-b-0"
                       >
-                        {nome}
+                        {convidado.nome}
+                        {convidado.confirmado ? <span className="h-2 w-2 rounded-full bg-green-700"></span> : <span className="h-2 w-2 rounded-full bg-red-700"></span>}
                       </li>
                     ))}
                   </ul>
@@ -243,8 +265,9 @@ console.log('errors', errors)
         </div>
       </div>
 
-      <ToastContainer />
     </Container>
+    </>
+
   );
 };
 
