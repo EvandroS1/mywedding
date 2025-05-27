@@ -44,7 +44,7 @@ export default function Favoritos() {
                   onClick={() => 
                     dispatch(loadSideBarRequest({ cartOpen: false, favOpen: false }))
                   }
-                  className="text-white"
+                  className="text-black"
                 >
                   ✕
                 </button>

@@ -8,7 +8,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { loadUsersRequest } from "@/store/modules/users/actions";
 import { useDispatch } from "react-redux";
 import BackButton from "@/components/Backbutton";
-import { AnimatePresence, motion } from "framer-motion";
+import Notices from "@/components/Notices";
 
 const steps = [
   {
@@ -34,23 +34,6 @@ const steps = [
 ];
 
 
-const variants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 300 : -300,
-    opacity: 0,
-    scale: 0.8,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-    scale: 1,
-  },
-  exit: (direction: number) => ({
-    x: direction > 0 ? -300 : 300,
-    opacity: 0,
-    scale: 0.8,
-  }),
-};
 
 export default function Login() {
   const [showSenha, setShowSenha] = useState(false);
@@ -58,21 +41,11 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const canGoPrev = stepIndex > 0;
-  const canGoNext = stepIndex < steps.length - 1;
-  const handleNext = () => {
-    setDirection(1);
-    setStepIndex((i) => Math.min(i + 1, steps.length - 1));
-  };
-  const handlePrev = () => {
-    setDirection(-1);
-    setStepIndex((i) => Math.max(i - 1, 0));
-  };
+ 
+ 
   useEffect(() => {
     dispatch(loadUsersRequest());
     const firstAccess = localStorage.getItem("firstAccess");
@@ -100,55 +73,7 @@ export default function Login() {
   return (
     <>
       {firstAcess ? (
-        <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-md flex items-center justify-center px-4">
-          <div className="relative bg-white p-6 rounded-lg shadow-lg h-64 max-w-md w-full overflow-hidden">
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={stepIndex}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.4 }}
-                className="flex flex-col items-center  h-full justify-between text-center"
-              >
-                <div>
-                <h2 className="text-2xl font-bold mb-2">
-                  {steps[stepIndex].title}
-                </h2>
-                <p className="mt-4">{steps[stepIndex].description}</p>
-                </div>
-
-                <div className={`w-full flex items-center ${stepIndex === 0 ? "justify-center" : "justify-between"}`}>
-                  {stepIndex != 0 ? <button
-                    onClick={handlePrev}
-                    disabled={!canGoPrev}
-                    className={`px-4 py-2 rounded-lg ${
-                      canGoPrev
-                        ? "bg-gray-200 hover:bg-gray-300 text-gray-800"
-                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    }`}
-                  >
-                    Voltar
-                  </button>: null}
-                  {canGoNext ? (
-                    <button
-                      onClick={handleNext}
-                      className="px-4 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800"
-                    >
-                      Continuar
-                    </button>
-                  ) : (
-                    <button onClick={() => setFirstAcess(false)} className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                      Começar
-                    </button>
-                  )}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
+        <Notices steps={steps} setFirstAcess={() => setFirstAcess(false)}/>
       ) : null}
       <div className="flex flex-col items-center justify-center h-screen bg-[#fcf1ed]">
         <BackButton />

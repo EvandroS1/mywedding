@@ -32,6 +32,7 @@ import { loadSideBarRequest } from "@/store/modules/sideBars/actions";
 import Link from "next/link";
 import ModalPedidos from "@/components/ModalPedidos";
 import ModalRecebidos from "@/components/ModalRecebidos";
+import BackButton from "@/components/Backbutton";
 // import IFavItem from "../../../types/fav";
 
 export interface Item {
@@ -460,6 +461,7 @@ const Presentes = () => {
 
   return (
     <div className="font-extrabold text-xl bg-[#fcf1ed]">
+      <BackButton />
       <ModalAnimado
         show={modalData !== null}
         onClose={() => setModalData(null)}
