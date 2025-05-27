@@ -60,14 +60,14 @@ const Presentes = () => {
   const open = useSelector((state: ApplicationState) => state?.SideBars.data);
 
   const itens: Item[] = [
-    {
-      id: 42,
-      image: "/assets/teste.webp",
-      nome: "teste",
-      valor: 1,
-      categoria: ["eletro"],
-      desc: "Máquina de lavar roupas moderna e eficiente para facilitar o dia a dia."
-    },
+    // {
+    //   id: 42,
+    //   image: "/assets/teste.webp",
+    //   nome: "teste",
+    //   valor: 1,
+    //   categoria: ["eletro"],
+    //   desc: "Máquina de lavar roupas moderna e eficiente para facilitar o dia a dia."
+    // },
     {
       id: 1,
       image: "/assets/wishlist/maquinaLavar.png",
