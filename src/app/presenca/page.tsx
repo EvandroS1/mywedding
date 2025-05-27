@@ -78,6 +78,7 @@ const Presenca = () => {
       );
       const data = await response.json();
       setConvidados(data);
+      console.log('data', data)
     } catch (error) {
       console.error("Error fetching convidados:", error);
     }
@@ -138,6 +139,7 @@ const Presenca = () => {
       const convidadoOrig = convidados.find(
         (c) => c.nome.toLowerCase() === convidado.nome.toLowerCase()
       );
+      console.log('convidadoOrig', convidadoOrig)
 
       if (!foiConvidado) {
         setError(`convidados.${i}`, {
@@ -152,11 +154,14 @@ const Presenca = () => {
         setValue(`convidados.${i}.nome`, "");
         continue;
       }
+      console.log('convidado', convidado)
+      console.log('convidados[i].confirmado', convidados[i].confirmado)
 
-      if (convidados[i].confirmado) {
+      if (convidadoOrig?.confirmado) {
         toast.error(`${convidado.nome} Já esta confirmado!`, {
           theme: "dark",
         });
+        setValue(`convidados.${i}.nome`, "");
         continue;
       }
 
@@ -198,10 +203,18 @@ const Presenca = () => {
     if (fields.length === 1) {
       setValue("convidados.0.nome", "");
     }
+    console.log('fields.length', fields.length)
+    
 
     setLoading(false);
     getConvidados();
   };
+
+  useEffect(() => {
+    if (fields.length === 0) {
+      append({ nome: "", confirmado: false });
+    }
+  },[fields])
 
   useEffect(() => {
     if (Array.isArray(errors.convidados) && errors.convidados.length >= 1) {
