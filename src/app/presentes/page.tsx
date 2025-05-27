@@ -221,14 +221,6 @@ const Presentes = () => {
       desc: "Forno elétrico para assar e gratinar suas receitas favoritas."
     },
     {
-      id: 22,
-      image: "/assets/wishlist/triturador.webp",
-      nome: "Triturador",
-      valor: 15.9,
-      categoria: ["cozinha"],
-      desc: "Triturador manual prático para temperos e alimentos."
-    },
-    {
       id: 23,
       image: "/assets/wishlist/pratos.webp",
       nome: "Jogo de pratos",
