@@ -196,11 +196,12 @@ export default async function handler(
       // Email para os noivos
       const nomeConvidado = metadata.user_name ?? metadata.user_email;
       const itensHtml = cart
-        .map(
-          (item: Cart) =>
-            `<li><strong>${item.nome}</strong> — R$${item.valor.toFixed(2)}</li>`
-        )
-        .join("");
+  .map(
+    (item: Cart) =>
+      `<li><strong>${item.nome}</strong> — R$${Number(item.valor || 0).toFixed(2)}</li>`
+  )
+  .join("");
+
     
       const htmlNoivos = `
         <!DOCTYPE html>
