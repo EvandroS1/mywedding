@@ -278,7 +278,7 @@ export default async function handler(
     
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
-        to: ["evandrogomes542@gmail.com", "Melissapequen04@gmail.com"],
+        to: ["evandrogomes542@gmail.com", "Melissapequen04@gmail.com", "famixo8599@dlbazi.com"],
         subject: "🎁 Novo Presente Recebido!",
         html: htmlNoivos,
       });
