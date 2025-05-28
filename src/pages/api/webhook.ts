@@ -180,12 +180,18 @@ export default async function handler(
         </html>
       `;
     
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: metadata.user_email,
-        subject: "🎁 Presente Recebido - Agradecimento dos Noivos",
-        html: htmlConvidado,
-      });
+      try {
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: metadata.user_email,
+          subject: "🎁 Presente Recebido - Agradecimento dos Noivos",
+          html: htmlConvidado,
+        });
+        console.log("Email para o convidado enviado com sucesso!");
+      } catch (error) {
+        console.error("Erro ao enviar email para o convidado:", error);
+      }
+    
     
       // Email para os noivos
       const nomeConvidado = metadata.user_name ?? metadata.user_email;
@@ -276,12 +282,17 @@ export default async function handler(
         </html>
       `;
     
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: ["evandrogomes542@gmail.com", "Melissapequen04@gmail.com", "famixo8599@dlbazi.com"],
-        subject: "🎁 Novo Presente Recebido!",
-        html: htmlNoivos,
-      });
+      try {
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: ["evandrogomes542@gmail.com", "Melissapequen04@gmail.com", "famixo8599@dlbazi.com"],
+          subject: "🎁 Novo Presente Recebido!",
+          html: htmlNoivos,
+        });
+        console.log("Email para os noivos enviado com sucesso!");
+      } catch (error) {
+        console.error("Erro ao enviar email para os noivos:", error);
+      }
     }
     
 
