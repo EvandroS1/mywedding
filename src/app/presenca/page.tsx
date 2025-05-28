@@ -29,7 +29,7 @@ const steps = [
   {
     title: "Crianças",
     description:
-      "Crianças de até 10 anos completos não precisam confirmar presença. Acima dessa idade, é necessário realizar a confirmação normalmente.",
+      "Crianças de até 7 anos completos não precisam confirmar presença. Acima dessa idade, é necessário realizar a confirmação normalmente.",
   },
   {
     title: "Como confirmar presença?",

@@ -14,7 +14,7 @@ const steps = [
   {
     title: "Um toque pessoal",
     description:
-      "Eu, Evandro (o noivo), desenvolvi esse site especialmente para nosso casamento. Caso tenha qualquer dúvida ou dificuldade, pode me chamar sem problema!",
+      "Eu, Evandro (o noivo), desenvolvi esse site especialmente para nosso casamento. Caso tenha qualquer dúvida ou dificuldade, pode me chamar, fico a disposição!",
   },
   {
     title: "Como funciona?",
@@ -24,7 +24,7 @@ const steps = [
   {
     title: "Pagamento 100% seguro",
     description:
-      "Todo o processo de pagamento é feito via Mercado Pago, uma plataforma confiável e segura. Você pode pagar com Pix, cartão de crédito ou boleto.",
+      "Todo o processo de pagamento é feito via Mercado Pago, uma plataforma confiável e segura. Você não precisar ter conta no mercado pago, e é possivel pagar com Pix, qualquer cartão de crédito ou boleto.",
   },
   {
     title: "Sistema de login!",
