@@ -202,6 +202,9 @@ export default async function handler(
   )
   .join("");
 
+  console.log('cart-----', cart)
+  console.log('itensHtml--------', itensHtml)
+
     
       const htmlNoivos = `
         <!DOCTYPE html>
@@ -286,7 +289,7 @@ export default async function handler(
       try {
         await transporter.sendMail({
           from: process.env.EMAIL_USER,
-          to: ["evandrogomes542@gmail.com", "Melissapequen04@gmail.com", "famixo8599@dlbazi.com"],
+          to: ["evandrogomes542@gmail.com", "Melissapequeno04@gmail.com", "famixo8599@dlbazi.com"],
           subject: "🎁 Novo Presente Recebido!",
           html: htmlNoivos,
         });
