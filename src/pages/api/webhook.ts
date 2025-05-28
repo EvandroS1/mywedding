@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
 import axios from "axios";
 import { CartItemPedido } from "../../../types/cart";
+import { Cart } from "@/store/modules/loja/types";
 
 export interface Pedido {
   id: string;
@@ -134,8 +135,14 @@ export default async function handler(
       await fetch(recebidosUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome: metadata.user_name ?? metadata.user_email, items: cart, userImage: metadata.user_image, transaction_amount: transaction_amount}),
+        body: JSON.stringify({
+          nome: metadata.user_name ?? metadata.user_email,
+          items: cart,
+          userImage: metadata.user_image,
+          transaction_amount,
+        }),
       });
+    
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -143,42 +150,140 @@ export default async function handler(
           pass: process.env.EMAIL_PASS,
         },
       });
-
-      const html = `
+    
+      // Email para o convidado
+      const htmlConvidado = `
         <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Presente Recebido</title>
-</head>
-<body style="margin:0;padding:0;font-family:Georgia, serif;background:#f8f2f0">
-  <table width="100%" style="background:url('https://i.pinimg.com/736x/d2/c1/72/d2c172a1d59f320cf23fc18fadeb060e.jpg') center top/cover no-repeat;min-height:100vh">
-    <tr>
-      <td align="center" style="padding:60px 20px">
-        <table width="100%" style="background:rgba(255,255,255,0.8);backdrop-filter:blur(10px);border-radius:12px;padding:40px;box-shadow:0 4px 30px rgba(0,0,0,0.1);border:1px solid rgba(255,255,255,0.3)">
-          <tr>
-            <td align="center">
-              <h1 style="font-size:28px;color:#000000">Muito obrigado pelo presente!</h1>
-              <p style="font-size:18px;color:#000000">${metadata.user_name ?? "Amigo(a)"}, recebemos sua contribuição de <strong>R$${transaction_amount}</strong>.</p>
-              <p style="font-size:16px;color:#000000">Ficamos imensamente felizes com seu carinho e participação nesse momento tão especial.</p>
-              <p style="font-size:16px;color:#000000">Com amor,<br/>Melissa & Evandro 💍</p>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>
-`;
-
+        <html lang="pt-BR">
+        <head>
+          <meta charset="UTF-8">
+          <title>Presente Recebido</title>
+        </head>
+        <body style="margin:0;padding:0;font-family:Georgia, serif;background:#f8f2f0">
+          <table width="100%" style="background:url('https://i.pinimg.com/736x/d2/c1/72/d2c172a1d59f320cf23fc18fadeb060e.jpg') center top/cover no-repeat;min-height:100vh">
+            <tr>
+              <td align="center" style="padding:60px 20px">
+                <table width="100%" style="background:rgba(255,255,255,0.8);backdrop-filter:blur(10px);border-radius:12px;padding:40px;box-shadow:0 4px 30px rgba(0,0,0,0.1);border:1px solid rgba(255,255,255,0.3)">
+                  <tr>
+                    <td align="center">
+                      <h1 style="font-size:28px;color:#000000">Muito obrigado pelo presente!</h1>
+                      <p style="font-size:18px;color:#000000">${metadata.user_name ?? "Amigo(a)"}, recebemos sua contribuição de <strong>R$${transaction_amount}</strong>.</p>
+                      <p style="font-size:16px;color:#000000">Ficamos imensamente felizes com seu carinho e participação nesse momento tão especial.</p>
+                      <p style="font-size:16px;color:#000000">Com amor,<br/>Melissa & Evandro 💍</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
+      `;
+    
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: metadata.user_email,
         subject: "🎁 Presente Recebido - Agradecimento dos Noivos",
-        html,
+        html: htmlConvidado,
+      });
+    
+      // Email para os noivos
+      const nomeConvidado = metadata.user_name ?? metadata.user_email;
+      const itensHtml = cart
+        .map(
+          (item: Cart) =>
+            `<li><strong>${item.nome}</strong> — R$${item.valor.toFixed(2)}</li>`
+        )
+        .join("");
+    
+      const htmlNoivos = `
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+          <meta charset="UTF-8" />
+          <title>Presente Recebido</title>
+          <style>
+            body {
+              font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+              background-color: #f4f0ec;
+              margin: 0;
+              padding: 0;
+            }
+            .container {
+              max-width: 600px;
+              margin: 40px auto;
+              background: #ffffff;
+              border-radius: 12px;
+              box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+              overflow: hidden;
+            }
+            .header {
+              background: linear-gradient(135deg, #d4af7f, #f7e1c9);
+              color: #ffffff;
+              padding: 30px;
+              text-align: center;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 26px;
+              letter-spacing: 0.5px;
+            }
+            .content {
+              padding: 30px;
+              color: #333333;
+            }
+            .content p {
+              font-size: 16px;
+              line-height: 1.6;
+              margin-bottom: 15px;
+            }
+            .content ul {
+              padding-left: 20px;
+              margin: 15px 0;
+            }
+            .content li {
+              margin-bottom: 10px;
+              font-size: 15px;
+            }
+            .footer {
+              background: #fafafa;
+              padding: 20px;
+              text-align: center;
+              color: #999999;
+              font-size: 13px;
+            }
+            .highlight {
+              color: #b77b3d;
+              font-weight: bold;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>🎁 Novo presente recebido!</h1>
+            </div>
+            <div class="content">
+              <p>Vocês receberam uma contribuição de <span class="highlight">R$${transaction_amount}</span> de <strong>${nomeConvidado}</strong>.</p>
+              <p>Itens escolhidos:</p>
+              <ul>${itensHtml}</ul>
+            </div>
+            <div class="footer">
+              <p>MyWedding 💍</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `;
+    
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: ["evandrogomes542@gmail.com", "Melissapequen04@gmail.com"],
+        subject: "🎁 Novo Presente Recebido!",
+        html: htmlNoivos,
       });
     }
+    
 
     return res.status(200).json({ success: true });
   } catch (err) {
