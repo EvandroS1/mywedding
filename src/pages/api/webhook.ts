@@ -274,7 +274,7 @@ export default async function handler(
               <h1>🎁 Novo presente recebido!</h1>
             </div>
             <div class="content">
-              <p>Vocês receberam uma contribuição de <span class="highlight">R$${transaction_amount}</span> de <strong>${nomeConvidado}</strong>.</p>
+              <p>Vocês receberam um presente de <span class="highlight">R$${transaction_amount}</span> de <strong>${nomeConvidado}</strong>.</p>
               <p>Itens escolhidos:</p>
               <ul>${itensHtml}</ul>
             </div>
