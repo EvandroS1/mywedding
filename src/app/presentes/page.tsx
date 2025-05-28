@@ -221,6 +221,14 @@ const Presentes = () => {
       desc: "Forno elétrico para assar e gratinar suas receitas favoritas."
     },
     {
+      id: 22,
+      image: "/assets/wishlist/triturador.webp",
+      nome: "Triturador",
+      valor: 15.9,
+      categoria: ["cozinha"],
+      desc: "Triturador manual prático para temperos e alimentos."
+    },
+    {
       id: 23,
       image: "/assets/wishlist/pratos.webp",
       nome: "Jogo de pratos",
@@ -363,6 +371,14 @@ const Presentes = () => {
       valor: 320.0,
       categoria: ["quarto"],
       desc: "Cobre leito elegante para complementar a decoração da cama."
+    },
+    {
+      id: 41,
+      image: "/assets/wishlist/bandeja.png",
+      nome: "Bandeja decorativa",
+      valor: 22,
+      categoria: ["quarto"],
+      desc: "Design atemporal que harmoniza perfeitamente com qualquer estilo."
     },
   ];
 
