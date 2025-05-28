@@ -3,7 +3,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
 import axios from "axios";
 import { CartItemPedido } from "../../../types/cart";
-import { Cart } from "@/store/modules/loja/types";
 
 export interface Pedido {
   id: string;
@@ -197,8 +196,8 @@ export default async function handler(
       const nomeConvidado = metadata.user_name ?? metadata.user_email;
       const itensHtml = cart
   .map(
-    (item: Cart) =>
-      `<li><strong>${item.nome}</strong> — R$${Number(item.valor || 0).toFixed(2)}</li>`
+    (item: CartItemPedido) =>
+      `<li><strong>${item.title}</strong> — R$${Number(item.unit_price || 0).toFixed(2)}</li>`
   )
   .join("");
 
