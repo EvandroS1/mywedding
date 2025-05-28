@@ -4,13 +4,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../app/globals.css";
 // import { useSession } from "next-auth/react";
 import {
+  Listbox,
   Popover,
   PopoverButton,
   PopoverPanel,
   Transition,
 } from "@headlessui/react";
 import { Heart, HeartFill, Home, ShoppingCart, User } from "@geist-ui/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DropdownFiltro from "@/components/dropDown";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -33,6 +34,7 @@ import Link from "next/link";
 import ModalPedidos from "@/components/ModalPedidos";
 import ModalRecebidos from "@/components/ModalRecebidos";
 import BackButton from "@/components/Backbutton";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 // import IFavItem from "../../../types/fav";
 
 export interface Item {
@@ -50,6 +52,7 @@ const Presentes = () => {
   const { data: session } = useSession();
   const [item, setItem] = useState<Item[]>([]);
   const [show, setShow] = useState(false);
+  const [sortOrder, setSortOrder] = useState<string>("asc");
   const [showRecebidos, setShowRecebidos] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false);
   const [filtro, setFiltro] = useState<string>("");
@@ -373,7 +376,7 @@ const Presentes = () => {
       desc: "Cobre leito elegante para complementar a decoração da cama."
     },
     {
-      id: 41,
+      id: 42,
       image: "/assets/wishlist/bandeja.png",
       nome: "Bandeja decorativa",
       valor: 22,
@@ -382,8 +385,20 @@ const Presentes = () => {
     },
   ];
 
+  const sortOptions = [
+    { value: "asc", label: "Mais barato → Mais caro" },
+    { value: "desc", label: "Mais caro → Mais barato" },
+  ];
+
   useEffect(() => {
     const savedFilter = localStorage.getItem("filter");
+    const savedOrder = localStorage.getItem("localSortOrder");
+    console.log('savedOrder', savedOrder)
+
+    if(savedOrder) {
+      setSortOrder(savedOrder)
+    }
+
     console.log("saveFilter", savedFilter);
     if (savedFilter === "todos") {
       setItem(itens);
@@ -431,6 +446,22 @@ const Presentes = () => {
     setFiltro("");
     localStorage.removeItem("filter");
   };
+  const sortedItems = useMemo(() => {
+    console.log('sortOrder-----', sortOrder)
+    const currentItems = [...item]; // Start with the current filtered items
+    if (sortOrder === "asc") {
+      currentItems.sort((a, b) => a.valor - b.valor);
+    } else {
+      currentItems.sort((a, b) => b.valor - a.valor);
+    }
+    return currentItems;
+  }, [item, sortOrder]);
+
+  useEffect(() => {
+    localStorage.setItem("localSortOrder", sortOrder);
+  },[sortOrder])
+
+  
 
   const handleFav = async ({ nome, image, valor, id, fill }: Item) => {
     if (!session) {
@@ -563,9 +594,50 @@ const Presentes = () => {
         <img src="assets/m&e.png" alt="melissa e evandro" />
         <h1 className="pt-2 text-2xl">Lista de presentes</h1>
       </div>
+      <div className="flex justify-center items-center px-4 gap-2">
+
       <DropdownFiltro filtro={filtro} reset={reset} handleClick={handleClick} />
+      <Listbox value={sortOrder} onChange={setSortOrder}>
+  <div className="relative flex justify-end mb-4">
+    <Listbox.Button className="relative right-0 w-auto cursor-default rounded-lg bg-white py-2 pl-4 pr-10 text-left shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+      <p className="m-0 text-xl">Preço</p>
+      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+        <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+      </span>
+    </Listbox.Button>
+
+    <Listbox.Options className="absolute mt-12 max-h-60 z-30 overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+      {sortOptions.map((option) => (
+        <Listbox.Option
+          key={option.value}
+          value={option.value}
+          className={({ active }) =>
+            `relative cursor-default select-none py-2 pl-10 pr-4 ${
+              active ? "bg-indigo-100 text-indigo-900" : "text-gray-900"
+            }`
+          }
+        >
+          {({ selected }) => (
+            <>
+              <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`}>
+                {option.label}
+              </span>
+              {selected && (
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600">
+                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                </span>
+              )}
+            </>
+          )}
+        </Listbox.Option>
+      ))}
+    </Listbox.Options>
+  </div>
+</Listbox>
+</div>
+
       <div className="grid grid-cols-2 gap-4 p-4 mb-20 mx-auto">
-        {item.map((item) => (
+        {sortedItems.map((item) => (
           <div key={item.id} className="relative">
             <motion.div
               className="absolute transition-all right-4 top-4 z-20 h-8 w-8 flex justify-center items-center rounded-lg bg-black/30 backdrop-blur-lg"
