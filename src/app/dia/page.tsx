@@ -12,7 +12,7 @@ const Dia = () => {
     <li>O evento começa às <strong>16:30</strong></li>
     <li>Entrada permitida até as <strong>17:00</strong></li>
     <li>Encerramento às <strong>22:00</strong></li>
-    <li>Não será permitido a entrada de terceiro, apenas presentes no convite.</li>
+    <li>O evento terá Opem Bar, então Beba com responsabilidade.</li>
     <li>Por favor, cuidem com carinho: danos ao espaço ou à decoração poderão ser cobrados.</li>
   </ul>
 </div>
